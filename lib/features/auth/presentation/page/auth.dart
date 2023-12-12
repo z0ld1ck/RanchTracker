@@ -16,13 +16,14 @@ class AuthPage extends StatelessWidget {
               style: TextStyle(color: Colors.black),
             ),
             TextButton(
-                onPressed: () {
-                  navService.pushNamed('/');
-                },
-                child: Text(
-                  'go to home page',
-                  style: TextStyle(color: Colors.black),
-                ))
+              onPressed: () {
+                navService.pushNamed('/');
+              },
+              child: Text(
+                'go to home page',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
           ],
         ),
       ),

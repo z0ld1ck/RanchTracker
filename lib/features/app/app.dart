@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:malshy/core/navigation/nav_services.dart';
 import 'package:malshy/core/services/shared_pref.dart';
+import 'package:malshy/core/theme/theme.dart';
 import 'package:malshy/features/app/home_page.dart';
 import 'package:malshy/features/auth/presentation/page/auth.dart';
 
@@ -17,10 +18,7 @@ class App extends StatelessWidget {
       builder: (_, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
-          ),
+          theme: APP_THEME,
           navigatorKey: NavigationService.navigationKey,
           onGenerateRoute: (RouteSettings settings) {
             if (!sharedPreference.isAuthenticated) {
