@@ -10,6 +10,11 @@ class SmSCodeAuthPage extends StatefulWidget {
 }
 
 class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
+  final TextEditingController _first = TextEditingController();
+  final TextEditingController _second = TextEditingController();
+  final TextEditingController _third = TextEditingController();
+  final TextEditingController _fourth = TextEditingController();
+
   late FocusNode pinFocusNode;
   late FocusNode pin2FocusNode;
   late FocusNode pin3FocusNode;
@@ -141,6 +146,7 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.15,
                               child: TextFormField(
+                                controller: _first,
                                 style: const TextStyle(fontSize: 24),
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.center,
@@ -152,6 +158,7 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.15,
                               child: TextFormField(
+                                controller: _second,
                                 focusNode: pin2FocusNode,
                                 style: const TextStyle(fontSize: 24),
                                 keyboardType: TextInputType.number,
@@ -163,6 +170,7 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.15,
                               child: TextFormField(
+                                controller: _third,
                                 focusNode: pin3FocusNode,
                                 style: const TextStyle(fontSize: 24),
                                 keyboardType: TextInputType.number,
@@ -174,6 +182,7 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.15,
                               child: TextFormField(
+                                controller: _fourth,
                                 focusNode: pin4FocusNode,
                                 style: const TextStyle(fontSize: 24),
                                 keyboardType: TextInputType.number,
