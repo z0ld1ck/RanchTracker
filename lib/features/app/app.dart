@@ -24,7 +24,7 @@ class App extends StatelessWidget {
           navigatorKey: NavigationService.navigationKey,
           onGenerateRoute: (RouteSettings settings) {
             if (!sharedPreference.isAuthenticated) {
-              return MaterialPageRoute(builder: (_) => SmSCodeAuthPage());
+              return MaterialPageRoute(builder: (_) => AuthPage());
             }
 
             switch (settings.name) {

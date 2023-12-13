@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:malshy/core/navigation/nav_services.dart';
+import 'package:malshy/features/auth/presentation/page/sms_code_auth.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -19,7 +20,7 @@ class _AuthPageState extends State<AuthPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xffebedff),
-      appBar: AppBar(),
+      appBar: AppBar(automaticallyImplyLeading: false,),
       body: Stack(
         children: [
           Positioned(
@@ -131,7 +132,14 @@ class _AuthPageState extends State<AuthPage> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => SmSCodeAuthPage(),
+                            ),
+                          );
+                        },
                         child: Container(
                           color: Color(0xffA8A8A8),
                           width: 330,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:malshy/core/navigation/nav_services.dart';
+import 'package:malshy/features/auth/presentation/page/auth.dart';
 
 class SmSCodeAuthPage extends StatefulWidget {
   const SmSCodeAuthPage({super.key});
@@ -44,7 +46,9 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      appBar: AppBar(),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
       body: Stack(
         children: [
           Positioned(
@@ -91,7 +95,14 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                     child: Row(
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => AuthPage(),
+                              ),
+                            );
+                          },
                           icon: Icon(
                             Icons.arrow_back_ios,
                             size: 34,
@@ -130,7 +141,6 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.15,
                               child: TextFormField(
-                                obscureText: true,
                                 style: const TextStyle(fontSize: 24),
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.center,
@@ -143,7 +153,6 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                               width: MediaQuery.of(context).size.width * 0.15,
                               child: TextFormField(
                                 focusNode: pin2FocusNode,
-                                obscureText: true,
                                 style: const TextStyle(fontSize: 24),
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.center,
@@ -184,7 +193,7 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                   ),
                   TextButton(
                     onPressed: () {},
-                    child: Text('Отправить обратно'),
+                    child: Text('Отправить заново'),
                   ),
                 ],
               ),
