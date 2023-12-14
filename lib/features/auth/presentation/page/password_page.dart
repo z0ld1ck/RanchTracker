@@ -9,13 +9,8 @@ class PasswordPage extends StatefulWidget {
 }
 
 class _PasswordPageState extends State<PasswordPage> {
-  bool _showPassword = false;
-
-  void _toggleVisibility() {
-    setState(() {
-      _showPassword = !_showPassword;
-    });
-  }
+  TextEditingController _passwordController = TextEditingController();
+  bool _obsecureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +96,8 @@ class _PasswordPageState extends State<PasswordPage> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                      // controller: _name,
+                      obscureText: _obsecureText,
+                      controller: _passwordController,
                       maxLines: 1,
                       decoration: InputDecoration(
                         labelText: 'Пароль',
@@ -112,12 +108,14 @@ class _PasswordPageState extends State<PasswordPage> {
                         hintText: 'Введите пароль',
                         suffixIcon: IconButton(
                           icon: Icon(
-                              _showPassword
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
+                              _obsecureText
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
                               color: Colors.grey),
                           onPressed: () {
-                            _toggleVisibility();
+                            setState(() {
+                              _obsecureText = !_obsecureText;
+                            });
                           },
                         ),
                       ),
@@ -126,16 +124,19 @@ class _PasswordPageState extends State<PasswordPage> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                      obscureText: true,
                       // controller: _number,
                       decoration: InputDecoration(
                           suffixIcon: IconButton(
                             icon: Icon(
-                                _showPassword
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                color: Colors.grey),
+                                _obsecureText
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: Colors.grey,),
                             onPressed: () {
-                              _toggleVisibility();
+                              setState(() {
+                                _obsecureText = !_obsecureText;
+                              });
                             },
                           ),
                           labelText: 'Повторите пароль',
