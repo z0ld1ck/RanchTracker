@@ -45,7 +45,7 @@ class Splash extends StatelessWidget {
                     child: Container(
                       color: Color(0xffA8A8A8),
                       width: ScreenUtil().setWidth(330),
-                      height: ScreenUtil().setHeight(60),
+                      height: ScreenUtil().setHeight(30),
                       child: Center(
                         child: Text(
                           'Войти',

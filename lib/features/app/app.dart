@@ -28,7 +28,7 @@ class App extends StatelessWidget {
           onGenerateRoute: (RouteSettings settings) {
             if (!sharedPreference.isAuthenticated) {
               return MaterialPageRoute(
-                builder: (_) => Splash(),
+                builder: (_) => SmSCodeAuthPage(),
               );
             }
 
