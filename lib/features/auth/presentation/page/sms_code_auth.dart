@@ -46,7 +46,6 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

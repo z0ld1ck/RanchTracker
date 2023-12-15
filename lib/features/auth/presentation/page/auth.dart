@@ -20,7 +20,6 @@ class _AuthPageState extends State<AuthPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xffebedff),
-      appBar: AppBar(automaticallyImplyLeading: false,),
       body: Stack(
         children: [
           Positioned(
