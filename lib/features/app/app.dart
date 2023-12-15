@@ -6,6 +6,7 @@ import 'package:malshy/core/theme/theme.dart';
 import 'package:malshy/features/app/home_page.dart';
 import 'package:malshy/features/auth/presentation/page/auth.dart';
 import 'package:malshy/features/auth/presentation/page/password_page.dart';
+import 'package:malshy/features/auth/presentation/splash/splash_screen.dart';
 
 import '../auth/presentation/page/sms_code_auth.dart';
 import '../auth/presentation/page/test.dart';
@@ -26,7 +27,9 @@ class App extends StatelessWidget {
           navigatorKey: NavigationService.navigationKey,
           onGenerateRoute: (RouteSettings settings) {
             if (!sharedPreference.isAuthenticated) {
-              return MaterialPageRoute(builder: (_) => AuthPage());
+              return MaterialPageRoute(
+                builder: (_) => Splash(),
+              );
             }
 
             switch (settings.name) {

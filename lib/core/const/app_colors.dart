@@ -28,5 +28,5 @@ class AppColors {
     /// Blue Super - 0xFFD41900
   static const Color blueSuper = Color(0xFFF4F7FF);
 
-  
+  static const Color splash=Color(0xff1D297E);
 }

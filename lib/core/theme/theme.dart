@@ -140,7 +140,9 @@ final ThemeData APP_THEME = ThemeData(
   ),
   checkboxTheme: CheckboxThemeData(
     fillColor: MaterialStateProperty.resolveWith((states) {
-      return states.any((element) => element == MaterialState.selected) ? Color(0xFF2EA1D9) : Colors.transparent;
+      return states.any((element) => element == MaterialState.selected)
+          ? Color(0xFF2EA1D9)
+          : Colors.transparent;
     }),
     side: BorderSide(
       color: Color(0xFF2EA1D9),
@@ -151,6 +153,13 @@ final ThemeData APP_THEME = ThemeData(
     indicatorSize: TabBarIndicatorSize.tab,
     dividerColor: Colors.transparent,
   ),
-  scrollbarTheme: ScrollbarThemeData(thumbVisibility: MaterialStateProperty.all(true), thickness: MaterialStateProperty.all(10), thumbColor: MaterialStateProperty.all(Color(0xFF2EA1D9)), radius: const Radius.circular(10), minThumbLength: 100),
-  colorScheme: ColorScheme.light().copyWith(primary: Color(0xFF2EA1D9)).copyWith(background: Color(0xffF7F7F6)),
+  scrollbarTheme: ScrollbarThemeData(
+      thumbVisibility: MaterialStateProperty.all(true),
+      thickness: MaterialStateProperty.all(10),
+      thumbColor: MaterialStateProperty.all(Color(0xFF2EA1D9)),
+      radius: const Radius.circular(10),
+      minThumbLength: 100),
+  colorScheme: ColorScheme.light()
+      .copyWith(primary: Color(0xFF2EA1D9))
+      .copyWith(background: Color(0xffF7F7F6)),
 );
