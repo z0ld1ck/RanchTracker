@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:malshy/core/const/app_colors.dart';
+import 'package:malshy/features/auth/presentation/page/log_in_page.dart';
 
 import '../page/auth.dart';
 import '../page/sms_code_auth.dart';
@@ -24,28 +25,41 @@ class Splash extends StatelessWidget {
                   'assets/images/Screenshot_3.png',
                 ),
               ),
-              Text('Добро пожаловать в',style:TextStyle(
-                fontSize: 30,
-              ),),
-              Text('Malshi'),
+              Text(
+                'Добро пожаловать в',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                    fontFamily: 'Gilroy',
+                    fontWeight: FontWeight.w600),
+              ),
+              Text(
+                'MALSHI',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 35,
+                  fontFamily: 'Gilroy',
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
                 child: ClipRRect(
                   borderRadius:
-                  BorderRadius.circular(ScreenUtil().setWidth(20)),
+                      BorderRadius.circular(ScreenUtil().setWidth(10)),
                   child: InkWell(
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => AuthPage(),
+                          builder: (_) => LogInPage(),
                         ),
                       );
                     },
                     child: Container(
-                      color: Color(0xffA8A8A8),
+                      color: Color(0xff2EA1D9),
                       width: ScreenUtil().setWidth(330),
-                      height: ScreenUtil().setHeight(30),
+                      height: ScreenUtil().setHeight(45),
                       child: Center(
                         child: Text(
                           'Войти',
@@ -62,24 +76,27 @@ class Splash extends StatelessWidget {
                 ),
               ),
               ClipRRect(
-                borderRadius:
-                BorderRadius.circular(ScreenUtil().setWidth(20)),
+                borderRadius: BorderRadius.circular(ScreenUtil().setWidth(10)),
                 child: InkWell(
                   onTap: () {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => SmSCodeAuthPage(),
+                        builder: (_) => AuthPage(),
                       ),
                     );
                   },
                   child: Container(
-                    color: Color(0xffA8A8A8),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Color(0xff2f8fd8),
+                      ),
+                    ),
                     width: ScreenUtil().setWidth(330),
-                    height: ScreenUtil().setHeight(60),
+                    height: ScreenUtil().setHeight(45),
                     child: Center(
                       child: Text(
-                        'Войти',
+                        'Зарегистрироваться',
                         style: TextStyle(
                           fontFamily: 'Gilroy',
                           fontSize: ScreenUtil().setSp(16),
