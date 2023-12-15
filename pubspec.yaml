@@ -37,23 +37,23 @@ flutter:
     - assets/images/
 
   fonts:
-    - family: Inter
+    - family: Gilroy
       fonts:
-        - asset: assets/fonts/Inter-Thin.ttf
+        - asset: assets/fonts/Gilroy-Thin.ttf
           weight: 100
-        - asset: assets/fonts/Inter-ExtraLight.ttf
+        - asset: assets/fonts/Gilroy-UltraLight.ttf
           weight: 200
-        - asset: assets/fonts/Inter-Light.ttf
+        - asset: assets/fonts/Gilroy-Light.ttf
           weight: 300
-        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Gilroy-Regular.ttf
           weight: 400
-        - asset: assets/fonts/Inter-Medium.ttf
+        - asset: assets/fonts/Gilroy-Medium.ttf
           weight: 500
-        - asset: assets/fonts/Inter-SemiBold.ttf
+        - asset: assets/fonts/Gilroy-SemiBold.ttf
           weight: 600
-        - asset: assets/fonts/Inter-Bold.ttf
+        - asset: assets/fonts/Gilroy-Bold.ttf
           weight: 700
-        - asset: assets/fonts/Inter-ExtraBold.ttf
+        - asset: assets/fonts/Gilroy-ExtraBold.ttf
           weight: 800
   #
   # For details regarding fonts from package dependencies,

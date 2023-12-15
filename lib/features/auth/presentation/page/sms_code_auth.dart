@@ -49,7 +49,6 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
       ),
@@ -117,8 +116,7 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                           child: Text(
                             'Регистрация',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold),
+                            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
@@ -162,8 +160,7 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                                 style: const TextStyle(fontSize: 24),
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.center,
-                                onChanged: (value) =>
-                                    nextField(value, pin3FocusNode),
+                                onChanged: (value) => nextField(value, pin3FocusNode),
                               ),
                             ),
                             SizedBox(
@@ -174,8 +171,7 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                                 style: const TextStyle(fontSize: 24),
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.center,
-                                onChanged: (value) =>
-                                    nextField(value, pin4FocusNode),
+                                onChanged: (value) => nextField(value, pin4FocusNode),
                               ),
                             ),
                             SizedBox(

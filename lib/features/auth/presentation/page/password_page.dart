@@ -18,7 +18,6 @@ class _PasswordPageState extends State<PasswordPage> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
       ),
@@ -86,8 +85,7 @@ class _PasswordPageState extends State<PasswordPage> {
                           child: Text(
                             'Новый пароль',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold),
+                            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
@@ -107,11 +105,7 @@ class _PasswordPageState extends State<PasswordPage> {
                         ),
                         hintText: 'Введите пароль',
                         suffixIcon: IconButton(
-                          icon: Icon(
-                              _obsecureText
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              color: Colors.grey),
+                          icon: Icon(_obsecureText ? Icons.visibility_off : Icons.visibility, color: Colors.grey),
                           onPressed: () {
                             setState(() {
                               _obsecureText = !_obsecureText;
@@ -129,10 +123,9 @@ class _PasswordPageState extends State<PasswordPage> {
                       decoration: InputDecoration(
                           suffixIcon: IconButton(
                             icon: Icon(
-                                _obsecureText
-                                    ? Icons.visibility_off
-                                    : Icons.visibility,
-                                color: Colors.grey,),
+                              _obsecureText ? Icons.visibility_off : Icons.visibility,
+                              color: Colors.grey,
+                            ),
                             onPressed: () {
                               setState(() {
                                 _obsecureText = !_obsecureText;
