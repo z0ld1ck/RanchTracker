@@ -19,8 +19,6 @@ class _AuthPageState extends State<AuthPage> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xffebedff),
-      appBar: AppBar(automaticallyImplyLeading: false,),
       body: Stack(
         children: [
           Positioned(
@@ -66,18 +64,15 @@ class _AuthPageState extends State<AuthPage> {
                   Row(
                     children: [
                       Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(85, 0, 0, 0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(85, 0, 0, 0),
                         child: Text(
                           'Регистрация',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 27, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
                         ),
                       ),
                       Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(37, 0, 0, 0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(37, 0, 0, 0),
                         child: IconButton(
                           onPressed: () {},
                           icon: Icon(
@@ -161,8 +156,7 @@ class _AuthPageState extends State<AuthPage> {
                   Row(
                     children: [
                       Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(90, 0, 0, 0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(90, 0, 0, 0),
                         child: Text('Eсть аккаунт?'),
                       ),
                       TextButton(
