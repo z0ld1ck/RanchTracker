@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:malshy/core/navigation/nav_services.dart';
 import 'package:malshy/features/auth/presentation/page/auth.dart';
+import 'package:malshy/features/auth/presentation/page/password_page.dart';
 
 class SmSCodeAuthPage extends StatefulWidget {
   const SmSCodeAuthPage({super.key});
@@ -55,7 +56,7 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
             body: Stack(
               children: [
                 Positioned(
-                  bottom: ScreenUtil().setHeight(450),
+                  bottom: ScreenUtil().setHeight(420),
                   child: Transform.scale(
                     scale: 1.35,
                     child: Container(
@@ -70,7 +71,9 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                 ),
                 Positioned(
                   top: ScreenUtil().setHeight(30),
-                  left: (ScreenUtil().screenWidth - ScreenUtil().setWidth(180)) / 2,
+                  left:
+                      (ScreenUtil().screenWidth - ScreenUtil().setWidth(180)) /
+                          2,
                   child: Image.asset(
                     'assets/images/Screenshot_1.png',
                     height: 180,
@@ -206,13 +209,18 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            navService.push(
+                              MaterialPageRoute(
+                                builder: (_) => PasswordPage(),
+                              ),
+                            );
+                          },
                           child: Text(
                             'Отправить заново',
                             style: TextStyle(
-                              fontFamily: 'Gilroy',
-                              fontWeight:FontWeight.w600
-                            ),
+                                fontFamily: 'Gilroy',
+                                fontWeight: FontWeight.w600),
                           ),
                         ),
                       ],

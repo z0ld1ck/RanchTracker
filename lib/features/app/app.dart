@@ -9,7 +9,6 @@ import 'package:malshy/features/auth/presentation/page/password_page.dart';
 import 'package:malshy/features/auth/presentation/splash/splash_screen.dart';
 
 import '../auth/presentation/page/sms_code_auth.dart';
-import '../auth/presentation/page/test.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -28,7 +27,7 @@ class App extends StatelessWidget {
           onGenerateRoute: (RouteSettings settings) {
             if (!sharedPreference.isAuthenticated) {
               return MaterialPageRoute(
-                builder: (_) => SmSCodeAuthPage(),
+                builder: (_) => Splash(),
               );
             }
 

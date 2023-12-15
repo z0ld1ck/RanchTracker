@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:malshy/core/navigation/nav_services.dart';
 import 'package:malshy/features/auth/presentation/page/log_in_page.dart';
 import 'package:malshy/features/auth/presentation/page/sms_code_auth.dart';
+import 'package:malshy/features/auth/presentation/splash/splash_screen.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -26,7 +27,7 @@ class _AuthPageState extends State<AuthPage> {
           body: Stack(
             children: [
               Positioned(
-                bottom: ScreenUtil().setHeight(580),
+                bottom: ScreenUtil().setHeight(520),
                 child: Transform.scale(
                   scale: 1.35,
                   child: Container(
@@ -83,7 +84,13 @@ class _AuthPageState extends State<AuthPage> {
                             padding: const EdgeInsetsDirectional.fromSTEB(
                                 17, 0, 0, 0),
                             child: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                navService.push(
+                                  MaterialPageRoute(
+                                    builder: (_) => Splash(),
+                                  ),
+                                );
+                              },
                               icon: Icon(
                                 Icons.close,
                                 size: ScreenUtil().setWidth(34),

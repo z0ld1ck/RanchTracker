@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:malshy/core/services/shared_pref.dart';
 import 'package:malshy/features/auth/presentation/page/auth.dart';
 import 'package:malshy/features/auth/presentation/page/sms_code_auth.dart';
+import 'package:malshy/features/auth/presentation/splash/splash_screen.dart';
 
 import '../../../../core/navigation/nav_services.dart';
 
@@ -29,7 +30,7 @@ class _LogInPageState extends State<LogInPage> {
           body: Stack(
             children: [
               Positioned(
-                bottom: ScreenUtil().setHeight(560),
+                bottom: ScreenUtil().setHeight(520),
                 left: 0,
                 right: 0,
                 child: Transform.scale(
@@ -90,7 +91,13 @@ class _LogInPageState extends State<LogInPage> {
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(80, 0, 0, 0),
                             child: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                navService.push(
+                                  MaterialPageRoute(
+                                    builder: (_) => Splash(),
+                                  ),
+                                );
+                              },
                               icon: Icon(
                                 Icons.close,
                                 size: ScreenUtil().setWidth(30),
