@@ -17,6 +17,8 @@ dependencies:
   shared_preferences: ^2.2.2
   bloc: ^8.1.2
   build_runner: ^2.4.7
+  flutter_svg: ^2.0.9
+  pinput: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -35,26 +37,18 @@ flutter:
   assets:
     - assets/fonts/
     - assets/images/
+    - assets/icons/
 
   fonts:
     - family: Gilroy
       fonts:
-        - asset: assets/fonts/Gilroy-Thin.ttf
-          weight: 100
-        - asset: assets/fonts/Gilroy-UltraLight.ttf
-          weight: 200
-        - asset: assets/fonts/Gilroy-Light.ttf
-          weight: 300
-        - asset: assets/fonts/Gilroy-Regular.ttf
-          weight: 400
         - asset: assets/fonts/Gilroy-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Gilroy-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/Gilroy-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/Gilroy-ExtraBold.ttf
-          weight: 800
+        # - asset: assets/fonts/Gilroy-MediumItalic.ttf
+        - asset: assets/fonts/Gilroy-Regular.ttf
+        # - asset: assets/fonts/Gilroy-RegularItalic.ttf
+        # - asset: assets/fonts/Gilroy-SemiBold.ttf
+        # - asset: assets/fonts/Gilroy-SemiBoldItalic.ttf
+        - asset: assets/fonts/Gilroy-Thin.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
