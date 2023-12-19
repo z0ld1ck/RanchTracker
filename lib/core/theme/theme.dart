@@ -13,13 +13,34 @@ final ThemeData APP_THEME = ThemeData(
   primaryColorLight: Color(0xffF1F8EC),
   iconTheme: IconThemeData(color: Colors.black),
   textTheme: TextTheme(
-    labelLarge: TextStyle(color: AppColors.black),
-    labelMedium: TextStyle(color: AppColors.black),
-    labelSmall: TextStyle(color: AppColors.black),
-    titleLarge: TextStyle(color: AppColors.black),
-    titleMedium: TextStyle(color: AppColors.black),
-    titleSmall: TextStyle(color: AppColors.black),
-    bodySmall: TextStyle(color: AppColors.black),
+    //font size 32
+    headlineLarge: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
+    //font size 28
+    headlineMedium: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
+    //font size 24
+    headlineSmall: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
+    //font size 14
+    labelLarge: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
+    //font size 12
+    labelMedium: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
+    //font size 11
+    labelSmall: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
+    //font size 22
+    titleLarge: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
+    //font size 16
+    titleMedium: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
+    //font size 14
+    titleSmall: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
+    //font size 16
+    bodyLarge: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
+    //font size 14
+    bodyMedium: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
+    //font size 12
+    bodySmall: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
+  ),
+  buttonTheme: ButtonThemeData(
+    buttonColor: Color(0xFF2EA1D9),
+    padding: EdgeInsets.symmetric(vertical: 12.h),
   ),
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
@@ -140,9 +161,7 @@ final ThemeData APP_THEME = ThemeData(
   ),
   checkboxTheme: CheckboxThemeData(
     fillColor: MaterialStateProperty.resolveWith((states) {
-      return states.any((element) => element == MaterialState.selected)
-          ? Color(0xFF2EA1D9)
-          : Colors.transparent;
+      return states.any((element) => element == MaterialState.selected) ? Color(0xFF2EA1D9) : Colors.transparent;
     }),
     side: BorderSide(
       color: Color(0xFF2EA1D9),
@@ -153,13 +172,6 @@ final ThemeData APP_THEME = ThemeData(
     indicatorSize: TabBarIndicatorSize.tab,
     dividerColor: Colors.transparent,
   ),
-  scrollbarTheme: ScrollbarThemeData(
-      thumbVisibility: MaterialStateProperty.all(true),
-      thickness: MaterialStateProperty.all(10),
-      thumbColor: MaterialStateProperty.all(Color(0xFF2EA1D9)),
-      radius: const Radius.circular(10),
-      minThumbLength: 100),
-  colorScheme: ColorScheme.light()
-      .copyWith(primary: Color(0xFF2EA1D9))
-      .copyWith(background: Color(0xffF7F7F6)),
+  scrollbarTheme: ScrollbarThemeData(thumbVisibility: MaterialStateProperty.all(true), thickness: MaterialStateProperty.all(10), thumbColor: MaterialStateProperty.all(Color(0xFF2EA1D9)), radius: const Radius.circular(10), minThumbLength: 100),
+  colorScheme: ColorScheme.light().copyWith(primary: Color(0xFF2EA1D9)).copyWith(background: Color(0xffF7F7F6)),
 );

@@ -25,8 +25,11 @@ class AppColors {
   /// Error Color - 0xFFD41900
   static const Color error = Color(0xFFD41900);
 
-    /// Blue Super - 0xFFD41900
+  /// Blue Super - 0xFFD41900
   static const Color blueSuper = Color(0xFFF4F7FF);
 
-  static const Color splash=Color(0xff1D297E);
+  /// Blue Light - 0xFF2EA1D9
+  static const Color blueLight = Color(0xFF2EA1D9);
+
+  static const Color splash = Color(0xff1D297E);
 }
