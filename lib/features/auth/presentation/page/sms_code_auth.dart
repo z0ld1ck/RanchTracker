@@ -46,6 +46,7 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
