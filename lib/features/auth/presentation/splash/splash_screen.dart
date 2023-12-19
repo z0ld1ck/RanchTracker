@@ -1,117 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:malshy/core/const/app_colors.dart';
-import 'package:malshy/features/auth/presentation/page/log_in_page.dart';
-
-import '../page/auth.dart';
-import '../page/sms_code_auth.dart';
+import 'package:malshy/core/navigation/nav_services.dart';
+import 'package:malshy/core/widgets/primary_button.dart';
 
 class Splash extends StatelessWidget {
-  const Splash({Key? key}) : super(key: key);
+  const Splash({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: Size(375, 812),
-      builder: (_, child) {
-        return Scaffold(
-          backgroundColor: AppColors.splash,
-          body: Column(
-            children: [
-              SizedBox(height: 90),
-              Transform.scale(
-                scale: 0.5,
-                child: Image.asset(
-                  'assets/images/Screenshot_3.png',
-                ),
-              ),
-              Text(
-                'Добро пожаловать в',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontFamily: 'Gilroy',
-                    fontWeight: FontWeight.w600),
-              ),
-              Text(
-                'MALSHI',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 35,
-                  fontFamily: 'Gilroy',
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
-                child: ClipRRect(
-                  borderRadius:
-                      BorderRadius.circular(ScreenUtil().setWidth(10)),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => LogInPage(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      color: Color(0xff2EA1D9),
-                      width: ScreenUtil().setWidth(330),
-                      height: ScreenUtil().setHeight(45),
-                      child: Center(
-                        child: Text(
-                          'Войти',
-                          style: TextStyle(
-                            fontFamily: 'Gilroy',
-                            fontSize: ScreenUtil().setSp(16),
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
+    return Scaffold(
+      backgroundColor: AppColors.splash,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 28.0.w),
+        child: Column(
+          children: [
+            SizedBox(height: 131.h),
+            Transform.scale(
+              scale: 0.5,
+              child: Image.asset('assets/images/Screenshot_3.png'),
+            ),
+            Text(
+              'Добро пожаловать в',
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: AppColors.white),
+            ),
+            Text(
+              'MALSHI',
+              style: Theme.of(context).textTheme.headlineLarge!.copyWith(color: AppColors.white, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 16.h),
+            PrimaryButton(
+              onPressed: () async {
+                await navService.pushNamed('/login_page');
+              },
+              child: Text(
+                'Войти',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      color: AppColors.white,
+                      fontWeight: FontWeight.w600,
                     ),
-                  ),
-                ),
               ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(ScreenUtil().setWidth(10)),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => AuthPage(),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Color(0xff2f8fd8),
-                      ),
+            ),
+            SizedBox(height: 12.h),
+            PrimaryButton(
+              onPressed: () async {
+                await navService.pushNamed('/auth_screen');
+              },
+              borderColor: AppColors.blueLight,
+              borderWidth: 3,
+              elevation: 0,
+              color: Colors.transparent,
+              child: Text(
+                'Зарегистрироваться',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      color: AppColors.white,
+                      fontWeight: FontWeight.w600,
                     ),
-                    width: ScreenUtil().setWidth(330),
-                    height: ScreenUtil().setHeight(45),
-                    child: Center(
-                      child: Text(
-                        'Зарегистрироваться',
-                        style: TextStyle(
-                          fontFamily: 'Gilroy',
-                          fontSize: ScreenUtil().setSp(16),
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
               ),
-            ],
-          ),
-        );
-      },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
