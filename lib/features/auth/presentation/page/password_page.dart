@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -79,7 +80,7 @@ class _PasswordPageState extends State<PasswordPage> {
                         width: 50.w,
                       ),
                       Text(
-                        'Новый пароль',
+                        AppLocalizations.of(context)!.newPassword,
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme
@@ -94,12 +95,12 @@ class _PasswordPageState extends State<PasswordPage> {
                     controller: _passwordController,
                     maxLines: 1,
                     decoration: InputDecoration(
-                      labelText: 'Пароль',
+                      labelText: AppLocalizations.of(context)!.passwd,
                       labelStyle: Theme.of(context)
                           .textTheme
                           .labelLarge!
                           .copyWith(color: AppColors.black),
-                      hintText: 'Введите пароль',
+                      hintText: AppLocalizations.of(context)!.vveditePassword,
                       suffixIcon: IconButton(
                         icon: Icon(
                             _obsecureText
@@ -132,12 +133,12 @@ class _PasswordPageState extends State<PasswordPage> {
                             });
                           },
                         ),
-                        labelText: 'Повторите пароль',
+                        labelText: AppLocalizations.of(context)!.repeatPassword,
                         labelStyle: Theme.of(context)
                             .textTheme
                             .labelLarge!
                             .copyWith(color: AppColors.black),
-                        hintText: 'Повторите пароль'),
+                        hintText: AppLocalizations.of(context)!.repeatPassword),
                   ),
                   SizedBox(height: 16.h),
                   ClipRRect(
@@ -152,7 +153,7 @@ class _PasswordPageState extends State<PasswordPage> {
                         height: ScreenUtil().setHeight(60),
                         child: Center(
                           child: Text(
-                            'Сохранить',
+                            AppLocalizations.of(context)!.save,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge!

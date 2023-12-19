@@ -1,11 +1,12 @@
 import 'dart:io';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
+import 'package:malshy/features/app/app.dart';
 
 import '../../../../core/navigation/nav_services.dart';
 
@@ -44,7 +45,7 @@ class _LogInPageState extends State<LogInPage> {
                 height: ScreenUtil().setHeight(400),
                 width: ScreenUtil().screenWidth,
                 decoration: BoxDecoration(
-                  color:AppColors.blueLight,
+                  color: AppColors.blueLight,
                   shape: BoxShape.circle,
                 ),
               ),
@@ -76,10 +77,12 @@ class _LogInPageState extends State<LogInPage> {
                     children: [
                       SizedBox(width: 30.w),
                       Text(
-                        'Войти',
+                        AppLocalizations.of(context)!.signin,
                         textAlign: TextAlign.center,
-                        style:
-                         Theme.of(context).textTheme.headlineSmall!.copyWith(color:AppColors.black),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(color: AppColors.black),
                       ),
                       IconButton(
                         onPressed: () {
@@ -94,8 +97,11 @@ class _LogInPageState extends State<LogInPage> {
                     controller: _number,
                     maxLines: 1,
                     decoration: InputDecoration(
-                      labelText: 'Номер телефона',
-                      labelStyle: Theme.of(context).textTheme.labelLarge!.copyWith(color:AppColors.gray),
+                      labelText: AppLocalizations.of(context)!.nomer,
+                      labelStyle: Theme.of(context)
+                          .textTheme
+                          .labelLarge!
+                          .copyWith(color: AppColors.gray),
                       hintText: '+7 (777) 777 77 77',
                     ),
                   ),
@@ -104,11 +110,18 @@ class _LogInPageState extends State<LogInPage> {
                     obscureText: _obsecureText,
                     controller: _password,
                     decoration: InputDecoration(
-                      labelText: 'Пароль',
-                      labelStyle: Theme.of(context).textTheme.labelLarge!.copyWith(color:AppColors.gray),
-                      hintText: 'Введите пароль',
+                      labelText: AppLocalizations.of(context)!.passwd,
+                      labelStyle: Theme.of(context)
+                          .textTheme
+                          .labelLarge!
+                          .copyWith(color: AppColors.gray),
+                      hintText: AppLocalizations.of(context)!.vveditePassword,
                       suffixIcon: IconButton(
-                        icon: Icon(_obsecureText ? Icons.visibility_off : Icons.visibility, color: Colors.grey),
+                        icon: Icon(
+                            _obsecureText
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: Colors.grey),
                         onPressed: () {
                           setState(() {
                             _obsecureText = !_obsecureText;
@@ -119,7 +132,7 @@ class _LogInPageState extends State<LogInPage> {
                   ),
                   SizedBox(height: 16.h),
                   PrimaryButton(
-                    text: 'Войти',
+                    text: AppLocalizations.of(context)!.signin,
                     color: AppColors.grayMedium,
                     onPressed: () async {
                       await navService.pushNamed('/home');
@@ -129,9 +142,9 @@ class _LogInPageState extends State<LogInPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Нет аккаунта? '),
+                      Text(AppLocalizations.of(context)!.noaccount),
                       Text(
-                        'Зарегистрироваться',
+                        AppLocalizations.of(context)!.signup,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: AppColors.primary(context),
                               decoration: TextDecoration.underline,
@@ -144,9 +157,9 @@ class _LogInPageState extends State<LogInPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Забыли пароль? '),
+                      Text(AppLocalizations.of(context)!.forgot),
                       Text(
-                        'Восстановить',
+                        AppLocalizations.of(context)!.recover,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: AppColors.primary(context),
                               decoration: TextDecoration.underline,

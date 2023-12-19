@@ -6,6 +6,8 @@ import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/navigation/nav_services.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -70,7 +72,8 @@ class _AuthPageState extends State<AuthPage> {
                     children: [
                       SizedBox(width: 50.w),
                       Text(
-                        'Регистрация',
+                        // 'Регистрация',
+                        AppLocalizations.of(context)!.registration,
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme
@@ -87,7 +90,8 @@ class _AuthPageState extends State<AuthPage> {
                   ),
                   SizedBox(height: 12.h),
                   Text(
-                    'Введите номер телефона,и мы отправим вам код подтверждения',
+                    // 'Введите номер телефона,и мы отправим вам код подтверждения',
+                    AppLocalizations.of(context)!.subtext,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           color: AppColors.gray,
@@ -98,19 +102,19 @@ class _AuthPageState extends State<AuthPage> {
                     controller: _name,
                     maxLines: 1,
                     decoration: InputDecoration(
-                      labelText: 'ФИО',
+                      labelText: AppLocalizations.of(context)!.fio,
                       labelStyle: Theme.of(context)
                           .textTheme
                           .bodyMedium!
                           .copyWith(color: Colors.black),
-                      hintText: 'Введите ФИО',
+                      hintText:AppLocalizations.of(context)!.vvediteFio,
                     ),
                   ),
                   SizedBox(height: 15.h),
                   TextField(
                     controller: _number,
                     decoration: InputDecoration(
-                        labelText: 'Номер телефона',
+                        labelText: AppLocalizations.of(context)!.nomer,
                         labelStyle: Theme.of(context)
                             .textTheme
                             .bodyMedium!
@@ -123,18 +127,18 @@ class _AuthPageState extends State<AuthPage> {
                       await navService.pushNamed('/sms_code_page');
                     },
                     color: AppColors.grayMedium,
-                    text: 'Получить код подтверждения',
+                    text: AppLocalizations.of(context)!.getCode,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Eсть аккаунт?'),
+                      Text(AppLocalizations.of(context)!.account),
                       TextButton(
                         onPressed: () {
                           navService.pushNamed('/login_page');
                         },
                         child: Text(
-                          'Войти',
+                          AppLocalizations.of(context)!.signin,
                           style:
                               Theme.of(context).textTheme.bodyLarge!.copyWith(
                                     color: AppColors.blueLight,

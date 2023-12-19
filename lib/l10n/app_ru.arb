@@ -1,0 +1,86 @@
+{
+  "greeting": "Добро пожаловать в ",
+  "@greeting": {
+    "description": "Основной язык"
+  },
+  "signin": "Войти",
+  "@signin": {
+    "description": "Основной "
+  },
+  "signup": "Зарегистрироваться",
+  "@signup": {
+    "description": ""
+  },
+  "registration": "Регистрация",
+  "@registration": {
+    "description": ""
+  },
+  "subtext": "Введите номер телефона,и мы отправим вам код подтверждения",
+  "@subtext": {
+    "description": ""
+  },
+  "fio": "ФИО",
+  "@fio": {
+    "description": ""
+  },
+  "vvediteFio": "Введите ФИО",
+  "@vvediteFio": {
+    "description": ""
+  },
+  "nomer": "Номер телефона",
+  "@nomer": {
+    "description": ""
+  },
+  "getCode": "Получить код подтверждения",
+  "@getCode": {
+    "description": ""
+  },
+  "account": "Есть аккаунт?",
+  "@account": {
+    "description": ""
+  },
+  "subtext2": "Введите код, который мы отправили на номер          +7 707 695 08 16",
+  "@subtext2": {
+    "description": ""
+  },
+  "wrongCode": "Неправильный код.Попробуйте снова",
+  "@wrongCode": {
+    "description": ""
+  },
+  "resend": "Отправить заново",
+  "@resend": {
+    "description": ""
+  },
+  "newPassword": "Новый пароль",
+  "@newPassword": {
+    "description": ""
+  },
+  "passwd": "Пароль",
+  "@passwd": {
+    "description": ""
+  },
+  "vveditePassword": "Введите пароль",
+  "@vveditePassword": {
+    "description": ""
+  },
+  "repeatPassword": "Повторите пароль",
+  "@repeatPassword": {
+    "description": ""
+  },
+  "save": "Сохранить",
+  "@save": {
+    "description": ""
+  },
+  "noaccount": "Нет аккаунта?",
+  "@noaccount": {
+    "description": ""
+  },
+  "forgot": "Забыли пароль?",
+  "@forgot": {
+    "description": ""
+  },
+  "recover": "Восстановить?",
+  "@recover": {
+    "description": ""
+  }
+}

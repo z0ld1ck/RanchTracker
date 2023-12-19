@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/navigation/nav_services.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Splash extends StatelessWidget {
   const Splash({super.key});
@@ -21,7 +22,8 @@ class Splash extends StatelessWidget {
               child: Image.asset('assets/images/Screenshot_3.png'),
             ),
             Text(
-              'Добро пожаловать в',
+              // 'Добро пожаловать в ',
+              AppLocalizations.of(context)!.greeting,
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: AppColors.white),
             ),
             Text(
@@ -34,7 +36,8 @@ class Splash extends StatelessWidget {
                 await navService.pushNamed('/login_page');
               },
               child: Text(
-                'Войти',
+                // 'Войти',
+                AppLocalizations.of(context)!.signin,
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: AppColors.white,
                       fontWeight: FontWeight.w600,
@@ -51,7 +54,8 @@ class Splash extends StatelessWidget {
               elevation: 0,
               color: Colors.transparent,
               child: Text(
-                'Зарегистрироваться',
+                // 'Зарегистрироваться',
+                AppLocalizations.of(context)!.signup,
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: AppColors.white,
                       fontWeight: FontWeight.w600,

@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -100,7 +100,7 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                       ),
                       SizedBox(width:50.w,),
                       Text(
-                        'Регистрация',
+                        AppLocalizations.of(context)!.registration,
                         textAlign: TextAlign.start,
                         style: Theme.of(context)
                             .textTheme
@@ -111,7 +111,7 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                   ),
                   SizedBox(height: 12.h),
                   Text(
-                    'Введите код, который мы отправили на номер          +7 707 695 08 16',
+                    AppLocalizations.of(context)!.subtext2,
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
@@ -134,7 +134,7 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                           navService.pushNamed('/password');
                         }
                         ;
-                        return 'Неправильный код.Попробуйте снова';
+                        return AppLocalizations.of(context)!.wrongCode;
                       },
                       errorTextStyle: Theme.of(context)
                           .textTheme
@@ -159,7 +159,7 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                       navService.pushNamed('/password');
                     },
                     child: Text(
-                      'Отправить заново',
+                      AppLocalizations.of(context)!.resend,
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge!

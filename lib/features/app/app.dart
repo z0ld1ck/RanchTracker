@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:malshy/core/navigation/nav_services.dart';
 import 'package:malshy/core/theme/theme.dart';
@@ -7,7 +8,8 @@ import 'package:malshy/features/auth/presentation/page/auth.dart';
 import 'package:malshy/features/auth/presentation/page/log_in_page.dart';
 import 'package:malshy/features/auth/presentation/page/password_page.dart';
 import 'package:malshy/features/auth/presentation/splash/splash_screen.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/l10n.dart';
 import '../auth/presentation/page/sms_code_auth.dart';
 
 class App extends StatelessWidget {
@@ -21,7 +23,11 @@ class App extends StatelessWidget {
       splitScreenMode: true,
       builder: (_, child) {
         return MaterialApp(
-          debugShowCheckedModeBanner: false, theme: APP_THEME, navigatorKey: NavigationService.navigationKey,
+          supportedLocales:AppLocalizations.supportedLocales,
+          localizationsDelegates:AppLocalizations.localizationsDelegates,
+          debugShowCheckedModeBanner: false,
+          theme: APP_THEME,
+          navigatorKey: NavigationService.navigationKey,
           // onGenerateRoute: GlobalRoutes.routes,
           onGenerateRoute: (RouteSettings settings) {
             // if (!sharedPreference.isAuthenticated) {
@@ -40,9 +46,9 @@ class App extends StatelessWidget {
               case '/sms_code_page':
                 return MaterialPageRoute(builder: (_) => SmSCodeAuthPage());
               case '/password':
-                return MaterialPageRoute(builder: (_)=>PasswordPage());
+                return MaterialPageRoute(builder: (_) => PasswordPage());
               case '/home':
-                return MaterialPageRoute(builder: (_)=>HomePage());
+                return MaterialPageRoute(builder: (_) => HomePage());
               default:
                 return null;
             }

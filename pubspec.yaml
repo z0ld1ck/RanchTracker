@@ -19,6 +19,9 @@ dependencies:
   build_runner: ^2.4.7
   flutter_svg: ^2.0.9
   pinput: ^3.0.1
+  flutter_localizations:
+    sdk: flutter
+  intl: any
 
 dev_dependencies:
   flutter_test:
