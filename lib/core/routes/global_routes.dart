@@ -6,13 +6,15 @@ import 'package:malshy/features/auth/presentation/page/password_page.dart';
 import 'package:malshy/features/auth/presentation/page/sms_code_auth.dart';
 import 'package:malshy/features/auth/presentation/splash/splash_screen.dart';
 
+import '../services/shared_pref.dart';
+
 class GlobalRoutes {
-  static const String home = '/';
-  static const String splash = '/splash';
+  static const String splash = '/';
+  static const String home = '/home';
   static const String login = '/login';
-  static const String register='/register';
-  static const String sms='/sms';
-  static const String password='/password';
+  static const String register = '/register';
+  static const String sms = '/sms';
+  static const String password = '/password';
 
   // static List<String> get needAuthRoutes {
   //   return [profile, farm];
@@ -22,28 +24,23 @@ class GlobalRoutes {
     String? routeName = settings.name;
     // dynamic args = settings.arguments;
 
-    // if (!sharedPreference.isAuthenticated) {
-    //   return MaterialPageRoute(builder: (context) => LogInPage());
-    // }
-
     Widget getPage() {
+      // if (!sharedPreference.isAuthenticated) {
+      //   return HomePage();
+      // }
       switch (routeName) {
-      ///Home page
-        case home:
-          return const HomePage();
-      ///Register page
-        case register:
-          return const AuthPage();
-      ///Sms page
-        case sms:
-          return const SmSCodeAuthPage();
-      ///New password page
-        case password:
-          return const PasswordPage();
-      ///LogIn page
-        case login:
-          return const LogInPage();
-      ///Not found page
+        case GlobalRoutes.splash:
+          return Splash();
+        case GlobalRoutes.register:
+          return AuthPage();
+        case GlobalRoutes.login:
+          return LogInPage();
+        case GlobalRoutes.sms:
+          return SmSCodeAuthPage();
+        case GlobalRoutes.password:
+          return PasswordPage();
+        case GlobalRoutes.home:
+          return HomePage();
         default:
           return const Splash();
       }

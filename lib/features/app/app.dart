@@ -22,31 +22,13 @@ class App extends StatelessWidget {
       splitScreenMode: true,
       builder: (_, child) {
         return MaterialApp(
-          locale: const Locale('en'),
+          locale: const Locale('kk'),
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           debugShowCheckedModeBanner: false,
           theme: APP_THEME,
           navigatorKey: NavigationService.navigationKey,
-          // onGenerateRoute: GlobalRoutes.routes,
-          onGenerateRoute: (RouteSettings settings) {
-            switch (settings.name) {
-              case GlobalRoutes.home:
-                return MaterialPageRoute(builder: (_) => HomePage());
-              case GlobalRoutes.register:
-                return MaterialPageRoute(builder: (_) => AuthPage());
-              case GlobalRoutes.login:
-                return MaterialPageRoute(builder: (_) => LogInPage());
-              case GlobalRoutes.sms:
-                return MaterialPageRoute(builder: (_) => SmSCodeAuthPage());
-              case GlobalRoutes.password:
-                return MaterialPageRoute(builder: (_) => PasswordPage());
-              case GlobalRoutes.splash:
-                return MaterialPageRoute(builder: (_) => Splash());
-              default:
-                return null;
-            }
-          },
+          onGenerateRoute: GlobalRoutes.routes,
         );
       },
     );
