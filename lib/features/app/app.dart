@@ -23,6 +23,7 @@ class App extends StatelessWidget {
       splitScreenMode: true,
       builder: (_, child) {
         return MaterialApp(
+          locale:const Locale('kk'),
           supportedLocales:AppLocalizations.supportedLocales,
           localizationsDelegates:AppLocalizations.localizationsDelegates,
           debugShowCheckedModeBanner: false,

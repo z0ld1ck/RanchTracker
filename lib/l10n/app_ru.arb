@@ -1,4 +1,6 @@
 {
+  "@@locale": "ru",
+
   "greeting": "Добро пожаловать в ",
   "@greeting": {
     "description": "Основной язык"
