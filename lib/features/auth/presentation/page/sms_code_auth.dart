@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/navigation/nav_services.dart';
+import 'package:malshy/core/routes/global_routes.dart';
 import 'package:pinput/pinput.dart';
 
 class SmSCodeAuthPage extends StatefulWidget {
@@ -94,7 +95,7 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          navService.pushNamed('/auth_screen');
+                          navService.pushNamed(GlobalRoutes.register);
                         },
                         icon: SvgPicture.asset(AppIcons.back),
                       ),

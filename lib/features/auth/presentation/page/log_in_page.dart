@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
+import 'package:malshy/core/routes/global_routes.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
-import 'package:malshy/features/app/app.dart';
 
 import '../../../../core/navigation/nav_services.dart';
 
@@ -86,7 +86,7 @@ class _LogInPageState extends State<LogInPage> {
                       ),
                       IconButton(
                         onPressed: () {
-                          navService.pushNamed('/');
+                          navService.pushNamed(GlobalRoutes.splash);
                         },
                         icon: SvgPicture.asset(AppIcons.close),
                       ),
@@ -135,7 +135,7 @@ class _LogInPageState extends State<LogInPage> {
                     text: AppLocalizations.of(context)!.signin,
                     color: AppColors.grayMedium,
                     onPressed: () async {
-                      await navService.pushNamed('/home');
+                      await navService.pushNamed(GlobalRoutes.home);
                     },
                   ),
                   SizedBox(height: 12.h),
@@ -146,10 +146,10 @@ class _LogInPageState extends State<LogInPage> {
                       Text(
                         AppLocalizations.of(context)!.signup,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: AppColors.primary(context),
-                              decoration: TextDecoration.underline,
-                              decorationColor: AppColors.primary(context),
-                            ),
+                          color: AppColors.primary(context),
+                          decoration: TextDecoration.underline,
+                          decorationColor: AppColors.primary(context),
+                        ),
                       ),
                     ],
                   ),
@@ -161,10 +161,10 @@ class _LogInPageState extends State<LogInPage> {
                       Text(
                         AppLocalizations.of(context)!.recover,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: AppColors.primary(context),
-                              decoration: TextDecoration.underline,
-                              decorationColor: AppColors.primary(context),
-                            ),
+                          color: AppColors.primary(context),
+                          decoration: TextDecoration.underline,
+                          decorationColor: AppColors.primary(context),
+                        ),
                       ),
                     ],
                   ),

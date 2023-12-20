@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/navigation/nav_services.dart';
+import 'package:malshy/core/routes/global_routes.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -82,7 +83,7 @@ class _AuthPageState extends State<AuthPage> {
                       ),
                       IconButton(
                         onPressed: () {
-                          navService.pushNamed('/');
+                          navService.pushNamed(GlobalRoutes.splash);
                         },
                         icon: SvgPicture.asset(AppIcons.close),
                       ),
@@ -94,8 +95,8 @@ class _AuthPageState extends State<AuthPage> {
                     AppLocalizations.of(context)!.subtext,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: AppColors.gray,
-                        ),
+                      color: AppColors.gray,
+                    ),
                   ),
                   SizedBox(height: 8.h),
                   TextField(
@@ -124,7 +125,7 @@ class _AuthPageState extends State<AuthPage> {
                   SizedBox(height: 16.h),
                   PrimaryButton(
                     onPressed: () async {
-                      await navService.pushNamed('/sms_code_page');
+                      await navService.pushNamed(GlobalRoutes.sms);
                     },
                     color: AppColors.grayMedium,
                     text: AppLocalizations.of(context)!.getCode,
@@ -135,16 +136,16 @@ class _AuthPageState extends State<AuthPage> {
                       Text(AppLocalizations.of(context)!.account),
                       TextButton(
                         onPressed: () {
-                          navService.pushNamed('/login_page');
+                          navService.pushNamed(GlobalRoutes.login);
                         },
                         child: Text(
                           AppLocalizations.of(context)!.signin,
                           style:
-                              Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    color: AppColors.blueLight,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: AppColors.primary(context),
-                                  ),
+                          Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: AppColors.blueLight,
+                            decoration: TextDecoration.underline,
+                            decorationColor: AppColors.primary(context),
+                          ),
                         ),
                       ),
                     ],

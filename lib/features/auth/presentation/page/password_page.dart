@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/navigation/nav_services.dart';
+import 'package:malshy/core/routes/global_routes.dart';
 
 class PasswordPage extends StatefulWidget {
   const PasswordPage({super.key});
@@ -72,7 +73,7 @@ class _PasswordPageState extends State<PasswordPage> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          navService.pushNamed('/sms_code_page');
+                          navService.pushNamed(GlobalRoutes.sms);
                         },
                         icon: SvgPicture.asset(AppIcons.back),
                       ),
@@ -145,7 +146,7 @@ class _PasswordPageState extends State<PasswordPage> {
                     borderRadius: BorderRadius.circular(20),
                     child: InkWell(
                       onTap: () {
-                        navService.pushNamed('/home');
+                        navService.pushNamed(GlobalRoutes.home);
                       },
                       child: Container(
                         color: AppColors.grayMedium,

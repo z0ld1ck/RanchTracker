@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/navigation/nav_services.dart';
+import 'package:malshy/core/routes/global_routes.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -33,21 +34,21 @@ class Splash extends StatelessWidget {
             SizedBox(height: 16.h),
             PrimaryButton(
               onPressed: () async {
-                await navService.pushNamed('/login_page');
+                await navService.pushNamed(GlobalRoutes.login);
               },
               child: Text(
                 // 'Войти',
                 AppLocalizations.of(context)!.signin,
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      color: AppColors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  color: AppColors.white,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
             SizedBox(height: 12.h),
             PrimaryButton(
               onPressed: () async {
-                await navService.pushNamed('/auth_screen');
+                await navService.pushNamed(GlobalRoutes.register);
               },
               borderColor: AppColors.blueLight,
               borderWidth: 3,
@@ -57,9 +58,9 @@ class Splash extends StatelessWidget {
                 // 'Зарегистрироваться',
                 AppLocalizations.of(context)!.signup,
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      color: AppColors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  color: AppColors.white,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ],
