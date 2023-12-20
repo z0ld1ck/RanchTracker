@@ -1,6 +1,4 @@
 {
-  "@@locale": "en",
-
   "greeting": "Welcome to",
   "signin": "Sign In",
   "signup": "Sign up",

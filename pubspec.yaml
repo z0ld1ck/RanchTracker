@@ -19,8 +19,8 @@ dependencies:
   build_runner: ^2.4.7
   flutter_svg: ^2.0.9
   pinput: ^3.0.1
-  flutter_localizations:
-    sdk: flutter
+  flutter_localization: ^0.2.0
+  google_fonts: ^6.1.0
   intl: any
 
 dev_dependencies:
@@ -38,20 +38,15 @@ flutter:
   generate: true
 
   assets:
-    - assets/fonts/
     - assets/images/
     - assets/icons/
 
-  fonts:
-    - family: Gilroy
-      fonts:
-        - asset: assets/fonts/Gilroy-Medium.ttf
-        # - asset: assets/fonts/Gilroy-MediumItalic.ttf
-        - asset: assets/fonts/Gilroy-Regular.ttf
-        # - asset: assets/fonts/Gilroy-RegularItalic.ttf
-        # - asset: assets/fonts/Gilroy-SemiBold.ttf
-        # - asset: assets/fonts/Gilroy-SemiBoldItalic.ttf
-        - asset: assets/fonts/Gilroy-Thin.ttf
+  # fonts:
+  #   - family: Gilroy
+  #     fonts:
+        # - asset: assets/fonts/Gilroy-Black.ttf
+        # - asset: assets/fonts/Gilroy-BlackItalic.ttf
+        # - asset: assets/fonts/Gilroy-Bold.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

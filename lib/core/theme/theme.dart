@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:malshy/core/const/app_colors.dart';
 
 final ThemeData APP_THEME = ThemeData(
@@ -12,32 +13,7 @@ final ThemeData APP_THEME = ThemeData(
   primaryColor: Color(0xFF2EA1D9),
   primaryColorLight: Color(0xffF1F8EC),
   iconTheme: IconThemeData(color: Colors.black),
-  textTheme: TextTheme(
-    //font size 32
-    headlineLarge: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
-    //font size 28
-    headlineMedium: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
-    //font size 24
-    headlineSmall: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
-    //font size 14
-    labelLarge: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
-    //font size 12
-    labelMedium: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
-    //font size 11
-    labelSmall: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
-    //font size 22
-    titleLarge: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
-    //font size 16
-    titleMedium: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
-    //font size 14
-    titleSmall: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
-    //font size 16
-    bodyLarge: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
-    //font size 14
-    bodyMedium: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
-    //font size 12
-    bodySmall: TextStyle().copyWith(fontFamily: 'Gilroy', color: AppColors.black),
-  ),
+  textTheme: GoogleFonts.interTextTheme(),
   buttonTheme: ButtonThemeData(
     buttonColor: Color(0xFF2EA1D9),
     padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -67,40 +43,40 @@ final ThemeData APP_THEME = ThemeData(
       borderSide: BorderSide(color: AppColors.error, width: 2.w),
     ),
     floatingLabelBehavior: FloatingLabelBehavior.always,
-    helperStyle: TextStyle(
+    helperStyle: GoogleFonts.inter(
       color: Color(0xFF1B1B1B),
       fontSize: 12,
-      fontFamily: 'Gilroy',
+     
       fontWeight: FontWeight.w400 ,
       height: 1.25,
       letterSpacing: 0.24,
     ),
-    errorStyle: TextStyle(
+    errorStyle: GoogleFonts.inter(
       color: AppColors.error,
       fontSize: 12,
-      fontFamily: 'Gilroy',
+     
       fontWeight: FontWeight.w400,
       height: 1.25,
       letterSpacing: 0.24,
     ),
-    floatingLabelStyle: TextStyle(
+    floatingLabelStyle: GoogleFonts.inter(
       color: Color(0xFF1B1B1B),
       fontSize: 14.sp,
-      fontFamily: 'Gilroy',
+    
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
       letterSpacing: 0.24,
     ),
-    labelStyle: TextStyle(
+    labelStyle: GoogleFonts.inter(
       color: Color(0xFF1B1B1B),
       fontSize: 14.sp,
-      fontFamily: 'Gilroy',
+     
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
       letterSpacing: 0.24,
     ),
-    hintStyle: TextStyle(
-      fontFamily: 'Gilroy',
+    hintStyle: GoogleFonts.inter(
+      
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
       fontSize: 14.sp,
@@ -131,8 +107,7 @@ final ThemeData APP_THEME = ThemeData(
     color: AppColors.white,
     elevation: 0,
     centerTitle: true,
-    titleTextStyle: TextStyle(
-      fontFamily: 'Gilroy',
+    titleTextStyle: GoogleFonts.inter(
       fontWeight: FontWeight.w600,
       fontStyle: FontStyle.normal,
       // fontSize: ScreenUtil().setSp(38), // 16 by figma
