@@ -8,4 +8,8 @@ class AppIcons {
   static const String profile='assets/icons/profile.svg';
   static const String cow_selected='assets/icons/cow_selected.svg';
   static const String cow_not_selected='assets/icons/cow_not_selected.svg';
+  static const String dashboard_selected='assets/icons/dashboard_selected.svg';
+  static const String map_selected='assets/icons/map_selected.svg';
+  static const String notes_selected='assets/icons/notes_selected.svg';
+  static const String profile_selected='assets/icons/profile_selected.svg';
 }

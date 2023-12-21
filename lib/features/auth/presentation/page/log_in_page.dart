@@ -135,7 +135,7 @@ class _LogInPageState extends State<LogInPage> {
                     text: AppLocalizations.of(context)!.signin,
                     color: AppColors.grayMedium,
                     onPressed: () async {
-                      await navService.pushNamed(GlobalRoutes.home);
+                      await navService.pushNamed(GlobalRoutes.cattleList);
                     },
                   ),
                   SizedBox(height: 12.h),

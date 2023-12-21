@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:malshy/core/const/app_icons.dart';
 
 import '../const/app_colors.dart';
 
@@ -17,7 +19,7 @@ class AddCattleButton extends StatelessWidget {
     this.icon,
   });
 
-  final Widget? icon;
+  final String? icon;
   final Widget? child;
   final Color? color;
   final Function() onPressed;
@@ -30,31 +32,46 @@ class AddCattleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 169.w,
-      height: 38.h,
-      child: MaterialButton(
-        elevation: elevation,
-        color: color ?? AppColors.blueLight,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
-          side: BorderSide(
-            color: borderColor ?? Colors.transparent,
-            width: borderWidth ?? 0,
+      width: 185.w,
+      height: 32.h,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.resolveWith<OutlinedBorder?>(
+                (Set<MaterialState> states) {
+              return RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
+                side: BorderSide(
+                  color: borderColor ?? Colors.transparent,
+                  width: borderWidth ?? 0,
+                ),
+              );
+            },
+          ),
+          backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+              if (states.contains(MaterialState.pressed)) {
+                return AppColors.blueLight.withOpacity(0.8);
+              } else {
+                return AppColors.blueLight;
+              }
+            },
           ),
         ),
         onPressed: onPressed,
         child: child ??
             Row(
-              crossAxisAlignment:CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(width: 4.w),
+                SvgPicture.asset(
+                  icon ?? AppIcons.add,
+                ),
                 Text(
                   text ?? '',
-                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                    color: AppColors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
               ],
             ),

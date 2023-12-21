@@ -5,8 +5,11 @@ import 'package:malshy/features/auth/presentation/page/log_in_page.dart';
 import 'package:malshy/features/auth/presentation/page/password_page.dart';
 import 'package:malshy/features/auth/presentation/page/sms_code_auth.dart';
 import 'package:malshy/features/auth/presentation/splash/splash_screen.dart';
-import 'package:malshy/presentation/home/cattle_list_page.dart';
-
+import 'package:malshy/presentation/home/pages/cattle_list_page.dart';
+import 'package:malshy/presentation/home/pages/dashboard_page.dart';
+import '../../presentation/home/pages/events_page.dart';
+import '../../presentation/home/pages/map_page.dart';
+import '../../presentation/home/pages/profile.dart';
 
 class GlobalRoutes {
   static const String splash = '/';
@@ -15,7 +18,11 @@ class GlobalRoutes {
   static const String register = '/register';
   static const String sms = '/sms';
   static const String password = '/password';
-  static const String cattleList='/cattleList';
+  static const String cattleList = '/cattleList';
+  static const String dashboard = '/dashboard';
+  static const String event = '/event';
+  static const String map = '/map';
+  static const String profile = '/profile';
 
   // static List<String> get needAuthRoutes {
   //   return [profile, farm];
@@ -31,7 +38,7 @@ class GlobalRoutes {
       // }
       switch (routeName) {
         case GlobalRoutes.splash:
-          return CattleListPage();
+          return Splash();
         case GlobalRoutes.register:
           return AuthPage();
         case GlobalRoutes.login:
@@ -42,8 +49,18 @@ class GlobalRoutes {
           return PasswordPage();
         case GlobalRoutes.home:
           return HomePage();
+        case GlobalRoutes.dashboard:
+          return Dashboard();
+        case GlobalRoutes.cattleList:
+          return CattleListPage();
+          case GlobalRoutes.event:
+          return Events();
+        case GlobalRoutes.map:
+          return MapPage();
+        case GlobalRoutes.profile:
+          return Profile();
         // case GlobalRoutes.cattleList:
-          // return CattleListPage();
+        // return CattleListPage();
         default:
           return const Splash();
       }
