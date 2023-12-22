@@ -146,7 +146,7 @@ class _PasswordPageState extends State<PasswordPage> {
                     borderRadius: BorderRadius.circular(20),
                     child: InkWell(
                       onTap: () {
-                        navService.pushNamed(GlobalRoutes.dashboard);
+                        navService.pushNamed(GlobalRoutes.event);
                       },
                       child: Container(
                         color: AppColors.grayMedium,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:malshy/presentation/home/pages/profile.dart';
 
-import '../widgets/bottom_navbar.dart';
+import '../../../core/const/app_colors.dart';
+import '../../../core/const/app_icons.dart';
 import 'cattle_list_page.dart';
 import 'dashboard_page.dart';
 import 'package:malshy/presentation/home/pages/events_page.dart';
@@ -16,11 +18,17 @@ class Events extends StatefulWidget {
 }
 
 class _EventsState extends State<Events> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.pink,
+      backgroundColor: AppColors.blueLight,
+      body: Column(
+        children: const [
+          Center(
+            child: Text('Map'),
+          )
+        ],
+      ),
     );
   }
 }

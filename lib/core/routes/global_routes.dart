@@ -7,6 +7,8 @@ import 'package:malshy/features/auth/presentation/page/sms_code_auth.dart';
 import 'package:malshy/features/auth/presentation/splash/splash_screen.dart';
 import 'package:malshy/presentation/home/pages/cattle_list_page.dart';
 import 'package:malshy/presentation/home/pages/dashboard_page.dart';
+import 'package:malshy/presentation/home/pages/home_page.dart';
+import '../../presentation/home/nested/filter.dart';
 import '../../presentation/home/pages/events_page.dart';
 import '../../presentation/home/pages/map_page.dart';
 import '../../presentation/home/pages/profile.dart';
@@ -23,6 +25,8 @@ class GlobalRoutes {
   static const String event = '/event';
   static const String map = '/map';
   static const String profile = '/profile';
+  static const String nav = '/nav';
+  static const String filter = 'filter';
 
   // static List<String> get needAuthRoutes {
   //   return [profile, farm];
@@ -53,14 +57,16 @@ class GlobalRoutes {
           return Dashboard();
         case GlobalRoutes.cattleList:
           return CattleListPage();
-          case GlobalRoutes.event:
+        case GlobalRoutes.event:
           return Events();
         case GlobalRoutes.map:
           return MapPage();
         case GlobalRoutes.profile:
           return Profile();
-        // case GlobalRoutes.cattleList:
-        // return CattleListPage();
+        case GlobalRoutes.nav:
+          return Home();
+        case GlobalRoutes.filter:
+          return FilterPage();
         default:
           return const Splash();
       }
