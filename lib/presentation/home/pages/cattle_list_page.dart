@@ -20,7 +20,9 @@ class _CattleListPageState extends State<CattleListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: AddCattleButton(
-        onPressed: () {},
+        onPressed: () {
+          navService.pushNamed(GlobalRoutes.addCattle);
+        },
         text: 'Добавить животное',
       ),
       appBar: PreferredSize(
