@@ -27,7 +27,7 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
+      width:319.w,
       child: MaterialButton(
         height:43.h,
         elevation: elevation,

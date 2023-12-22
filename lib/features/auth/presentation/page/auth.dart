@@ -73,7 +73,6 @@ class _AuthPageState extends State<AuthPage> {
                     children: [
                       SizedBox(width: 50.w),
                       Text(
-                        // 'Регистрация',
                         AppLocalizations.of(context)!.registration,
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
@@ -91,7 +90,6 @@ class _AuthPageState extends State<AuthPage> {
                   ),
                   SizedBox(height: 12.h),
                   Text(
-                    // 'Введите номер телефона,и мы отправим вам код подтверждения',
                     AppLocalizations.of(context)!.subtext,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
