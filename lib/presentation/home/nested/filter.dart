@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:malshy/core/services/shared_pref.dart';
-import 'package:malshy/core/widgets/dropdown_button.dart';
+import 'package:malshy/presentation/home/widgets/add_cattle_button.dart';
+import 'package:malshy/presentation/home/widgets/dropdown_button.dart';
 
+import '../../../core/const/app_colors.dart';
 import '../../../core/const/app_icons.dart';
 import '../../../core/navigation/nav_services.dart';
 import '../../../core/routes/global_routes.dart';
@@ -60,14 +61,48 @@ class _FilterPageState extends State<FilterPage> {
           ),
           DropDownFilter(
             label: 'Породы',
-            items: const [
+            items: [
               DropdownMenuItem(
                 value: "Голштинская",
+                child: Text("Все породы"),
+              ),
+              DropdownMenuItem(
+                value: "Голш",
                 child: Text("Голштинская"),
               ),
               DropdownMenuItem(
-                value: "Немецкая",
-                child: Text("Немецкая"),
+                value: "Голш",
+                child: Text("Голштинская"),
+              ),
+              DropdownMenuItem(
+                value: 'button',
+                child: InkWell(
+                  onTap: () {},
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 48.h,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          AppIcons.add_blue,
+                        ),
+                        SizedBox(
+                          width: 4.w,
+                        ),
+                        Text(
+                          'Добавить новую породу',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: AppColors.blueLight,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -78,12 +113,8 @@ class _FilterPageState extends State<FilterPage> {
             label: 'Масса',
             items: const [
               DropdownMenuItem(
-                value: "Все массы",
+                value: "Все весы",
                 child: Text("Все массы"),
-              ),
-              DropdownMenuItem(
-                value: "Масса",
-                child: Text("Масса"),
               ),
             ],
           ),
@@ -94,11 +125,11 @@ class _FilterPageState extends State<FilterPage> {
             label: 'Полновозрастные группы',
             items: const [
               DropdownMenuItem(
-                value: "Все возрасты",
+                value: "AllAges",
                 child: Text("Все возрасты"),
               ),
               DropdownMenuItem(
-                value: "Возраст",
+                value: "SingleAge",
                 child: Text("Возраст"),
               ),
             ],
@@ -113,10 +144,6 @@ class _FilterPageState extends State<FilterPage> {
                 value: "Стельны и не стельны",
                 child: Text("Стельны и не стельны"),
               ),
-              DropdownMenuItem(
-                value: "Не стельны и стельны",
-                child: Text("Не стельны и стельны"),
-              ),
             ],
           ),
           SizedBox(
@@ -126,7 +153,7 @@ class _FilterPageState extends State<FilterPage> {
             height: 350.h,
           ),
           PrimaryButton(
-            text:'Сохранить',
+            text: 'Сохранить',
             onPressed: () {},
           ),
         ],

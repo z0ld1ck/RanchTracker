@@ -13,4 +13,9 @@ class AppIcons {
   static const String notes_selected='assets/icons/notes_selected.svg';
   static const String profile_selected='assets/icons/profile_selected.svg';
   static const String avatar='assets/icons/avatar.svg';
+  static const String search='assets/icons/search.svg';
+  static const String filter='assets/icons/filter.svg';
+  static const String search2='assets/icons/search2.svg';
+  static const String drone='assets/icons/drone.svg';
+  static const String add_blue='assets/icons/add_blue.svg';
 }
