@@ -5,11 +5,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/navigation/nav_services.dart';
 import 'package:malshy/core/routes/global_routes.dart';
-import 'package:malshy/core/widgets/add_cattle_button.dart';
+import 'package:malshy/presentation/home/widgets/add_cattle_button.dart';
 
 
 class CattleListPage extends StatefulWidget {
-  CattleListPage({Key? key}) : super(key: key);
+  const CattleListPage({super.key});
 
   @override
   State<CattleListPage> createState() => _CattleListPageState();

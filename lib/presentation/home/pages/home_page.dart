@@ -23,27 +23,27 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 50.h),
-        child: AppBar(
-          title: Text('Скот'),
-          centerTitle: true,
-          leading: IconButton(
-            onPressed: () {
-              navService.pushNamed(GlobalRoutes.login);
-            },
-            icon: SvgPicture.asset(AppIcons.back),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                navService.pushNamed(GlobalRoutes.login);
-              },
-              icon: Icon(Icons.filter_alt),
-            ),
-          ],
-        ),
-      ),
+      // appBar: PreferredSize(
+      //   preferredSize: Size(double.infinity, 50.h),
+      //   child: AppBar(
+      //     title: Text('Скот'),
+      //     centerTitle: true,
+      //     leading: IconButton(
+      //       onPressed: () {
+      //         navService.pushNamed(GlobalRoutes.login);
+      //       },
+      //       icon: SvgPicture.asset(AppIcons.back),
+      //     ),
+      //     actions: [
+      //       IconButton(
+      //         onPressed: () {
+      //           navService.pushNamed(GlobalRoutes.login);
+      //         },
+      //         icon: Icon(Icons.filter_alt),
+      //       ),
+      //     ],
+      //   ),
+      // ),
       body: IndexedStack(
         index: currentIndex,
         children: [

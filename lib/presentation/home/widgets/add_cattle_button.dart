@@ -47,7 +47,7 @@ class AddCattleButton extends StatelessWidget {
             width: 140.w,
             height: 32.h,
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SvgPicture.asset(
