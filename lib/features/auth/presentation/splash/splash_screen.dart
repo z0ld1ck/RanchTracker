@@ -23,13 +23,16 @@ class Splash extends StatelessWidget {
               child: Image.asset('assets/images/Screenshot_3.png'),
             ),
             Text(
-              // 'Добро пожаловать в ',
-              AppLocalizations.of(context)!.greeting,
-              style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: AppColors.white),
+              AppLocalizations.of(context)!.greeting, // 'Добро пожаловать в',
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall!
+                  .copyWith(color: AppColors.white),
             ),
             Text(
               'MALSHI',
-              style: Theme.of(context).textTheme.headlineLarge!.copyWith(color: AppColors.white, fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  color: AppColors.white, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16.h),
             PrimaryButton(
@@ -37,12 +40,11 @@ class Splash extends StatelessWidget {
                 await navService.pushNamed(GlobalRoutes.login);
               },
               child: Text(
-                // 'Войти',
-                AppLocalizations.of(context)!.signin,
+                AppLocalizations.of(context)!.signin,   // 'Войти'
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: AppColors.white,
-                  fontWeight: FontWeight.w600,
-                ),
+                      color: AppColors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
               ),
             ),
             SizedBox(height: 12.h),
@@ -55,12 +57,11 @@ class Splash extends StatelessWidget {
               elevation: 0,
               color: Colors.transparent,
               child: Text(
-                // 'Зарегистрироваться',
-                AppLocalizations.of(context)!.signup,
+                AppLocalizations.of(context)!.signup,  // 'Зарегистрироваться',
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: AppColors.white,
-                  fontWeight: FontWeight.w600,
-                ),
+                      color: AppColors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
               ),
             ),
           ],

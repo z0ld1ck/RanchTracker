@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:malshy/core/const/app_icons.dart';
-import 'package:malshy/core/navigation/nav_services.dart';
-import 'package:malshy/core/routes/global_routes.dart';
-
 import '../../../core/const/app_colors.dart';
 
 class CattleCountingButton extends StatelessWidget {
   const CattleCountingButton({
-    Key? key,
+    super.key,
     this.color,
     required this.onPressed,
     this.borderRadius,
@@ -39,9 +36,7 @@ class CattleCountingButton extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12.r),
         child: InkWell(
-          onTap: () {
-            navService.pushNamed(GlobalRoutes.addCattle);
-          },
+          onTap: () {},
           child: Container(
             color: AppColors.blueLight,
             width: 140.w,

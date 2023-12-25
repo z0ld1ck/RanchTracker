@@ -8,8 +8,7 @@ import 'package:malshy/core/routes/global_routes.dart';
 import '../../../core/const/app_colors.dart';
 
 class AddCattleButton extends StatelessWidget {
-  const AddCattleButton({
-    Key? key,
+  const AddCattleButton({super.key,
     this.color,
     required this.onPressed,
     this.borderRadius,
@@ -34,7 +33,7 @@ class AddCattleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 170.w,
+      width: 160.w,
       height: 32.h,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12.r),
@@ -53,12 +52,15 @@ class AddCattleButton extends StatelessWidget {
                 SvgPicture.asset(
                   icon ?? AppIcons.add,
                 ),
+                SizedBox(
+                  width: 4.w,
+                ),
                 Text(
                   text ?? '',
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: AppColors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall!
+                      .copyWith(color: AppColors.white, fontWeight: FontWeight.w600),
                 ),
               ],
             ),

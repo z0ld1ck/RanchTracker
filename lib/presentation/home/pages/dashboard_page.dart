@@ -4,7 +4,7 @@ import 'package:malshy/core/const/app_colors.dart';
 
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({Key? key}) : super(key: key);
+  const Dashboard({super.key});
 
   @override
   State<Dashboard> createState() => _DashboardState();

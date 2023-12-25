@@ -9,7 +9,6 @@ import 'package:malshy/core/routes/global_routes.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
 
@@ -20,8 +19,8 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
-    TextEditingController _name = TextEditingController();
-    TextEditingController _number = TextEditingController();
+    final TextEditingController name = TextEditingController();
+    final TextEditingController number = TextEditingController();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -93,12 +92,12 @@ class _AuthPageState extends State<AuthPage> {
                     AppLocalizations.of(context)!.subtext,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: AppColors.gray,
-                    ),
+                          color: AppColors.gray,
+                        ),
                   ),
                   SizedBox(height: 8.h),
                   TextField(
-                    controller: _name,
+                    controller: name,
                     maxLines: 1,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)!.fio,
@@ -106,12 +105,12 @@ class _AuthPageState extends State<AuthPage> {
                           .textTheme
                           .bodyMedium!
                           .copyWith(color: Colors.black),
-                      hintText:AppLocalizations.of(context)!.vvediteFio,
+                      hintText: AppLocalizations.of(context)!.vvediteFio,
                     ),
                   ),
                   SizedBox(height: 15.h),
                   TextField(
-                    controller: _number,
+                    controller: number,
                     decoration: InputDecoration(
                         labelText: AppLocalizations.of(context)!.nomer,
                         labelStyle: Theme.of(context)
@@ -139,11 +138,11 @@ class _AuthPageState extends State<AuthPage> {
                         child: Text(
                           AppLocalizations.of(context)!.signin,
                           style:
-                          Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: AppColors.blueLight,
-                            decoration: TextDecoration.underline,
-                            decorationColor: AppColors.primary(context),
-                          ),
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    color: AppColors.blueLight,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: AppColors.primary(context),
+                                  ),
                         ),
                       ),
                     ],

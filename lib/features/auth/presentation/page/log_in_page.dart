@@ -146,10 +146,10 @@ class _LogInPageState extends State<LogInPage> {
                       Text(
                         AppLocalizations.of(context)!.signup,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: AppColors.primary(context),
-                          decoration: TextDecoration.underline,
-                          decorationColor: AppColors.primary(context),
-                        ),
+                              color: AppColors.primary(context),
+                              decoration: TextDecoration.underline,
+                              decorationColor: AppColors.primary(context),
+                            ),
                       ),
                     ],
                   ),
@@ -161,10 +161,10 @@ class _LogInPageState extends State<LogInPage> {
                       Text(
                         AppLocalizations.of(context)!.recover,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: AppColors.primary(context),
-                          decoration: TextDecoration.underline,
-                          decorationColor: AppColors.primary(context),
-                        ),
+                              color: AppColors.primary(context),
+                              decoration: TextDecoration.underline,
+                              decorationColor: AppColors.primary(context),
+                            ),
                       ),
                     ],
                   ),

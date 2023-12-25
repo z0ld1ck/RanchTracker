@@ -8,19 +8,17 @@ class DropDownFilter extends StatefulWidget {
   final String label;
   final List<DropdownMenuItem<String>> items;
 
-
   @override
   State<DropDownFilter> createState() => _DropDownFilterState();
 }
 
 class _DropDownFilterState extends State<DropDownFilter> {
-  String? selectedValue = null;
-  final _dropdownFormKey = GlobalKey<FormState>();
+  String? selectedValue;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:EdgeInsets.symmetric(horizontal:16.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
       ),
@@ -34,7 +32,7 @@ class _DropDownFilterState extends State<DropDownFilter> {
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: AppColors.gray),
           ),
-          disabledBorder:OutlineInputBorder(
+          disabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: AppColors.gray),
           ),
           contentPadding: EdgeInsets.symmetric(horizontal: 16.w),

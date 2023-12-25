@@ -1,4 +1,3 @@
-
 class MenuItem{
   final String iconData;
   final String label;

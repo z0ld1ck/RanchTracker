@@ -99,7 +99,9 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                         },
                         icon: SvgPicture.asset(AppIcons.back),
                       ),
-                      SizedBox(width:50.w,),
+                      SizedBox(
+                        width: 50.w,
+                      ),
                       Text(
                         AppLocalizations.of(context)!.registration,
                         textAlign: TextAlign.start,
@@ -134,7 +136,6 @@ class _SmSCodeAuthPageState extends State<SmSCodeAuthPage> {
                         if (pin == '1111') {
                           navService.pushNamed('/password');
                         }
-                        ;
                         return AppLocalizations.of(context)!.wrongCode;
                       },
                       errorTextStyle: Theme.of(context)

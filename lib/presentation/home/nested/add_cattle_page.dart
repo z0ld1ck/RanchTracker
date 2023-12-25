@@ -6,7 +6,7 @@ import '../../../core/navigation/nav_services.dart';
 import '../../../core/routes/global_routes.dart';
 
 class AddCattlePage extends StatefulWidget {
-  const AddCattlePage({Key? key}) : super(key: key);
+  const AddCattlePage({super.key});
 
   @override
   State<AddCattlePage> createState() => _AddCattlePageState();

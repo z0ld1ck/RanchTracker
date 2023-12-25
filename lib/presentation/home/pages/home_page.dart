@@ -11,7 +11,7 @@ import '../../../core/navigation/nav_services.dart';
 import '../../../core/routes/global_routes.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -23,30 +23,25 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: PreferredSize(
-      //   preferredSize: Size(double.infinity, 50.h),
-      //   child: AppBar(
-      //     title: Text('Скот'),
-      //     centerTitle: true,
-      //     leading: IconButton(
-      //       onPressed: () {
-      //         navService.pushNamed(GlobalRoutes.login);
-      //       },
-      //       icon: SvgPicture.asset(AppIcons.back),
-      //     ),
-      //     actions: [
-      //       IconButton(
-      //         onPressed: () {
-      //           navService.pushNamed(GlobalRoutes.login);
-      //         },
-      //         icon: Icon(Icons.filter_alt),
-      //       ),
-      //     ],
-      //   ),
-      // ),
+      appBar: PreferredSize(
+        preferredSize: Size(double.infinity, 50.h),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text('Скот'),
+          centerTitle: true,
+          actions: [
+            IconButton(
+              onPressed: () {
+                navService.pushNamed(GlobalRoutes.login);
+              },
+              icon: SvgPicture.asset(AppIcons.filter),
+            ),
+          ],
+        ),
+      ),
       body: IndexedStack(
         index: currentIndex,
-        children: [
+        children: const [
           Dashboard(),
           CattleListPage(),
           Events(),
@@ -84,6 +79,8 @@ class _HomeState extends State<Home> {
         ],
         currentIndex: currentIndex,
         onTap: onTap,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
       ),
     );
   }

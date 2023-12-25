@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/navigation/nav_services.dart';
 import 'package:malshy/core/routes/global_routes.dart';
 import 'package:malshy/presentation/home/widgets/add_cattle_button.dart';
-
 
 class CattleListPage extends StatefulWidget {
   const CattleListPage({super.key});
@@ -41,7 +40,7 @@ class _CattleListPageState extends State<CattleListPage> {
               onPressed: () {
                 navService.pushNamed(GlobalRoutes.filter);
               },
-              icon: Icon(Icons.filter_alt),
+              icon: SvgPicture.asset(AppIcons.filter),
             ),
           ],
         ),
@@ -63,7 +62,13 @@ class _CattleListPageState extends State<CattleListPage> {
             height: 300.h,
           ),
           Center(
-            child: Text('Список пуст'),
+            child: Text(
+              'Список пуст',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(color: AppColors.gray, fontWeight: FontWeight.w600),
+            ),
           ),
         ],
       ),

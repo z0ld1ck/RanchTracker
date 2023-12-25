@@ -4,7 +4,7 @@ import '../../../core/const/app_colors.dart';
 
 
 class Events extends StatefulWidget {
-  const Events({Key? key}) : super(key: key);
+  const Events({super.key});
 
   @override
   State<Events> createState() => _EventsState();

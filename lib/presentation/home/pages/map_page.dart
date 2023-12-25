@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:malshy/features/app/app.dart';
-import 'package:malshy/presentation/home/widgets/add_cattle_button.dart';
 import 'package:malshy/presentation/home/widgets/search_bar_widget.dart';
 
 import '../../../core/const/app_colors.dart';
 import '../widgets/cattle_counting_button.dart';
 
 class MapPage extends StatefulWidget {
-  const MapPage({Key? key}) : super(key: key);
+  const MapPage({super.key});
 
   @override
   State<MapPage> createState() => _MapPageState();
