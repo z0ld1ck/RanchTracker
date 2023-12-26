@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/presentation/home/pages/cattle_list_page.dart';
 import 'package:malshy/presentation/home/pages/dashboard_page.dart';
 import 'package:malshy/presentation/home/pages/map_page.dart';
@@ -18,25 +19,15 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int currentIndex = 1;
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 50.h),
+        preferredSize: Size(double.infinity, 10.h),
         child: AppBar(
           automaticallyImplyLeading: false,
-          title: Text('Скот'),
-          centerTitle: true,
-          actions: [
-            IconButton(
-              onPressed: () {
-                navService.pushNamed(GlobalRoutes.login);
-              },
-              icon: SvgPicture.asset(AppIcons.filter),
-            ),
-          ],
         ),
       ),
       body: IndexedStack(
@@ -54,33 +45,35 @@ class _HomeState extends State<Home> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(AppIcons.home),
             label: '',
-            activeIcon: SvgPicture.asset(AppIcons.dashboard_selected),
+            activeIcon: SvgPicture.asset(AppIcons.dash),
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(AppIcons.cow_not_selected),
             label: '',
-            activeIcon: SvgPicture.asset(AppIcons.cow_selected),
+            activeIcon: SvgPicture.asset(AppIcons.cow_svet),
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(AppIcons.notes),
             label: '',
-            activeIcon: SvgPicture.asset(AppIcons.notes_selected),
+            activeIcon: SvgPicture.asset(AppIcons.notes2),
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(AppIcons.mark),
             label: '',
-            activeIcon: SvgPicture.asset(AppIcons.map_selected),
+            activeIcon: SvgPicture.asset(AppIcons.map),
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(AppIcons.profile),
             label: '',
-            activeIcon: SvgPicture.asset(AppIcons.profile_selected),
+            activeIcon: SvgPicture.asset(AppIcons.account),
           ),
         ],
         currentIndex: currentIndex,
         onTap: onTap,
+        type: BottomNavigationBarType.fixed,
         showSelectedLabels: false,
         showUnselectedLabels: false,
+        backgroundColor: AppColors.white,
       ),
     );
   }
