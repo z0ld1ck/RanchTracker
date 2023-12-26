@@ -6,16 +6,16 @@ class AppIcons {
   static const String mark='assets/icons/mark.svg';
   static const String notes='assets/icons/notes.svg';
   static const String profile='assets/icons/profile.svg';
-  static const String cow_selected='assets/icons/cow_selected.svg';
   static const String cow_not_selected='assets/icons/cow_not_selected.svg';
-  static const String dashboard_selected='assets/icons/dashboard_selected.svg';
-  static const String map_selected='assets/icons/map_selected.svg';
-  static const String notes_selected='assets/icons/notes_selected.svg';
-  static const String profile_selected='assets/icons/profile_selected.svg';
   static const String avatar='assets/icons/avatar.svg';
   static const String search='assets/icons/search.svg';
   static const String filter='assets/icons/filter.svg';
   static const String search2='assets/icons/search2.svg';
   static const String drone='assets/icons/drone.svg';
   static const String add_blue='assets/icons/add_blue.svg';
+  static const String account='assets/icons/account.svg';
+  static const String dash='assets/icons/dash.svg';
+  static const String cow_svet='assets/icons/cow_svet.svg';
+  static const String notes2='assets/icons/notes2.svg';
+  static const String map='assets/icons/map3.svg';
 }
