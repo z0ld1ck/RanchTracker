@@ -64,7 +64,7 @@ class _MapPageState extends State<MapPage> {
           Positioned(
             left:130,
             right:125,
-            top:676,
+            top:686,
             bottom: 12,
             child: CattleCountingButton(
               onPressed: () {},
