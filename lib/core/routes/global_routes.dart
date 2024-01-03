@@ -16,7 +16,6 @@ import '../../features/profile/presentation/pages/profile.dart';
 
 class GlobalRoutes {
   static const String splash = '/';
-  static const String home = '/home';
   static const String login = '/login';
   static const String register = '/register';
   static const String sms = '/sms';
@@ -53,8 +52,6 @@ class GlobalRoutes {
           return SmSCodeAuthPage();
         case GlobalRoutes.password:
           return PasswordPage();
-        case GlobalRoutes.home:
-          return HomePage();
         case GlobalRoutes.dashboard:
           return Dashboard();
         case GlobalRoutes.cattleList:
