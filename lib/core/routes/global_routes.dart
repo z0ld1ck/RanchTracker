@@ -5,14 +5,14 @@ import 'package:malshy/features/auth/presentation/page/log_in_page.dart';
 import 'package:malshy/features/auth/presentation/page/password_page.dart';
 import 'package:malshy/features/auth/presentation/page/sms_code_auth.dart';
 import 'package:malshy/features/auth/presentation/splash/splash_screen.dart';
-import 'package:malshy/presentation/home/pages/cattle_list_page.dart';
-import 'package:malshy/presentation/home/pages/dashboard_page.dart';
-import 'package:malshy/presentation/home/pages/home_page.dart';
-import '../../presentation/home/nested/add_cattle_page.dart';
-import '../../presentation/home/nested/filter.dart';
-import '../../presentation/home/pages/events_page.dart';
-import '../../presentation/home/pages/map_page.dart';
-import '../../presentation/home/pages/profile.dart';
+import 'package:malshy/features/cattle_list_page/presentation/pages/cattle_list_page.dart';
+import 'package:malshy/features/dashboard_page/presentation/pages/dashboard_page.dart';
+import 'package:malshy/features/app/home_page.dart';
+import '../../features/cattle_list_page/presentation/pages/add_cattle_page.dart';
+import '../../features/cattle_list_page/presentation/pages/filter.dart';
+import '../../features/events/presentation/pages/events_page.dart';
+import '../../features/map/presentation/pages/map_page.dart';
+import '../../features/profile/presentation/pages/profile.dart';
 
 class GlobalRoutes {
   static const String splash = '/';

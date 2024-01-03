@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:malshy/core/const/app_colors.dart';
-import 'package:malshy/presentation/home/widgets/personal_data_field.dart';
-import 'package:malshy/presentation/home/widgets/profile_field.dart';
-import 'package:malshy/presentation/home/widgets/push_notification_switch.dart';
+import 'package:malshy/features/profile/presentation/widgets/personal_data_field.dart';
+import 'package:malshy/features/profile/presentation/widgets/profile_field.dart';
+import 'package:malshy/features/profile/presentation/widgets/push_notification_switch.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});

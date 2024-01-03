@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/const/app_colors.dart';
+import '../../../../core/const/app_colors.dart';
 
 
 class Events extends StatefulWidget {
@@ -17,8 +17,10 @@ class _EventsState extends State<Events> {
       backgroundColor: AppColors.blueLight,
       body: Column(
         children: const [
-          Center(
-            child: Text('Map'),
+          Column(
+            children: [
+
+            ],
           )
         ],
       ),

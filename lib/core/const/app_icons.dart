@@ -20,4 +20,5 @@ class AppIcons {
   static const String map = 'assets/icons/map3.svg';
   static const String logout = 'assets/icons/logOut.svg';
   static const String next = 'assets/icons/next.svg';
+  static const String date = 'assets/icons/date.svg';
 }
