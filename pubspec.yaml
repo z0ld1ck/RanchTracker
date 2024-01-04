@@ -26,6 +26,10 @@ dependencies:
   flutter_map: ^6.1.0
   latlong2: ^0.9.0
 
+  # ui packages
+  syncfusion_flutter_charts: ^24.1.44+1
+  calendar_date_picker2: ^0.5.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
