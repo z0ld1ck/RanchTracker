@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
-import 'package:malshy/features/app/app.dart';
+import 'package:malshy/features/cattle_list_page/domain/services/save_cattle_service.dart';
 import 'package:malshy/features/cattle_list_page/presentation/widgets/add_cattle_dropdown.dart';
-import 'package:malshy/features/cattle_list_page/presentation/widgets/dropdown_button.dart';
 import 'package:malshy/features/cattle_list_page/presentation/widgets/gender_radio_buttons.dart';
 import '../../../../core/const/app_icons.dart';
 import '../../../../core/navigation/nav_services.dart';
@@ -21,6 +21,26 @@ class AddCattlePage extends StatefulWidget {
 class _AddCattlePageState extends State<AddCattlePage> {
   DateTime date = DateTime.now();
   String? selectedValue;
+  TextEditingController RFD = TextEditingController();
+  TextEditingController cattleName = TextEditingController();
+  TextEditingController dateInput = TextEditingController();
+  TextEditingController type = TextEditingController();
+  TextEditingController breed = TextEditingController();
+  TextEditingController weight = TextEditingController();
+  TextEditingController way = TextEditingController();
+  TextEditingController RFIDm = TextEditingController();
+  TextEditingController RFIDf = TextEditingController();
+
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   RFD.dispose();
+  //   cattleName.dispose();
+  //   dateInput.dispose();
+  //   weight.dispose();
+  //   RFIDm.dispose();
+  //   RFIDf.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +80,7 @@ class _AddCattlePageState extends State<AddCattlePage> {
             Container(
               padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
               child: TextField(
+                controller: RFD,
                 maxLines: 1,
                 decoration: InputDecoration(
                   labelText: 'Ушная бирка(RFD)*',
@@ -81,6 +102,7 @@ class _AddCattlePageState extends State<AddCattlePage> {
             Container(
               padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
               child: TextField(
+                controller: cattleName,
                 maxLines: 1,
                 decoration: InputDecoration(
                   labelText: 'Кличка',
@@ -102,6 +124,7 @@ class _AddCattlePageState extends State<AddCattlePage> {
             Container(
               padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
               child: TextField(
+                controller: dateInput,
                 maxLines: 1,
                 decoration: InputDecoration(
                   suffixIcon: IconButton(
@@ -114,8 +137,11 @@ class _AddCattlePageState extends State<AddCattlePage> {
                         lastDate: DateTime.now(),
                       );
                       if (selectedDate != null) {
+                        String formattedDate =
+                            DateFormat.yMd().format(selectedDate);
+
                         setState(() {
-                          date = selectedDate;
+                          dateInput.text = formattedDate;
                         });
                       }
                     },
@@ -154,6 +180,7 @@ class _AddCattlePageState extends State<AddCattlePage> {
                   ),
                 ],
                 label: 'Виды',
+                hint: 'Выберите вид',
               ),
             ),
             SizedBox(
@@ -164,11 +191,15 @@ class _AddCattlePageState extends State<AddCattlePage> {
               child: AddCattleDropDown(
                 items: [
                   DropdownMenuItem(
-                    value: "Лошади",
-                    child: Text("Лошади"),
+                    value: "Голштинская",
+                    child: Text("Голштинская"),
                   ),
                   DropdownMenuItem(
-                    value: "Лошади",
+                    value: "Швицкая",
+                    child: Text("Швицкая"),
+                  ),
+                  DropdownMenuItem(
+                    value: "породы",
                     child: InkWell(
                       onTap: () {},
                       child: SizedBox(
@@ -201,6 +232,7 @@ class _AddCattlePageState extends State<AddCattlePage> {
                   ),
                 ],
                 label: 'Породы',
+                hint: 'Выберите породу',
               ),
             ),
             SizedBox(
@@ -209,26 +241,32 @@ class _AddCattlePageState extends State<AddCattlePage> {
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Укажите пол*:',
+                    'Укажите пол:',
                     style: Theme.of(context).textTheme.labelLarge!.copyWith(
                           color: AppColors.black,
                           fontWeight: FontWeight.w500,
                         ),
                   ),
                   SizedBox(
-                    width: 30.w,
+                    width: 12.w,
                   ),
-                  GenderRadioButton(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      GenderRadioButton(),
+                    ],
+                  ),
                 ],
               ),
             ),
             Container(
               padding: EdgeInsetsDirectional.fromSTEB(16, 10, 16, 0),
               child: TextField(
+                controller: weight,
                 maxLines: 1,
                 decoration: InputDecoration(
                   labelText: 'Вес',
@@ -237,6 +275,11 @@ class _AddCattlePageState extends State<AddCattlePage> {
                       .bodyMedium!
                       .copyWith(color: Colors.black),
                   hintText: 'Введите текст',
+                  suffixText: 'кг',
+                  suffixStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: AppColors.black,
+                        fontWeight: FontWeight.w400,
+                      ),
                   hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: AppColors.grayMedium,
                         fontWeight: FontWeight.w500,
@@ -250,6 +293,7 @@ class _AddCattlePageState extends State<AddCattlePage> {
             Container(
               padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
               child: AddCattleDropDown(
+                hint: 'Выберите способ',
                 items: const [
                   DropdownMenuItem(
                     value: "КРС",
@@ -264,7 +308,7 @@ class _AddCattlePageState extends State<AddCattlePage> {
                     child: Text("Лошади"),
                   ),
                 ],
-                label: 'Способ добавления к поголовью',
+                label: 'Способ добавления к поголовью*',
               ),
             ),
             SizedBox(
@@ -273,6 +317,7 @@ class _AddCattlePageState extends State<AddCattlePage> {
             Container(
               padding: EdgeInsetsDirectional.fromSTEB(16, 10, 16, 0),
               child: TextField(
+                controller: RFIDm,
                 maxLines: 1,
                 decoration: InputDecoration(
                   labelText: 'Бирка матери(RFID)',
@@ -294,6 +339,7 @@ class _AddCattlePageState extends State<AddCattlePage> {
             Container(
               padding: EdgeInsetsDirectional.fromSTEB(16, 10, 16, 0),
               child: TextField(
+                controller: RFIDf,
                 maxLines: 1,
                 decoration: InputDecoration(
                   labelText: 'Бирка отца(RFID)',
@@ -313,8 +359,20 @@ class _AddCattlePageState extends State<AddCattlePage> {
               height: 16.h,
             ),
             PrimaryButton(
-              text:'Сохранить',
-              onPressed: () {},
+              text: 'Сохранить',
+              onPressed: () {
+                ProfileManager.saveProfile(
+                  nameController: cattleName,
+                  rfdController: RFD,
+                  weightController: weight,
+                  RFIDmController: RFIDm,
+                  RFIDfController: RFIDf,
+                  context: context,
+                );
+              },
+            ),
+            SizedBox(
+              height: 30.h,
             ),
           ],
         ),

@@ -2,34 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:malshy/core/const/app_colors.dart';
 
-class DropDownFilter extends StatefulWidget {
-  const DropDownFilter({super.key, required this.label, required this.items, required this.hint});
+class AddCattleDropDown extends StatefulWidget {
+  const AddCattleDropDown(
+      {super.key,
+      required this.label,
+      required this.items,
+      required this.hint});
 
-  final String hint;
   final String label;
+  final String hint;
   final List<DropdownMenuItem<String>> items;
 
   @override
-  State<DropDownFilter> createState() => _DropDownFilterState();
+  State<AddCattleDropDown> createState() => _AddCattleDropDownState();
 }
 
-class _DropDownFilterState extends State<DropDownFilter> {
-  String? selectedValue;
-
+class _AddCattleDropDownState extends State<AddCattleDropDown> {
   @override
   Widget build(BuildContext context) {
+    String? selectedValue;
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(16.0),
       ),
       child: DropdownButtonFormField(
-        hint:Text(widget.hint),
+        hint: Text(widget.hint),
         decoration: InputDecoration(
           labelText: widget.label,
           labelStyle: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
+            color: AppColors.black,
+            fontWeight: FontWeight.w500,
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: AppColors.gray),
@@ -51,7 +55,9 @@ class _DropDownFilterState extends State<DropDownFilter> {
           return widget.items.map<Widget>((DropdownMenuItem<String> item) {
             return Text(
               item.value!,
-              style: TextStyle(color: Colors.black),
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: AppColors.black,
+                  ),
             );
           }).toList();
         },

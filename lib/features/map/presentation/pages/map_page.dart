@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:malshy/features/cattle_list_page/presentation/widgets/search_bar_widget.dart';
 
@@ -19,12 +18,6 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 30.h),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-        ),
-      ),
       body: Stack(
         children: [
           FlutterMap(
