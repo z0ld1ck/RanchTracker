@@ -17,7 +17,6 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
       body: Stack(
         children: [
           FlutterMap(
@@ -57,7 +56,7 @@ class _MapPageState extends State<MapPage> {
           Positioned(
             left:130,
             right:125,
-            top:686,
+            top:730,
             bottom: 12,
             child: CattleCountingButton(
               onPressed: () {},

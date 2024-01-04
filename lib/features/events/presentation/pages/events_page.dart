@@ -72,7 +72,9 @@ class _EventsState extends State<Events> {
                             ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          navService.pushNamed(GlobalRoutes.intmove);
+                        },
                         icon: SvgPicture.asset(AppIcons.next),
                       ),
                     ],
@@ -92,7 +94,9 @@ class _EventsState extends State<Events> {
                             ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          navService.pushNamed(GlobalRoutes.prevention);
+                        },
                         icon: SvgPicture.asset(AppIcons.next),
                       ),
                     ],
@@ -112,7 +116,9 @@ class _EventsState extends State<Events> {
                             ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          navService.pushNamed(GlobalRoutes.treatment);
+                        },
                         icon: SvgPicture.asset(AppIcons.next),
                       ),
                     ],
@@ -132,7 +138,9 @@ class _EventsState extends State<Events> {
                             ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          navService.pushNamed(GlobalRoutes.weight);
+                        },
                         icon: SvgPicture.asset(AppIcons.next),
                       ),
                     ],
@@ -152,7 +160,9 @@ class _EventsState extends State<Events> {
                             ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          navService.pushNamed(GlobalRoutes.sales);
+                        },
                         icon: SvgPicture.asset(AppIcons.next),
                       ),
                     ],
@@ -172,7 +182,9 @@ class _EventsState extends State<Events> {
                             ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          navService.pushNamed(GlobalRoutes.slaughter);
+                        },
                         icon: SvgPicture.asset(AppIcons.next),
                       ),
                     ],
@@ -192,7 +204,9 @@ class _EventsState extends State<Events> {
                             ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          navService.pushNamed(GlobalRoutes.loss);
+                        },
                         icon: SvgPicture.asset(AppIcons.next),
                       ),
                     ],
@@ -212,7 +226,9 @@ class _EventsState extends State<Events> {
                             ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          navService.pushNamed(GlobalRoutes.pregnancy);
+                        },
                         icon: SvgPicture.asset(AppIcons.next),
                       ),
                     ],
