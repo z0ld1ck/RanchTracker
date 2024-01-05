@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:malshy/core/navigation/nav_services.dart';
-import 'package:malshy/core/services/shared_pref.dart';
+import 'package:malshy/core/routes/global_routes.dart';
 import 'package:malshy/core/theme/theme.dart';
-import 'package:malshy/features/app/home_page.dart';
-import 'package:malshy/features/auth/presentation/page/auth.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -12,28 +11,18 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(360, 690),
+      designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (_, child) {
         return MaterialApp(
+          locale: const Locale('en'),
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
           debugShowCheckedModeBanner: false,
           theme: APP_THEME,
           navigatorKey: NavigationService.navigationKey,
-          onGenerateRoute: (RouteSettings settings) {
-            if (!sharedPreference.isAuthenticated) {
-              return MaterialPageRoute(builder: (_) => AuthPage());
-            }
-
-            switch (settings.name) {
-              case '/':
-                return MaterialPageRoute(builder: (_) => HomePage());
-              case '/auth_screen':
-                return MaterialPageRoute(builder: (_) => AuthPage());
-              default:
-                return null;
-            }
-          },
+          onGenerateRoute: GlobalRoutes.routes,
         );
       },
     );

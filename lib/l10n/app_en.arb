@@ -1,0 +1,23 @@
+{
+  "greeting": "Welcome to",
+  "signin": "Sign In",
+  "signup": "Sign up",
+  "registration": "Registration",
+  "subtext": "Enter your phone number and we will send you a confirmation code",
+  "fio": "Full name",
+  "vvediteFio": "Enter your full name",
+  "nomer": "Phone number",
+  "getCode": "Get a confirmation code",
+  "account": "Already have an account?",
+  "subtext2": "Enter the code that we sent to the number +7 707 695 08 16",
+  "wrongCode": "The code is incorrect.Try again",
+  "resend": "Resend the code",
+  "newPassword": "New password",
+  "passwd": "Password",
+  "vveditePassword": "Enter the password",
+  "repeatPassword": "Repeat the password",
+  "save": "Save",
+  "noaccount": "No account?",
+  "forgot": "Forgot your password?",
+  "recover": "Recover"
+}
