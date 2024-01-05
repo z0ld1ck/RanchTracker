@@ -23,6 +23,10 @@ dependencies:
   flutter_screenutil: ^5.9.0
   flutter_svg: ^2.0.9
   pinput: ^3.0.1
+  awesome_extensions:
+    git:
+      url: https://github.com/yeslyamr/awesome_extensions.git
+      ref: main # branch name
 
   # state management
   provider: ^6.1.1

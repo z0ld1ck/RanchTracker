@@ -5,7 +5,7 @@ import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 
 class ProfileField extends StatefulWidget {
-  const ProfileField({Key? key}) : super(key: key);
+  const ProfileField({super.key});
 
   @override
   State<ProfileField> createState() => _ProfileFieldState();
@@ -17,8 +17,7 @@ class _ProfileFieldState extends State<ProfileField> {
     return Column(
       children: [
         Container(
-          width: 373,
-          height: 77,
+         padding:EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
           decoration: BoxDecoration(
             color: AppColors.white,
           ),
