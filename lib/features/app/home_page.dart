@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/features/cattle_list_page/presentation/pages/cattle_list_page.dart';
@@ -9,14 +8,14 @@ import 'package:malshy/features/profile/presentation/pages/profile.dart';
 import '../events/presentation/pages/events_page.dart';
 import '../../core/const/app_icons.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeState extends State<Home> {
+class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
 
   @override
@@ -31,7 +30,7 @@ class _HomeState extends State<Home> {
       body: IndexedStack(
         index: currentIndex,
         children: const [
-          Dashboard(),
+          DashboardPage(),
           CattleListPage(),
           Events(),
           MapPage(),
