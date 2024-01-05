@@ -23,8 +23,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 0
-            .h),
+        preferredSize: Size(double.infinity, 0.h),
         child: AppBar(
           automaticallyImplyLeading: false,
         ),

@@ -16,11 +16,10 @@ class _PushNotificationsState extends State<PushNotifications> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsetsDirectional.fromSTEB(16, 24, 16, 0),
       decoration: BoxDecoration(
         color: AppColors.white,
       ),
-      width: 343.w,
-      height: 57.6.h,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
