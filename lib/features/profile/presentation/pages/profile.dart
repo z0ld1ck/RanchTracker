@@ -41,7 +41,7 @@ class _ProfileState extends State<Profile> {
             ],
           ),
           SizedBox(
-            height: 10.h,
+            height: 16.h,
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,

@@ -28,6 +28,10 @@ dependencies:
   http: ^1.1.2
   dio: ^5.4.0
   freezed: ^2.4.6
+  awesome_extensions:
+    git:
+      url: https://github.com/yeslyamr/awesome_extensions.git
+      ref: main # branch name
 
   # ui packages
   syncfusion_flutter_charts: ^24.1.44+1
