@@ -35,6 +35,10 @@ dependencies:
   flutter_clean_architecture: ^5.0.4
   equatable: ^2.0.5
 
+  # ui packages
+  syncfusion_flutter_charts: ^24.1.44+1
+  calendar_date_picker2: ^0.5.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

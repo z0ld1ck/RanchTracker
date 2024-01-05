@@ -62,7 +62,7 @@ class GlobalRoutes {
         case GlobalRoutes.password:
           return PasswordPage();
         case GlobalRoutes.dashboard:
-          return Dashboard();
+          return DashboardPage();
         case GlobalRoutes.cattleList:
           return CattleListPage();
         case GlobalRoutes.event:
@@ -72,7 +72,7 @@ class GlobalRoutes {
         case GlobalRoutes.profile:
           return Profile();
         case GlobalRoutes.nav:
-          return Home();
+          return HomePage();
         case GlobalRoutes.filter:
           return FilterPage();
         case GlobalRoutes.addCattle:
