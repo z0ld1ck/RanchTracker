@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:get_it/get_it.dart';
 import 'package:malshy/core/network/api_endpoints.dart';
-import 'package:malshy/core/network/api_service.dart';
+import 'package:malshy/core/network/http_client.dart';
 import 'package:malshy/core/network/dio_service.dart';
 import 'package:malshy/core/network/interceptors/api_interceptor.dart';
 import 'package:malshy/core/utils/key_value_storage_base.dart';
@@ -15,7 +15,7 @@ Future<void> setupKeyValueStorageService() async {
 }
 
 void setupApiService() {
-final cacheOptions = CacheOptions(
+  final cacheOptions = CacheOptions(
     store: MemCacheStore(),
     policy: CachePolicy.noCache, // Bcz we force cache on-demand in repositories
     maxStale: const Duration(days: 30), // No of days cache is valid
@@ -33,5 +33,5 @@ final cacheOptions = CacheOptions(
     ],
   );
 
-  GetIt.I.registerSingleton<ApiService>(ApiService(dioService));
+  GetIt.I.registerSingleton<HttpClient>(HttpClient(dioService));
 }

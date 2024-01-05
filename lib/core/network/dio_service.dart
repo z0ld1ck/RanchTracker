@@ -49,16 +49,20 @@ class DioService {
     CacheOptions? cacheOptions,
     CancelToken? cancelToken,
   }) async {
-    final response = await _dio.get<T>(
-      endpoint,
-      queryParameters: queryParams,
-      options: _mergeDioAndCacheOptions(
-        dioOptions: options,
-        cacheOptions: cacheOptions,
-      ),
-      cancelToken: cancelToken ?? _cancelToken,
-    );
-    return response;
+    try {
+      final response = await _dio.get<T>(
+        endpoint,
+        queryParameters: queryParams,
+        options: _mergeDioAndCacheOptions(
+          dioOptions: options,
+          cacheOptions: cacheOptions,
+        ),
+        cancelToken: cancelToken ?? _cancelToken,
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<Response<Map<String, dynamic>>> post({
@@ -67,15 +71,20 @@ class DioService {
     Options? options,
     CancelToken? cancelToken,
   }) async {
-    final response = await _dio.post<Map<String, dynamic>>(
-      endpoint,
-      data: data,
-      options: options,
-      cancelToken: cancelToken ?? _cancelToken,
-    );
-    return response;
+    try {
+      final response = await _dio.post<Map<String, dynamic>>(
+        endpoint,
+        data: data,
+        options: options,
+        cancelToken: cancelToken ?? _cancelToken,
+      );
+      return response; 
+    } catch (e) {
+      rethrow;
+    }
   }
 
+  //TODO: fix
   Future<ResponseModel<R>> patch<R>({
     required String endpoint,
     Map<String, dynamic>? data,
@@ -91,6 +100,7 @@ class DioService {
     return ResponseModel<R>.fromJson(response.data!);
   }
 
+  //TODO: fix
   Future<ResponseModel<R>> delete<R>({
     required String endpoint,
     Map<String, dynamic>? data,
@@ -105,6 +115,8 @@ class DioService {
     );
     return ResponseModel<R>.fromJson(response.data!);
   }
+
+  //TODO: add put?
 
   /// A utility method used to merge together [Options]
   /// and [CacheOptions].
