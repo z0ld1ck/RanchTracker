@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:malshy/features/cattle_list_page/presentation/widgets/search_bar_widget.dart';
 
@@ -18,13 +17,6 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 30.h),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-        ),
-      ),
       body: Stack(
         children: [
           FlutterMap(
@@ -64,7 +56,7 @@ class _MapPageState extends State<MapPage> {
           Positioned(
             left:130,
             right:125,
-            top:686,
+            top:730,
             bottom: 12,
             child: CattleCountingButton(
               onPressed: () {},

@@ -21,13 +21,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-      // appBar: PreferredSize(
-      //   preferredSize: Size(double.infinity, 10.h),
-      //   child: AppBar(
-      //     automaticallyImplyLeading: false,
-      //   ),
-      // ),
       body: IndexedStack(
         index: currentIndex,
         children: const [

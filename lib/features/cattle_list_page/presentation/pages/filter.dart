@@ -39,6 +39,7 @@ class _FilterPageState extends State<FilterPage> {
             height: 32.h,
           ),
           DropDownFilter(
+            hint:'Все виды',
             label: 'Все виды',
             items: const [
               DropdownMenuItem(
@@ -59,12 +60,9 @@ class _FilterPageState extends State<FilterPage> {
             height: 10.h,
           ),
           DropDownFilter(
+            hint:'Все породы',
             label: 'Породы',
             items: [
-              DropdownMenuItem(
-                value: "Голштинская",
-                child: Text("Все породы"),
-              ),
               DropdownMenuItem(
                 value: "Голш",
                 child: Text("Голштинская"),
@@ -109,6 +107,7 @@ class _FilterPageState extends State<FilterPage> {
             height: 10.h,
           ),
           DropDownFilter(
+            hint:'Все массы',
             label: 'Масса',
             items: const [
               DropdownMenuItem(
@@ -121,6 +120,7 @@ class _FilterPageState extends State<FilterPage> {
             height: 17.h,
           ),
           DropDownFilter(
+            hint:'Все возрасты',
             label: 'Полновозрастные группы',
             items: const [
               DropdownMenuItem(
@@ -137,11 +137,15 @@ class _FilterPageState extends State<FilterPage> {
             height: 17.h,
           ),
           DropDownFilter(
+            hint:'Стельны и не стельны',
             label: 'Стельность',
             items: const [
               DropdownMenuItem(
-                value: "Стельны и не стельны",
-                child: Text("Стельны и не стельны"),
+                value: "Стельны",
+                child: Text("Стельны"),
+              ), DropdownMenuItem(
+                value: " Не стельны",
+                child: Text("Не стельны"),
               ),
             ],
           ),
