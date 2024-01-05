@@ -29,6 +29,10 @@ dependencies:
   dio: ^5.4.0
   freezed: ^2.4.6
 
+  # ui packages
+  syncfusion_flutter_charts: ^24.1.44+1
+  calendar_date_picker2: ^0.5.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
