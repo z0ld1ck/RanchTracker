@@ -32,6 +32,8 @@ dependencies:
     git:
       url: https://github.com/yeslyamr/awesome_extensions.git
       ref: main # branch name
+  flutter_clean_architecture: ^5.0.4
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:
