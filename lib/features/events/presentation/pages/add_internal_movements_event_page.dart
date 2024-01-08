@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:malshy/core/const/app_colors.dart';
 
-class InternalMovements extends StatefulWidget {
-  const InternalMovements({super.key});
+class AddInternalMovementsEventPage extends StatefulWidget {
+  const AddInternalMovementsEventPage({super.key});
 
   @override
-  State<InternalMovements> createState() => _InternalMovementsState();
+  State<AddInternalMovementsEventPage> createState() => _AddInternalMovementsEventPageState();
 }
 
-class _InternalMovementsState extends State<InternalMovements> {
+class _AddInternalMovementsEventPageState extends State<AddInternalMovementsEventPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,9 +23,7 @@ class _InternalMovementsState extends State<InternalMovements> {
         ),
       ),
       body: Column(
-        children: [
-
-        ],
+        children: [],
       ),
     );
   }

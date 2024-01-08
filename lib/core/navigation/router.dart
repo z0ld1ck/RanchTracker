@@ -12,19 +12,19 @@ import 'package:malshy/features/auth/presentation/page/sms_code_auth.dart';
 import 'package:malshy/features/auth/presentation/page/welcome_page.dart';
 import 'package:malshy/features/cattle_list_page/presentation/pages/add_cattle_page.dart';
 import 'package:malshy/features/cattle_list_page/presentation/pages/cattle_list_page.dart';
-import 'package:malshy/features/cattle_list_page/presentation/pages/filter.dart';
+import 'package:malshy/features/cattle_list_page/presentation/pages/filter_page.dart';
 import 'package:malshy/features/dashboard_page/presentation/pages/dashboard_page.dart';
 import 'package:malshy/features/events/presentation/pages/events_page.dart';
-import 'package:malshy/features/events/presentation/pages/internal_movements_page.dart';
-import 'package:malshy/features/events/presentation/pages/loss_page.dart';
-import 'package:malshy/features/events/presentation/pages/pregnancy_page.dart';
-import 'package:malshy/features/events/presentation/pages/prevention_page.dart';
-import 'package:malshy/features/events/presentation/pages/sales_page.dart';
-import 'package:malshy/features/events/presentation/pages/slaughter_page.dart';
-import 'package:malshy/features/events/presentation/pages/treatment_page.dart';
-import 'package:malshy/features/events/presentation/pages/weight_measure_page.dart';
+import 'package:malshy/features/events/presentation/pages/add_internal_movements_event_page.dart';
+import 'package:malshy/features/events/presentation/pages/add_loss_event_page.dart';
+import 'package:malshy/features/events/presentation/pages/add_pregnancy_event_page.dart';
+import 'package:malshy/features/events/presentation/pages/add_prevention_event_page.dart';
+import 'package:malshy/features/events/presentation/pages/add_sales_event_page.dart';
+import 'package:malshy/features/events/presentation/pages/add_slaughter_event_page.dart';
+import 'package:malshy/features/events/presentation/pages/add_treatment_event_page.dart';
+import 'package:malshy/features/events/presentation/pages/add_weight_measure_event_page.dart';
 import 'package:malshy/features/map/presentation/pages/map_page.dart';
-import 'package:malshy/features/profile/presentation/pages/profile.dart';
+import 'package:malshy/features/profile/presentation/pages/profile_page.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
@@ -118,42 +118,42 @@ final GoRouter goRouter = GoRouter(
                 GoRoute(
                   path: RouteNames.internalMovements.path,
                   name: RouteNames.internalMovements.name,
-                  builder: (context, state) => InternalMovements(),
+                  builder: (context, state) => AddInternalMovementsEventPage(),
                 ),
                 GoRoute(
                   path: RouteNames.prevention.path,
                   name: RouteNames.prevention.name,
-                  builder: (context, state) => Prevention(),
+                  builder: (context, state) => AddPreventionEventPage(),
                 ),
                 GoRoute(
                   path: RouteNames.treatment.path,
                   name: RouteNames.treatment.name,
-                  builder: (context, state) => Treatment(),
+                  builder: (context, state) => AddTreatmentEventPage(),
                 ),
                 GoRoute(
                   path: RouteNames.weight.path,
                   name: RouteNames.weight.name,
-                  builder: (context, state) => WeightMeasurement(),
+                  builder: (context, state) => AddWeightMeasurementEventPage(),
                 ),
                 GoRoute(
                   path: RouteNames.sales.path,
                   name: RouteNames.sales.name,
-                  builder: (context, state) => Sales(),
+                  builder: (context, state) => AddSalesEventPage(),
                 ),
                 GoRoute(
                   path: RouteNames.slaughter.path,
                   name: RouteNames.slaughter.name,
-                  builder: (context, state) => Slaughter(),
+                  builder: (context, state) => AddSlaughterEventPage(),
                 ),
                 GoRoute(
                   path: RouteNames.loss.path,
                   name: RouteNames.loss.name,
-                  builder: (context, state) => Loss(),
+                  builder: (context, state) => AddLossPage(),
                 ),
                 GoRoute(
                   path: RouteNames.pregnancy.path,
                   name: RouteNames.pregnancy.name,
-                  builder: (context, state) => Pregnancy(),
+                  builder: (context, state) => AddPregnancyEventPage(),
                 ),
               ],
             ),

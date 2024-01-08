@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:malshy/core/const/app_colors.dart';
 
-class DropDownFilter extends StatefulWidget {
-  const DropDownFilter({super.key, required this.label, required this.items, required this.hint});
+class DropdownFilterWidget extends StatefulWidget {
+  const DropdownFilterWidget({super.key, required this.label, required this.items, required this.hint});
 
   final String hint;
   final String label;
   final List<DropdownMenuItem<String>> items;
 
   @override
-  State<DropDownFilter> createState() => _DropDownFilterState();
+  State<DropdownFilterWidget> createState() => _DropdownFilterWidgetState();
 }
 
-class _DropDownFilterState extends State<DropDownFilter> {
+class _DropdownFilterWidgetState extends State<DropdownFilterWidget> {
   String? selectedValue;
 
   @override
@@ -24,7 +24,7 @@ class _DropDownFilterState extends State<DropDownFilter> {
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: DropdownButtonFormField(
-        hint:Text(widget.hint),
+        hint: Text(widget.hint),
         decoration: InputDecoration(
           labelText: widget.label,
           labelStyle: TextStyle(

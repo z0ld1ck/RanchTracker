@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:malshy/core/const/app_colors.dart';
 
-class GenderRadioButton extends StatefulWidget {
-  const GenderRadioButton({super.key});
+class GenderRadioButtonWidget extends StatefulWidget {
+  const GenderRadioButtonWidget({super.key});
 
   @override
-  State<GenderRadioButton> createState() => _GenderRadioButtonState();
+  State<GenderRadioButtonWidget> createState() => _GenderRadioButtonWidgetState();
 }
 
-class _GenderRadioButtonState extends State<GenderRadioButton> {
+class _GenderRadioButtonWidgetState extends State<GenderRadioButtonWidget> {
   int value = 0;
 
   Widget CustomRadioButton(String text, int index) {
@@ -20,8 +20,7 @@ class _GenderRadioButtonState extends State<GenderRadioButton> {
         });
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor:
-            (value == index) ? AppColors.blueLight : AppColors.white,
+        backgroundColor: (value == index) ? AppColors.blueLight : AppColors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
           side: BorderSide(

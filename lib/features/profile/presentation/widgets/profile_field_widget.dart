@@ -8,14 +8,14 @@ import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/navigation/route_names.dart';
 import 'package:malshy/features/auth/presentation/bloc/auth_bloc.dart';
 
-class ProfileField extends StatefulWidget {
-  const ProfileField({super.key});
+class ProfileFieldWidget extends StatefulWidget {
+  const ProfileFieldWidget({super.key});
 
   @override
-  State<ProfileField> createState() => _ProfileFieldState();
+  State<ProfileFieldWidget> createState() => _ProfileFieldWidgetState();
 }
 
-class _ProfileFieldState extends State<ProfileField> {
+class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(

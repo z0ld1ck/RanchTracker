@@ -4,8 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 
-class PersonalData extends StatelessWidget {
-  const PersonalData({super.key});
+class PersonalDataWidget extends StatelessWidget {
+  const PersonalDataWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

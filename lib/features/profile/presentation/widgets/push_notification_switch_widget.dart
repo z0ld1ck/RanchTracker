@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:malshy/core/const/app_colors.dart';
 
-class PushNotifications extends StatefulWidget {
-  const PushNotifications({super.key});
+class PushNotificationsSwitchWidget extends StatefulWidget {
+  const PushNotificationsSwitchWidget({super.key});
 
   @override
-  State<PushNotifications> createState() => _PushNotificationsState();
+  State<PushNotificationsSwitchWidget> createState() => _PushNotificationsSwitchWidgetState();
 }
 
-class _PushNotificationsState extends State<PushNotifications> {
+class _PushNotificationsSwitchWidgetState extends State<PushNotificationsSwitchWidget> {
   bool foriOS = false;
 
   @override
@@ -25,10 +25,8 @@ class _PushNotificationsState extends State<PushNotifications> {
         children: [
           Text(
             'Push-уведомления',
-            style: Theme.of(context)
-                .textTheme
-                .titleSmall!
-                .copyWith(color: AppColors.black, fontWeight: FontWeight.w600),
+            style:
+                Theme.of(context).textTheme.titleSmall!.copyWith(color: AppColors.black, fontWeight: FontWeight.w600),
           ),
           CupertinoSwitch(
             value: foriOS,

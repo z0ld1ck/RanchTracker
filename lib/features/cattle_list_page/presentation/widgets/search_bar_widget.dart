@@ -6,8 +6,8 @@ import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/navigation/route_names.dart';
 
-class CustomSearchBar extends StatelessWidget {
-  const CustomSearchBar({super.key});
+class CustomSearchBarWidget extends StatelessWidget {
+  const CustomSearchBarWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,7 @@ import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/features/cattle_list_page/presentation/pages/cattle_list_page.dart';
 import 'package:malshy/features/dashboard_page/presentation/pages/dashboard_page.dart';
 import 'package:malshy/features/map/presentation/pages/map_page.dart';
-import 'package:malshy/features/profile/presentation/pages/profile.dart';
+import 'package:malshy/features/profile/presentation/pages/profile_page.dart';
 import '../events/presentation/pages/events_page.dart';
 import '../../core/const/app_icons.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:malshy/core/const/app_colors.dart';
-import 'package:malshy/features/profile/presentation/widgets/personal_data_field.dart';
-import 'package:malshy/features/profile/presentation/widgets/profile_field.dart';
-import 'package:malshy/features/profile/presentation/widgets/push_notification_switch.dart';
+import 'package:malshy/features/profile/presentation/widgets/personal_data_widget.dart';
+import 'package:malshy/features/profile/presentation/widgets/profile_field_widget.dart';
+import 'package:malshy/features/profile/presentation/widgets/push_notification_switch_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -47,17 +47,17 @@ class _ProfilePageState extends State<ProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              ProfileField(),
+              ProfileFieldWidget(),
             ],
           ),
           SizedBox(
             height: 24.h,
           ),
-          PersonalData(),
+          PersonalDataWidget(),
           SizedBox(
             height: 24.h,
           ),
-          PushNotifications(),
+          PushNotificationsSwitchWidget(),
         ],
       ),
     );
