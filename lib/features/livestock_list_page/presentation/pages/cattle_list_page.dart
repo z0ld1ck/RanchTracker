@@ -5,7 +5,8 @@ import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/navigation/nav_services.dart';
 import 'package:malshy/core/routes/global_routes.dart';
-import 'package:malshy/features/cattle_list_page/presentation/widgets/add_cattle_button.dart';
+
+import '../widgets/add_cattle_button.dart';
 
 class CattleListPage extends StatefulWidget {
   const CattleListPage({super.key});

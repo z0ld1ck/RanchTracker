@@ -46,3 +46,4 @@ app.*.map.json
 *.freezed.dart
 lib/**.freezed.dart
 lib/**.g.dart
+\.idea\.wiseGPT\
