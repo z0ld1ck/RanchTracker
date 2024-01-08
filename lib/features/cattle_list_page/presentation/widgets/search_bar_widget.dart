@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
-import 'package:malshy/core/navigation/nav_services.dart';
-import 'package:malshy/core/routes/global_routes.dart';
+import 'package:malshy/core/navigation/route_names.dart';
 
 class CustomSearchBar extends StatelessWidget {
   const CustomSearchBar({super.key});
@@ -20,10 +20,8 @@ class CustomSearchBar extends StatelessWidget {
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(10),
             hintText: 'Поиск животных по ушной бирке и имени',
-            hintStyle: Theme.of(context)
-                .textTheme
-                .titleSmall!
-                .copyWith(color: AppColors.gray, fontWeight: FontWeight.w400),
+            hintStyle:
+                Theme.of(context).textTheme.titleSmall!.copyWith(color: AppColors.gray, fontWeight: FontWeight.w400),
             border: OutlineInputBorder(),
             filled: true,
             fillColor: AppColors.white,
@@ -34,7 +32,7 @@ class CustomSearchBar extends StatelessWidget {
             suffixIcon: IconButton(
               icon: SvgPicture.asset(AppIcons.filter),
               onPressed: () {
-                navService.pushNamed(GlobalRoutes.filter);
+                context.goNamed(RouteNames.cattleListFilter.name);
               },
             ),
           ),

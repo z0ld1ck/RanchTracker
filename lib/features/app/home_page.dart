@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/features/cattle_list_page/presentation/pages/cattle_list_page.dart';
@@ -32,9 +33,9 @@ class _HomePageState extends State<HomePage> {
         children: const [
           DashboardPage(),
           CattleListPage(),
-          Events(),
+          EventsPage(),
           MapPage(),
-          Profile(),
+          ProfilePage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

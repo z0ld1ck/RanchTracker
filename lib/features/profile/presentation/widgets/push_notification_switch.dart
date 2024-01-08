@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:malshy/core/const/app_colors.dart';
 
 class PushNotifications extends StatefulWidget {
-  const PushNotifications({Key? key}) : super(key: key);
+  const PushNotifications({super.key});
 
   @override
-  _PushNotificationsState createState() => _PushNotificationsState();
+  State<PushNotifications> createState() => _PushNotificationsState();
 }
 
 class _PushNotificationsState extends State<PushNotifications> {

@@ -2,21 +2,21 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
-import 'package:malshy/core/navigation/nav_services.dart';
-import 'package:malshy/core/routes/global_routes.dart';
+import 'package:malshy/core/navigation/route_names.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class AuthPage extends StatefulWidget {
-  const AuthPage({super.key});
+class RegistrationPage extends StatefulWidget {
+  const RegistrationPage({super.key});
 
   @override
-  State<AuthPage> createState() => _AuthPageState();
+  State<RegistrationPage> createState() => _RegistrationPageState();
 }
 
-class _AuthPageState extends State<AuthPage> {
+class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     final TextEditingController name = TextEditingController();
@@ -74,14 +74,11 @@ class _AuthPageState extends State<AuthPage> {
                       Text(
                         AppLocalizations.of(context)!.registration,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .copyWith(color: AppColors.black),
+                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: AppColors.black),
                       ),
                       IconButton(
                         onPressed: () {
-                          navService.pushNamed(GlobalRoutes.splash);
+                          context.pop();
                         },
                         icon: SvgPicture.asset(AppIcons.close),
                       ),
@@ -101,10 +98,7 @@ class _AuthPageState extends State<AuthPage> {
                     maxLines: 1,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)!.fio,
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: Colors.black),
+                      labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
                       hintText: AppLocalizations.of(context)!.vvediteFio,
                     ),
                   ),
@@ -113,36 +107,34 @@ class _AuthPageState extends State<AuthPage> {
                     controller: number,
                     decoration: InputDecoration(
                         labelText: AppLocalizations.of(context)!.nomer,
-                        labelStyle: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: Colors.black),
+                        labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
                         hintText: '+7 (777) 777 77 77'),
                   ),
                   SizedBox(height: 16.h),
                   PrimaryButton(
                     onPressed: () async {
-                      await navService.pushNamed(GlobalRoutes.sms);
+                      // await navService.pushNamed(GlobalRoutes.sms);
+                      context.pushNamed(RouteNames.sms.name);
                     },
                     color: AppColors.grayMedium,
                     text: AppLocalizations.of(context)!.getCode,
                   ),
+                  SizedBox(height: 16.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(AppLocalizations.of(context)!.account),
-                      TextButton(
-                        onPressed: () {
-                          navService.pushNamed(GlobalRoutes.login);
+                      Text('${AppLocalizations.of(context)!.account} '),
+                      InkWell(
+                        onTap: () {
+                          context.pushReplacementNamed(RouteNames.login.name);
                         },
                         child: Text(
                           AppLocalizations.of(context)!.signin,
-                          style:
-                              Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    color: AppColors.blueLight,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: AppColors.primary(context),
-                                  ),
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: AppColors.primary(context),
+                                decoration: TextDecoration.underline,
+                                decorationColor: AppColors.primary(context),
+                              ),
                         ),
                       ),
                     ],

@@ -5,14 +5,14 @@ import 'package:malshy/features/profile/presentation/widgets/personal_data_field
 import 'package:malshy/features/profile/presentation/widgets/profile_field.dart';
 import 'package:malshy/features/profile/presentation/widgets/push_notification_switch.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({super.key});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
 
   @override
-  State<Profile> createState() => _ProfileState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

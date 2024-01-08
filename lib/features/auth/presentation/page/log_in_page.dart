@@ -3,12 +3,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
-import 'package:malshy/core/routes/global_routes.dart';
+import 'package:malshy/core/navigation/route_names.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
-
-import '../../../../core/navigation/nav_services.dart';
+import 'package:malshy/features/auth/presentation/bloc/auth_bloc.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
@@ -79,14 +80,11 @@ class _LogInPageState extends State<LogInPage> {
                       Text(
                         AppLocalizations.of(context)!.signin,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .copyWith(color: AppColors.black),
+                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: AppColors.black),
                       ),
                       IconButton(
                         onPressed: () {
-                          navService.pushNamed(GlobalRoutes.splash);
+                          context.pop();
                         },
                         icon: SvgPicture.asset(AppIcons.close),
                       ),
@@ -98,10 +96,7 @@ class _LogInPageState extends State<LogInPage> {
                     maxLines: 1,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)!.nomer,
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .labelLarge!
-                          .copyWith(color: AppColors.gray),
+                      labelStyle: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.gray),
                       hintText: '+7 (777) 777 77 77',
                     ),
                   ),
@@ -111,17 +106,10 @@ class _LogInPageState extends State<LogInPage> {
                     controller: _password,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)!.passwd,
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .labelLarge!
-                          .copyWith(color: AppColors.gray),
+                      labelStyle: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.gray),
                       hintText: AppLocalizations.of(context)!.vveditePassword,
                       suffixIcon: IconButton(
-                        icon: Icon(
-                            _obsecureText
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            color: Colors.grey),
+                        icon: Icon(_obsecureText ? Icons.visibility_off : Icons.visibility, color: Colors.grey),
                         onPressed: () {
                           setState(() {
                             _obsecureText = !_obsecureText;
@@ -134,22 +122,28 @@ class _LogInPageState extends State<LogInPage> {
                   PrimaryButton(
                     text: AppLocalizations.of(context)!.signin,
                     color: AppColors.grayMedium,
-                    onPressed: () async {
-                      await navService.pushNamed(GlobalRoutes.nav);
+                    onPressed: () {
+                      GetIt.I<AuthBloc>().add(AuthEvent.logIn(phone: 'phone', password: 'password'));
+                      context.go(RouteNames.dashboard.path);
                     },
                   ),
                   SizedBox(height: 12.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(AppLocalizations.of(context)!.noaccount),
-                      Text(
-                        AppLocalizations.of(context)!.signup,
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: AppColors.primary(context),
-                              decoration: TextDecoration.underline,
-                              decorationColor: AppColors.primary(context),
-                            ),
+                      Text('${AppLocalizations.of(context)!.noaccount} '),
+                      InkWell(
+                        onTap: () {
+                          context.pushReplacement(RouteNames.registration.path);
+                        },
+                        child: Text(
+                          AppLocalizations.of(context)!.signup,
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: AppColors.primary(context),
+                                decoration: TextDecoration.underline,
+                                decorationColor: AppColors.primary(context),
+                              ),
+                        ),
                       ),
                     ],
                   ),
@@ -157,7 +151,7 @@ class _LogInPageState extends State<LogInPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(AppLocalizations.of(context)!.forgot),
+                      Text('${AppLocalizations.of(context)!.forgot} '),
                       Text(
                         AppLocalizations.of(context)!.recover,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(

@@ -3,10 +3,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
-import 'package:malshy/core/navigation/nav_services.dart';
-import 'package:malshy/core/routes/global_routes.dart';
+import 'package:malshy/core/navigation/route_names.dart';
 
 class PasswordPage extends StatefulWidget {
   const PasswordPage({super.key});
@@ -73,7 +73,7 @@ class _PasswordPageState extends State<PasswordPage> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          navService.pushNamed(GlobalRoutes.sms);
+                          context.pop();
                         },
                         icon: SvgPicture.asset(AppIcons.back),
                       ),
@@ -83,10 +83,7 @@ class _PasswordPageState extends State<PasswordPage> {
                       Text(
                         AppLocalizations.of(context)!.newPassword,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .copyWith(color: AppColors.black),
+                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: AppColors.black),
                       ),
                     ],
                   ),
@@ -97,17 +94,10 @@ class _PasswordPageState extends State<PasswordPage> {
                     maxLines: 1,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)!.passwd,
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .labelLarge!
-                          .copyWith(color: AppColors.black),
+                      labelStyle: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.black),
                       hintText: AppLocalizations.of(context)!.vveditePassword,
                       suffixIcon: IconButton(
-                        icon: Icon(
-                            _obsecureText
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            color: Colors.grey),
+                        icon: Icon(_obsecureText ? Icons.visibility_off : Icons.visibility, color: Colors.grey),
                         onPressed: () {
                           setState(() {
                             _obsecureText = !_obsecureText;
@@ -123,9 +113,7 @@ class _PasswordPageState extends State<PasswordPage> {
                     decoration: InputDecoration(
                         suffixIcon: IconButton(
                           icon: Icon(
-                            _obsecureText
-                                ? Icons.visibility_off
-                                : Icons.visibility,
+                            _obsecureText ? Icons.visibility_off : Icons.visibility,
                             color: Colors.grey,
                           ),
                           onPressed: () {
@@ -135,10 +123,7 @@ class _PasswordPageState extends State<PasswordPage> {
                           },
                         ),
                         labelText: AppLocalizations.of(context)!.repeatPassword,
-                        labelStyle: Theme.of(context)
-                            .textTheme
-                            .labelLarge!
-                            .copyWith(color: AppColors.black),
+                        labelStyle: Theme.of(context).textTheme.labelLarge!.copyWith(color: AppColors.black),
                         hintText: AppLocalizations.of(context)!.repeatPassword),
                   ),
                   SizedBox(height: 16.h),
@@ -146,7 +131,7 @@ class _PasswordPageState extends State<PasswordPage> {
                     borderRadius: BorderRadius.circular(20),
                     child: InkWell(
                       onTap: () {
-                        navService.pushNamed(GlobalRoutes.event);
+                        context.goNamed(RouteNames.welcome.name);
                       },
                       child: Container(
                         color: AppColors.grayMedium,
@@ -155,10 +140,7 @@ class _PasswordPageState extends State<PasswordPage> {
                         child: Center(
                           child: Text(
                             AppLocalizations.of(context)!.save,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(color: AppColors.white),
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: AppColors.white),
                           ),
                         ),
                       ),

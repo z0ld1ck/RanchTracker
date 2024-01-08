@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:malshy/core/navigation/nav_services.dart';
-import 'package:malshy/core/routes/global_routes.dart';
+import 'package:malshy/core/navigation/router.dart';
 import 'package:malshy/core/theme/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:malshy/features/auth/presentation/bloc/auth_bloc.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -15,14 +15,15 @@ class App extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (_, child) {
-        return MaterialApp(
-          locale: const Locale('en'),
-          supportedLocales: AppLocalizations.supportedLocales,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          debugShowCheckedModeBanner: false,
-          theme: APP_THEME,
-          navigatorKey: NavigationService.navigationKey,
-          onGenerateRoute: GlobalRoutes.routes,
+        return AuthStreamScope(
+          child: MaterialApp.router(
+            routerConfig: goRouter,
+            locale: const Locale('en'),
+            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            debugShowCheckedModeBanner: false,
+            theme: APP_THEME,
+          ),
         );
       },
     );

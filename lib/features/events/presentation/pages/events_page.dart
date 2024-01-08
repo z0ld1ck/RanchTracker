@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:malshy/core/const/app_icons.dart';
-import 'package:malshy/core/navigation/nav_services.dart';
-import 'package:malshy/core/routes/global_routes.dart';
+import 'package:malshy/core/navigation/route_names.dart';
 
 import '../../../../core/const/app_colors.dart';
 
-class Events extends StatefulWidget {
-  const Events({super.key});
+class EventsPage extends StatefulWidget {
+  const EventsPage({super.key});
 
   @override
-  State<Events> createState() => _EventsState();
+  State<EventsPage> createState() => _EventsPageState();
 }
 
-class _EventsState extends State<Events> {
+class _EventsPageState extends State<EventsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +73,7 @@ class _EventsState extends State<Events> {
                       ),
                       IconButton(
                         onPressed: () {
-                          navService.pushNamed(GlobalRoutes.intmove);
+                          context.pushNamed(RouteNames.internalMovements.name);
                         },
                         icon: SvgPicture.asset(AppIcons.next),
                       ),
@@ -95,7 +95,8 @@ class _EventsState extends State<Events> {
                       ),
                       IconButton(
                         onPressed: () {
-                          navService.pushNamed(GlobalRoutes.prevention);
+                          context.pushNamed(RouteNames.prevention.name);
+
                         },
                         icon: SvgPicture.asset(AppIcons.next),
                       ),
@@ -117,7 +118,8 @@ class _EventsState extends State<Events> {
                       ),
                       IconButton(
                         onPressed: () {
-                          navService.pushNamed(GlobalRoutes.treatment);
+                          context.pushNamed(RouteNames.treatment.name);
+
                         },
                         icon: SvgPicture.asset(AppIcons.next),
                       ),
@@ -139,7 +141,8 @@ class _EventsState extends State<Events> {
                       ),
                       IconButton(
                         onPressed: () {
-                          navService.pushNamed(GlobalRoutes.weight);
+                          context.pushNamed(RouteNames.weight.name);
+
                         },
                         icon: SvgPicture.asset(AppIcons.next),
                       ),
@@ -161,7 +164,8 @@ class _EventsState extends State<Events> {
                       ),
                       IconButton(
                         onPressed: () {
-                          navService.pushNamed(GlobalRoutes.sales);
+                          context.pushNamed(RouteNames.sales.name);
+
                         },
                         icon: SvgPicture.asset(AppIcons.next),
                       ),
@@ -183,7 +187,8 @@ class _EventsState extends State<Events> {
                       ),
                       IconButton(
                         onPressed: () {
-                          navService.pushNamed(GlobalRoutes.slaughter);
+                          context.pushNamed(RouteNames.slaughter.name);
+
                         },
                         icon: SvgPicture.asset(AppIcons.next),
                       ),
@@ -205,7 +210,8 @@ class _EventsState extends State<Events> {
                       ),
                       IconButton(
                         onPressed: () {
-                          navService.pushNamed(GlobalRoutes.loss);
+                          context.pushNamed(RouteNames.loss.name);
+
                         },
                         icon: SvgPicture.asset(AppIcons.next),
                       ),
@@ -227,7 +233,8 @@ class _EventsState extends State<Events> {
                       ),
                       IconButton(
                         onPressed: () {
-                          navService.pushNamed(GlobalRoutes.pregnancy);
+                          context.pushNamed(RouteNames.pregnancy.name);
+
                         },
                         icon: SvgPicture.asset(AppIcons.next),
                       ),

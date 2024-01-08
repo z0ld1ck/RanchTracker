@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:malshy/features/cattle_list_page/presentation/widgets/dropdown_button.dart';
 
 import '../../../../core/const/app_colors.dart';
 import '../../../../core/const/app_icons.dart';
-import '../../../../core/navigation/nav_services.dart';
-import '../../../../core/routes/global_routes.dart';
 import '../../../../core/widgets/primary_button.dart';
 
 class FilterPage extends StatefulWidget {
@@ -27,7 +26,7 @@ class _FilterPageState extends State<FilterPage> {
           centerTitle: true,
           leading: IconButton(
             onPressed: () {
-              navService.pushNamed(GlobalRoutes.nav);
+              context.pop();
             },
             icon: SvgPicture.asset(AppIcons.back),
           ),
@@ -39,7 +38,7 @@ class _FilterPageState extends State<FilterPage> {
             height: 32.h,
           ),
           DropDownFilter(
-            hint:'Все виды',
+            hint: 'Все виды',
             label: 'Все виды',
             items: const [
               DropdownMenuItem(
@@ -60,7 +59,7 @@ class _FilterPageState extends State<FilterPage> {
             height: 10.h,
           ),
           DropDownFilter(
-            hint:'Все породы',
+            hint: 'Все породы',
             label: 'Породы',
             items: [
               DropdownMenuItem(
@@ -90,11 +89,10 @@ class _FilterPageState extends State<FilterPage> {
                         ),
                         Text(
                           'Добавить новую породу',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: AppColors.blueLight,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: AppColors.blueLight,
+                                fontWeight: FontWeight.w600,
+                              ),
                         ),
                       ],
                     ),
@@ -107,7 +105,7 @@ class _FilterPageState extends State<FilterPage> {
             height: 10.h,
           ),
           DropDownFilter(
-            hint:'Все массы',
+            hint: 'Все массы',
             label: 'Масса',
             items: const [
               DropdownMenuItem(
@@ -120,7 +118,7 @@ class _FilterPageState extends State<FilterPage> {
             height: 17.h,
           ),
           DropDownFilter(
-            hint:'Все возрасты',
+            hint: 'Все возрасты',
             label: 'Полновозрастные группы',
             items: const [
               DropdownMenuItem(
@@ -137,13 +135,14 @@ class _FilterPageState extends State<FilterPage> {
             height: 17.h,
           ),
           DropDownFilter(
-            hint:'Стельны и не стельны',
+            hint: 'Стельны и не стельны',
             label: 'Стельность',
             items: const [
               DropdownMenuItem(
                 value: "Стельны",
                 child: Text("Стельны"),
-              ), DropdownMenuItem(
+              ),
+              DropdownMenuItem(
                 value: " Не стельны",
                 child: Text("Не стельны"),
               ),
