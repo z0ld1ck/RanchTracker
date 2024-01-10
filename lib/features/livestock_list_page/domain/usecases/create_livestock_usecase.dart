@@ -1,5 +1,5 @@
-import 'package:malshy/core/error/data_state.dart';
 import 'package:malshy/core/usecase/usecase.dart';
+import 'package:malshy/core/utils/data_state.dart';
 import 'package:malshy/features/livestock_list_page/data/repositories/live_stock_repository_impl.dart';
 import '../../data/models/livestock_model.dart';
 

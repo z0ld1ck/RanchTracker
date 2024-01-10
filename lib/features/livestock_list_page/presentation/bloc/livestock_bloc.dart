@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:malshy/core/network/custom_exceptions.dart';
-import '../../../../core/error/data_state.dart';
+import 'package:malshy/core/utils/data_state.dart';
 import '../../../../injection_container.dart';
 import '../../domain/usecases/create_livestock_usecase.dart';
 

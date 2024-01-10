@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:dio/src/dio_exception.dart';
 import 'package:http/http.dart';
-import 'package:malshy/core/error/data_state.dart';
 import 'package:malshy/core/network/api_endpoints.dart';
 import 'package:malshy/core/network/custom_exceptions.dart';
 import 'package:malshy/core/network/network_client.dart';
+import 'package:malshy/core/utils/data_state.dart';
 import '../../domain/repositories/live_stock_repository.dart';
 import '../models/livestock_model.dart';
 
@@ -46,10 +45,10 @@ class LiveStockRepositoryImpl implements LiveStockRepository {
         return DataSuccess(livestockModel);
       } else {
         return DataFailed(
-            CustomException(message: 'bad response') as DioException);
+            CustomException(message: 'bad response'));
       }
     } on CustomException catch (e) {
-      return DataFailed(e as DioException);
+      return DataFailed(e);
     }
   }
 }
