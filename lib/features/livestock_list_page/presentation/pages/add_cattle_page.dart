@@ -2,18 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
-import 'package:malshy/features/livestock_list_page/data/models/livestock_model.dart';
-import 'package:malshy/features/livestock_list_page/domain/repositories/live_stock_repository.dart';
 import 'package:malshy/features/livestock_list_page/presentation/bloc/livestock_bloc.dart';
+import 'package:malshy/features/livestock_list_page/presentation/widgets/gender_radio_buttons_widget.dart';
 import '../../../../core/const/app_icons.dart';
-import '../../../../core/navigation/nav_services.dart';
-import '../../../../core/routes/global_routes.dart';
-import '../../domain/usecases/create_livestock_usecase.dart';
-import '../widgets/add_cattle_dropdown.dart';
-import '../widgets/gender_radio_buttons.dart';
+import '../widgets/add_cattle_dropdown_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddCattlePage extends StatefulWidget {
@@ -46,7 +42,7 @@ class _AddCattlePageState extends State<AddCattlePage> {
           centerTitle: true,
           leading: IconButton(
             onPressed: () {
-              navService.pushNamed(GlobalRoutes.nav);
+              context.pop();
             },
             icon: SvgPicture.asset(AppIcons.back),
           ),
@@ -102,16 +98,12 @@ class _AddCattlePageState extends State<AddCattlePage> {
                     maxLines: 1,
                     decoration: InputDecoration(
                       labelText: 'Ушная бирка(RFD)*',
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: Colors.black),
+                      labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
                       hintText: 'Введите ушную бирку',
-                      hintStyle:
-                          Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                color: AppColors.grayMedium,
-                                fontWeight: FontWeight.w500,
-                              ),
+                      hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: AppColors.grayMedium,
+                            fontWeight: FontWeight.w500,
+                          ),
                     ),
                   ),
                 ),
@@ -125,16 +117,12 @@ class _AddCattlePageState extends State<AddCattlePage> {
                     maxLines: 1,
                     decoration: InputDecoration(
                       labelText: 'Кличка',
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: Colors.black),
+                      labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
                       hintText: 'Введите кличку',
-                      hintStyle:
-                          Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                color: AppColors.grayMedium,
-                                fontWeight: FontWeight.w500,
-                              ),
+                      hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: AppColors.grayMedium,
+                            fontWeight: FontWeight.w500,
+                          ),
                     ),
                   ),
                 ),
@@ -157,8 +145,7 @@ class _AddCattlePageState extends State<AddCattlePage> {
                             lastDate: DateTime.now(),
                           );
                           if (selectedDate != null) {
-                            String formattedDate =
-                                DateFormat.yMd().format(selectedDate);
+                            String formattedDate = DateFormat.yMd().format(selectedDate);
 
                             setState(() {
                               dateInput.text = formattedDate;
@@ -167,16 +154,12 @@ class _AddCattlePageState extends State<AddCattlePage> {
                         },
                       ),
                       labelText: 'Дата рождения',
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: Colors.black),
+                      labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
                       hintText: 'Выберите дату',
-                      hintStyle:
-                          Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                color: AppColors.grayMedium,
-                                fontWeight: FontWeight.w500,
-                              ),
+                      hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: AppColors.grayMedium,
+                            fontWeight: FontWeight.w500,
+                          ),
                     ),
                   ),
                 ),
@@ -238,10 +221,7 @@ class _AddCattlePageState extends State<AddCattlePage> {
                                 ),
                                 Text(
                                   'Добавить новую породу',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
+                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                         color: AppColors.blueLight,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -278,7 +258,7 @@ class _AddCattlePageState extends State<AddCattlePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: const [
-                          GenderRadioButton(),
+                          GenderRadioButtonWidget(),
                         ],
                       ),
                     ],
@@ -291,22 +271,17 @@ class _AddCattlePageState extends State<AddCattlePage> {
                     maxLines: 1,
                     decoration: InputDecoration(
                       labelText: 'Вес',
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: Colors.black),
+                      labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
                       hintText: 'Введите текст',
                       suffixText: 'кг',
-                      suffixStyle:
-                          Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                color: AppColors.black,
-                                fontWeight: FontWeight.w400,
-                              ),
-                      hintStyle:
-                          Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                color: AppColors.grayMedium,
-                                fontWeight: FontWeight.w500,
-                              ),
+                      suffixStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: AppColors.black,
+                            fontWeight: FontWeight.w400,
+                          ),
+                      hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: AppColors.grayMedium,
+                            fontWeight: FontWeight.w500,
+                          ),
                     ),
                   ),
                 ),
@@ -344,16 +319,12 @@ class _AddCattlePageState extends State<AddCattlePage> {
                     maxLines: 1,
                     decoration: InputDecoration(
                       labelText: 'Бирка матери(RFID)',
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: Colors.black),
+                      labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
                       hintText: 'Введите бирку',
-                      hintStyle:
-                          Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                color: AppColors.grayMedium,
-                                fontWeight: FontWeight.w500,
-                              ),
+                      hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: AppColors.grayMedium,
+                            fontWeight: FontWeight.w500,
+                          ),
                     ),
                   ),
                 ),
@@ -367,16 +338,12 @@ class _AddCattlePageState extends State<AddCattlePage> {
                     maxLines: 1,
                     decoration: InputDecoration(
                       labelText: 'Бирка отца(RFID)',
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: Colors.black),
+                      labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
                       hintText: 'Введите бирку',
-                      hintStyle:
-                          Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                color: AppColors.grayMedium,
-                                fontWeight: FontWeight.w500,
-                              ),
+                      hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: AppColors.grayMedium,
+                            fontWeight: FontWeight.w500,
+                          ),
                     ),
                   ),
                 ),

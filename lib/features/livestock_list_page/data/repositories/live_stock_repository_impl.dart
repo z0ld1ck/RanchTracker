@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:html';
+import 'dart:io';
 import 'package:dio/src/dio_exception.dart';
 import 'package:http/http.dart';
 import 'package:malshy/core/error/data_state.dart';
@@ -19,8 +19,8 @@ class LiveStockRepositoryImpl implements LiveStockRepository {
       LivestockModel livestockModel) async {
     try {
       Response response = (
-        await _httpClient.postData(
-          endpoint: LiveStockEndpoint.POST.toString(),
+        await _networkClient.postData(
+          endpoint: LivestockEndpoint.ADD_LIVESTOCK.path,
           body: {
             'RFID': livestockModel.RFID,
             'birthday': livestockModel.birthday,
