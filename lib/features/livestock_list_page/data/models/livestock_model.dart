@@ -11,11 +11,11 @@ class LivestockModel with _$LivestockModel{
      required int sex,
      required int age,
      required int weight,
-     required String nickname,
+     @Default('') String nickname,
      required int addition_method,
-     required String RFIDm,
-     required String RFIDf,
-     required int farm_id,
+     @Default('') String RFIDm,
+     @Default('') String RFIDf,
+     @Default(0) int farm_id,
 })=_LivestockModel;
 
    factory LivestockModel.fromJson(Map<String,dynamic>json)=>_$LivestockModelFromJson(json);

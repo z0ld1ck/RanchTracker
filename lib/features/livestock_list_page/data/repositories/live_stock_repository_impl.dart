@@ -1,7 +1,10 @@
-import 'package:dartz/dartz.dart';
+import 'dart:convert';
+import 'dart:html';
 import 'package:dio/src/dio_exception.dart';
-import 'package:malshy/core/error/failures.dart';
+import 'package:http/http.dart';
+import 'package:malshy/core/error/data_state.dart';
 import 'package:malshy/core/network/api_endpoints.dart';
+import 'package:malshy/core/network/custom_exceptions.dart';
 import 'package:malshy/core/network/http_client.dart';
 import '../../domain/repositories/live_stock_repository.dart';
 import '../models/livestock_model.dart';
@@ -12,25 +15,40 @@ class LiveStockRepositoryImpl implements LiveStockRepository {
   LiveStockRepositoryImpl(this._httpClient);
 
   @override
-  Future<Either<DataFailed, LivestockModel>> createLiveStock(
-      LivestockModel livestock) async {
+  Future<DataState<LivestockModel>> createLiveStock(
+      LivestockModel livestockModel) async {
     try {
-      final livestockData = await _httpClient.postData(
-        endpoint: LiveStockEndpoint.POST.toString(),
-        body: livestock.toJson(),
-        parser: (response) => LivestockModel.fromJson(response),
-      );
+      Response response = (
+        await _httpClient.postData(
+          endpoint: LiveStockEndpoint.POST.toString(),
+          body: {
+            'RFID': livestockModel.RFID,
+            'birthday': livestockModel.birthday,
+            'sex': livestockModel.sex,
+            'age': livestockModel.age,
+            'weight': livestockModel.weight,
+            'nickname': livestockModel.nickname,
+            'addition_method': livestockModel.addition_method,
+            'RFIDm': livestockModel.RFIDm,
+            'RFIDf': livestockModel.RFIDf,
+            'farm_id': livestockModel.farm_id,
+          },
+          parser: (response) => LivestockModel.fromJson(response),
+        ),
+      ) as Response;
 
-      return Right(
-          livestockData!); // Assuming livestockData is not null on success
-    } catch (e) {
-      // Use the appropriate error details for DataFailed
-      final failure = e is DioError
-          ? DataFailed(e.response?.statusCode as DioException)
-          : DataFailed(
-              500 as DioException,
-            );
-      return Left(failure);
+      if (response.statusCode == HttpStatus.created) {
+        LivestockModel livestockModel = LivestockModel.fromJson(
+          jsonDecode(response.body),
+        );
+        print(response.body);
+        return DataSuccess(livestockModel);
+      } else {
+        return DataFailed(
+            CustomException(message: 'bad response') as DioException);
+      }
+    } on CustomException catch (e) {
+      return DataFailed(e as DioException);
     }
   }
 }
