@@ -33,6 +33,7 @@ dependencies:
   flutter_easyloading: ^3.0.5
   flutter_native_splash: ^2.3.9
   equatable: ^2.0.5
+  fluttertoast: ^8.2.4
 
   # state management
   provider: ^6.1.1
