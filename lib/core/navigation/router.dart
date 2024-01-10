@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/navigation/route_names.dart';
-import 'package:malshy/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:malshy/features/auth/presentation/bloc/auth/auth_bloc.dart';
+import 'package:malshy/features/auth/presentation/bloc/registration/registration_bloc.dart';
 import 'package:malshy/features/auth/presentation/page/log_in_page.dart';
 import 'package:malshy/features/auth/presentation/page/password_page.dart';
 import 'package:malshy/features/auth/presentation/page/registration_page.dart';
@@ -29,20 +33,24 @@ import 'package:malshy/features/profile/presentation/pages/profile_page.dart';
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
 final GoRouter goRouter = GoRouter(
+  extraCodec: const MyExtraCodec(),
+
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/',
   redirect: (context, state) {
-    if (AuthStreamScope.of(context).isLoggedIn()) {
-      return null;
-    } else if (state.fullPath == RouteNames.login.path ||
+    final authGlobalState = AuthStreamScope.of(context).authGlobalState();
+    final loggedIn = authGlobalState == AuthGlobalState.authenticated;
+    final loggingIn = state.fullPath == RouteNames.login.path ||
         state.fullPath == RouteNames.registration.path ||
         state.fullPath == RouteNames.password.path ||
         state.fullPath == RouteNames.sms.path ||
-        state.fullPath == RouteNames.welcome.path) {
-      return null;
-    } else {
-      return RouteNames.welcome.path;
-    }
+        state.fullPath == RouteNames.welcome.path;
+
+    if (!loggedIn) return loggingIn ? null : RouteNames.welcome.path;
+
+    if (loggingIn) return RouteNames.dashboard.path;
+
+    return null;
   },
   routes: <RouteBase>[
     GoRoute(
@@ -57,22 +65,36 @@ final GoRouter goRouter = GoRouter(
     GoRoute(
       path: RouteNames.registration.path,
       name: RouteNames.registration.name,
-      builder: (context, state) => RegistrationPage(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => RegistrationBloc(),
+        lazy: false,
+        child: RegistrationPage(),
+      ),
     ),
     GoRoute(
       path: RouteNames.sms.path,
       name: RouteNames.sms.name,
-      builder: (context, state) => SMSCodeAuthPage(),
+      builder: (context, state) {
+        return BlocProvider.value(
+          value: state.extra! as RegistrationBloc,
+          child: SMSCodeAuthPage(),
+        );
+      },
+    ),
+    GoRoute(
+      path: RouteNames.password.path,
+      name: RouteNames.password.name,
+      builder: (context, state) {
+        return BlocProvider.value(
+          value: state.extra! as RegistrationBloc,
+          child: PasswordPage(),
+        );
+      },
     ),
     GoRoute(
       path: RouteNames.login.path,
       name: RouteNames.login.name,
       builder: (context, state) => LogInPage(),
-    ),
-    GoRoute(
-      path: RouteNames.password.path,
-      name: RouteNames.password.name,
-      builder: (context, state) => PasswordPage(),
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
@@ -257,5 +279,49 @@ class ScaffoldWithNavBar extends StatelessWidget {
       index,
       initialLocation: index == navigationShell.currentIndex,
     );
+  }
+}
+
+// write codec for RegistrationBloc
+
+/// A codec that can serialize both [RegistrationBloc].
+class MyExtraCodec extends Codec<Object?, Object?> {
+  /// Create a codec.
+  const MyExtraCodec();
+  @override
+  Converter<Object?, Object?> get decoder => const _MyExtraDecoder();
+
+  @override
+  Converter<Object?, Object?> get encoder => const _MyExtraEncoder();
+}
+
+class _MyExtraDecoder extends Converter<Object?, Object?> {
+  const _MyExtraDecoder();
+  @override
+  Object? convert(Object? input) {
+    if (input == null) {
+      return null;
+    }
+    final List<Object?> inputAsList = input as List<Object?>;
+    if (inputAsList[0] == 'RegistrationBloc') {
+      return inputAsList[1];
+    }
+    throw FormatException('Unable to parse input: $input');
+  }
+}
+
+class _MyExtraEncoder extends Converter<Object?, Object?> {
+  const _MyExtraEncoder();
+  @override
+  Object? convert(Object? input) {
+    if (input == null) {
+      return null;
+    }
+    switch (input) {
+      case RegistrationBloc _:
+        return <Object?>['RegistrationBloc', input];
+      default:
+        throw FormatException('Cannot encode type ${input.runtimeType}');
+    }
   }
 }

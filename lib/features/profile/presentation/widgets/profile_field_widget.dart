@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/navigation/route_names.dart';
-import 'package:malshy/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:malshy/features/auth/presentation/bloc/auth/auth_bloc.dart';
 
 class ProfileFieldWidget extends StatefulWidget {
   const ProfileFieldWidget({super.key});

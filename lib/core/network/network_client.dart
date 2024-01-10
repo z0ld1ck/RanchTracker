@@ -12,11 +12,11 @@ import 'response_model.dart';
 ///
 /// Should be implemented by any service class that wishes to interact
 /// with an API.
-abstract class HttpClientInterface {
+abstract class NetworkClientInterface {
   /// Abstract const constructor. This constructor enables subclasses
   /// to provide const constructors so that they can be used in
   /// const expressions.
-  const HttpClientInterface();
+  const NetworkClientInterface();
 
   /// Base method for requesting a document of data from the [endpoint].
   ///
@@ -130,9 +130,9 @@ abstract class HttpClientInterface {
   void cancelRequests({CancelToken? cancelToken});
 }
 
-class HttpClient implements HttpClientInterface {
+class NetworkClient implements NetworkClientInterface {
   late final DioService _dioService;
-  HttpClient(DioService dioService) : _dioService = dioService;
+  NetworkClient(DioService dioService) : _dioService = dioService;
 
   @override
   Future<T> getData<T>({

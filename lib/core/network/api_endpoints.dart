@@ -20,27 +20,14 @@ class ApiEndpoint {
   /// ```
   static const baseUrl = 'http://91.147.94.186:9010';
 
-  /// Returns the path for an authentication [endpoint].
-  static String auth(AuthEndpoint endpoint) {
-    switch (endpoint) {
-      case AuthEndpoint.REGISTER:
-        return '/user/api/v1/auth/registration';
-      case AuthEndpoint.LOGIN:
-        return '/user/api/v1/auth/login';
-      case AuthEndpoint.REFRESH_TOKEN:
-        return '/user/api/v1/auth/refresh';
-    }
-  }
 }
 
-/// A collection of endpoints used for authentication purposes.
 enum AuthEndpoint {
-  /// An endpoint for registration requests.
-  REGISTER,
+  REGISTER('/user/api/v1/registration/'),
+  LOGIN('/user/api/v1/auth/login'),
+  REFRESH_TOKEN('/user/api/v1/auth/refresh');
 
-  /// An endpoint for login requests.
-  LOGIN,
+  const AuthEndpoint(this.path);
 
-  /// An endpoint for token refresh requests.
-  REFRESH_TOKEN,
+  final String path;
 }

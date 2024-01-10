@@ -27,13 +27,18 @@ class ApiInterceptor extends Interceptor {
     Response response,
     ResponseInterceptorHandler handler,
   ) {
-    final success = response.statusCode == 200 || response.statusCode == 201;
+    final statusCode = response.statusCode ?? 0;
+    final success = statusCode >= 200 && statusCode < 300;
 
-    if (response.headers.value('Authorization') != null) {
-      GetIt.I<KeyValueStorageService>().setAccessToken(response.headers.value('Authorization')!);
+    if (response.data is Map<String, dynamic> && response.data.containsKey('access')) {
+      GetIt.I<KeyValueStorageService>().setAccessToken(response.data['access']);
     }
-    if (success) return handler.next(response);
 
+    if (response.data is Map<String, dynamic> && response.data.containsKey('refresh')) {
+      GetIt.I<KeyValueStorageService>().setRefreshToken(response.data['refresh']);
+    }
+
+    if (success) return handler.next(response);
 
     return handler.reject(
       DioException(

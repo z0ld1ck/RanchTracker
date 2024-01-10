@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/navigation/route_names.dart';
+import 'package:malshy/features/auth/presentation/bloc/registration/registration_bloc.dart';
 import 'package:pinput/pinput.dart';
 
 class SMSCodeAuthPage extends StatefulWidget {
@@ -125,7 +127,7 @@ class _SMSCodeAuthPageState extends State<SMSCodeAuthPage> {
                       },
                       validator: (pin) {
                         if (pin == '1111') {
-                          context.pushNamed(RouteNames.password.name);
+                          context.pushNamed(RouteNames.password.name, extra: context.read<RegistrationBloc>());
                         }
                         return AppLocalizations.of(context)!.wrongCode;
                       },

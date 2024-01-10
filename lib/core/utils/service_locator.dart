@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:get_it/get_it.dart';
 import 'package:malshy/core/network/api_endpoints.dart';
-import 'package:malshy/core/network/http_client.dart';
+import 'package:malshy/core/network/network_client.dart';
 import 'package:malshy/core/network/dio_service.dart';
 import 'package:malshy/core/network/interceptors/api_interceptor.dart';
 import 'package:malshy/core/utils/key_value_storage_base.dart';
@@ -33,5 +33,5 @@ void setupApiService() {
     ],
   );
 
-  GetIt.I.registerSingleton<HttpClient>(HttpClient(dioService));
+  GetIt.I.registerSingleton<NetworkClient>(NetworkClient(dioService));
 }
