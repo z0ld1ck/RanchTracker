@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:malshy/core/const/app_colors.dart';
-import 'package:malshy/features/cattle_list_page/presentation/pages/cattle_list_page.dart';
 import 'package:malshy/features/dashboard_page/presentation/pages/dashboard_page.dart';
 import 'package:malshy/features/map/presentation/pages/map_page.dart';
 import 'package:malshy/features/profile/presentation/pages/profile_page.dart';
 import '../events/presentation/pages/events_page.dart';
 import '../../core/const/app_icons.dart';
+import '../livestock_list_page/presentation/pages/cattle_list_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 0.h),
+        preferredSize: Size(double.infinity,0),
         child: AppBar(
           automaticallyImplyLeading: false,
         ),

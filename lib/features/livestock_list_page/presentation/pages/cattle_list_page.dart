@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/navigation/route_names.dart';
-import 'package:malshy/features/cattle_list_page/presentation/widgets/add_cattle_button_widget.dart';
+import '../widgets/add_cattle_button.dart';
 
 class CattleListPage extends StatefulWidget {
   const CattleListPage({super.key});
@@ -18,7 +18,7 @@ class _CattleListPageState extends State<CattleListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: AddCattleButtonWidget(
+      floatingActionButton: AddCattleButton(
         onPressed: () {
           context.pushNamed(RouteNames.addCattle.name);
         },
@@ -58,8 +58,10 @@ class _CattleListPageState extends State<CattleListPage> {
           Center(
             child: Text(
               'Список пуст',
-              style:
-                  Theme.of(context).textTheme.bodyLarge!.copyWith(color: AppColors.gray, fontWeight: FontWeight.w600),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(color: AppColors.gray, fontWeight: FontWeight.w600),
             ),
           ),
         ],

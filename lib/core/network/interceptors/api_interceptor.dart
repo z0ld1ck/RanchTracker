@@ -4,6 +4,7 @@ import 'package:malshy/core/utils/key_value_storage_service.dart';
 
 class ApiInterceptor extends Interceptor {
   ApiInterceptor() : super();
+
   @override
   Future<void> onRequest(
     RequestOptions options,
@@ -54,10 +55,13 @@ class ApiInterceptor extends Interceptor {
     ErrorInterceptorHandler handler,
   ) async {
     if (err.response?.statusCode == 401) {
-      final refreshToken = await GetIt.I<KeyValueStorageService>().getRefreshToken();
+      final refreshToken =
+          await GetIt.I<KeyValueStorageService>().getRefreshToken();
       if (refreshToken != null) {
         await _refreshToken(refreshToken: refreshToken);
-        return handler.resolve(await retry(err.requestOptions));
+        return handler.resolve(
+          await retry(err.requestOptions),
+        );
       }
     }
     return handler.next(err);
@@ -83,7 +87,8 @@ class ApiInterceptor extends Interceptor {
       data: {'refreshToken': refreshToken},
     );
     if (response.statusCode == 201) {
-      GetIt.I<KeyValueStorageService>().setAccessToken(response.data['accessToken']);
+      GetIt.I<KeyValueStorageService>()
+          .setAccessToken(response.data['accessToken']);
       //TODO: update refreshToken?
     } else {
       GetIt.I<KeyValueStorageService>().resetKeys();

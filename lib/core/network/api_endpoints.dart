@@ -19,7 +19,6 @@ class ApiEndpoint {
   /// flutter run --dart-define=BASE_URL=www.some_url.com
   /// ```
   static const baseUrl = 'http://91.147.94.186:9010';
-
 }
 
 enum AuthEndpoint {
@@ -28,6 +27,15 @@ enum AuthEndpoint {
   REFRESH_TOKEN('/user/api/v1/auth/refresh');
 
   const AuthEndpoint(this.path);
+
+  final String path;
+}
+
+enum Livestock {
+  GET_LIVESTOCK_LIST('/farm/api/v1/livestock'),
+  ADD_LIVESTOCK('/farm/api/v1/livestock');
+
+  const Livestock(this.path);
 
   final String path;
 }

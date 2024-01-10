@@ -5,9 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
-// import 'package:malshy/features/cattle_list_page/domain/services/save_cattle_service.dart';
-import 'package:malshy/features/cattle_list_page/presentation/widgets/add_cattle_dropdown_widget.dart';
-import 'package:malshy/features/cattle_list_page/presentation/widgets/gender_radio_buttons_widget.dart';
+import '../widgets/add_cattle_dropdown.dart';
+import '../widgets/gender_radio_buttons.dart';
 import '../../../../core/const/app_icons.dart';
 
 class AddCattlePage extends StatefulWidget {
@@ -337,16 +336,7 @@ class _AddCattlePageState extends State<AddCattlePage> {
             ),
             PrimaryButton(
               text: 'Сохранить',
-              onPressed: () {
-                // ProfileManager.saveProfile(
-                //   nameController: cattleName,
-                //   rfdController: RFD,
-                //   weightController: weight,
-                //   RFIDmController: RFIDm,
-                //   RFIDfController: RFIDf,
-                //   context: context,
-                // );
-              },
+              onPressed: () {},
             ),
             SizedBox(
               height: 30.h,
