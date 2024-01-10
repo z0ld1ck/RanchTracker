@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/navigation/route_names.dart';
-import '../widgets/add_cattle_button.dart';
+import '../widgets/add_cattle_button_widget.dart';
 
 class CattleListPage extends StatefulWidget {
   const CattleListPage({super.key});
@@ -18,7 +18,7 @@ class _CattleListPageState extends State<CattleListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: AddCattleButton(
+      floatingActionButton: AddCattleButtonWidget(
         onPressed: () {
           context.pushNamed(RouteNames.addCattle.name);
         },

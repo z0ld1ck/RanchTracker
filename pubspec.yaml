@@ -54,9 +54,6 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   shared_preferences: ^2.2.2
   dartz: ^0.10.1
-  json_annotation: ^4.8.1
-  freezed_annotation: ^2.4.1
-  json_serializable: ^6.7.1
 
 dev_dependencies:
   freezed: ^2.4.6

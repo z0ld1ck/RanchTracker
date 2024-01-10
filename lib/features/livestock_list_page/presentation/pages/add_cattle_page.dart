@@ -5,8 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
-import '../widgets/add_cattle_dropdown.dart';
-import '../widgets/gender_radio_buttons.dart';
+import '../widgets/add_cattle_dropdown_widget.dart';
+import '../widgets/gender_radio_buttons_widget.dart';
 import '../../../../core/const/app_icons.dart';
 
 class AddCattlePage extends StatefulWidget {

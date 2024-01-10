@@ -31,11 +31,11 @@ enum AuthEndpoint {
   final String path;
 }
 
-enum Livestock {
+enum LivestockEndpoint {
   GET_LIVESTOCK_LIST('/farm/api/v1/livestock'),
   ADD_LIVESTOCK('/farm/api/v1/livestock');
 
-  const Livestock(this.path);
+  const LivestockEndpoint(this.path);
 
   final String path;
 }

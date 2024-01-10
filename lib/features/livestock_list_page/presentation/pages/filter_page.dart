@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/const/app_colors.dart';
 import '../../../../core/const/app_icons.dart';
 import '../../../../core/widgets/primary_button.dart';
-import '../widgets/dropdown_button.dart';
+import '../widgets/dropdown_button_widget.dart';
 
 class FilterPage extends StatefulWidget {
   const FilterPage({super.key});
@@ -36,7 +36,7 @@ class _FilterPageState extends State<FilterPage> {
           SizedBox(
             height: 32.h,
           ),
-          DropDownFilter(
+          DropdownFilterWidget(
             hint:'Все виды',
             label: 'Все виды',
             items: const [
@@ -57,7 +57,7 @@ class _FilterPageState extends State<FilterPage> {
           SizedBox(
             height: 10.h,
           ),
-          DropDownFilter(
+          DropdownFilterWidget(
             hint:'Все породы',
             label: 'Породы',
             items: [
@@ -104,7 +104,7 @@ class _FilterPageState extends State<FilterPage> {
           SizedBox(
             height: 10.h,
           ),
-          DropDownFilter(
+          DropdownFilterWidget(
             hint:'Все массы',
             label: 'Масса',
             items: const [
@@ -117,7 +117,7 @@ class _FilterPageState extends State<FilterPage> {
           SizedBox(
             height: 17.h,
           ),
-          DropDownFilter(
+          DropdownFilterWidget(
             hint:'Все возрасты',
             label: 'Полновозрастные группы',
             items: const [
@@ -134,7 +134,7 @@ class _FilterPageState extends State<FilterPage> {
           SizedBox(
             height: 17.h,
           ),
-          DropDownFilter(
+          DropdownFilterWidget(
             hint:'Стельны и не стельны',
             label: 'Стельность',
             items: const [
