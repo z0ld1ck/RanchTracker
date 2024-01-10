@@ -5,14 +5,14 @@ import 'package:http/http.dart';
 import 'package:malshy/core/error/data_state.dart';
 import 'package:malshy/core/network/api_endpoints.dart';
 import 'package:malshy/core/network/custom_exceptions.dart';
-import 'package:malshy/core/network/http_client.dart';
+import 'package:malshy/core/network/network_client.dart';
 import '../../domain/repositories/live_stock_repository.dart';
 import '../models/livestock_model.dart';
 
 class LiveStockRepositoryImpl implements LiveStockRepository {
-  final HttpClient _httpClient;
+  final NetworkClient _networkClient;
 
-  LiveStockRepositoryImpl(this._httpClient);
+  LiveStockRepositoryImpl(this._networkClient);
 
   @override
   Future<DataState<LivestockModel>> createLiveStock(
@@ -36,6 +36,7 @@ class LiveStockRepositoryImpl implements LiveStockRepository {
           parser: (response) => LivestockModel.fromJson(response),
         ),
       ) as Response;
+
 
       if (response.statusCode == HttpStatus.created) {
         LivestockModel livestockModel = LivestockModel.fromJson(

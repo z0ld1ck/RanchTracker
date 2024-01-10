@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:malshy/features/auth/data/models/user_model.dart';
+
 import 'key_value_storage_base.dart';
 
 /// A service class for providing methods to store and retrieve key-value data
@@ -6,7 +10,7 @@ class KeyValueStorageService {
   static const _accessTokenKey = 'accessToken';
   static const _refreshTokenKey = 'refreshToken';
   static const _authPasswordKey = 'authPasswordKey';
-  // static const _userModelKey = 'userModel';
+  static const _userModelKey = 'userModel';
 
   final _keyValueStorage = KeyValueStorageBase();
 
@@ -22,14 +26,14 @@ class KeyValueStorageService {
     return await _keyValueStorage.getEncrypted(_authPasswordKey);
   }
 
-  // UserModel? getUserModel() {
-  //   final json = _keyValueStorage.getCommon(_userModelKey);
-  //   if (json != null) {
-  //     return UserModel.fromJson(jsonDecode(json));
-  //   } else {
-  //     return null;
-  //   }
-  // }
+  UserModel? getUserModel() {
+    final json = _keyValueStorage.getCommon(_userModelKey);
+    if (json != null) {
+      return UserModel.fromJson(jsonDecode(json));
+    } else {
+      return null;
+    }
+  }
 
   void setAccessToken(String token) {
     _keyValueStorage.setEncrypted(_accessTokenKey, token);
@@ -43,9 +47,9 @@ class KeyValueStorageService {
     _keyValueStorage.setEncrypted(_authPasswordKey, password);
   }
 
-  // void setUserModel(UserModel userModel) {
-  //   _keyValueStorage.setCommon(_userModelKey, jsonEncode(userModel.toJson()));
-  // }
+  void setUserModel(UserModel userModel) {
+    _keyValueStorage.setCommon(_userModelKey, jsonEncode(userModel.toJson()));
+  }
 
   void resetKeys() {
     _keyValueStorage
