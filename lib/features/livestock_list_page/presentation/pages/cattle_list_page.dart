@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
-import 'package:malshy/core/navigation/nav_services.dart';
-import 'package:malshy/core/routes/global_routes.dart';
-
+import 'package:malshy/core/navigation/route_names.dart';
 import '../widgets/add_cattle_button.dart';
 
 class CattleListPage extends StatefulWidget {
@@ -21,7 +20,7 @@ class _CattleListPageState extends State<CattleListPage> {
     return Scaffold(
       floatingActionButton: AddCattleButton(
         onPressed: () {
-          navService.pushNamed(GlobalRoutes.addCattle);
+          context.pushNamed(RouteNames.addCattle.name);
         },
         text: 'Добавить животное',
       ),
@@ -30,16 +29,10 @@ class _CattleListPageState extends State<CattleListPage> {
         child: AppBar(
           title: Text('Скот'),
           centerTitle: true,
-          leading: IconButton(
-            onPressed: () {
-              navService.pushNamed(GlobalRoutes.login);
-            },
-            icon: SvgPicture.asset(AppIcons.back),
-          ),
           actions: [
             IconButton(
               onPressed: () {
-                navService.pushNamed(GlobalRoutes.filter);
+                context.pushNamed(RouteNames.cattleListFilter.name);
               },
               icon: SvgPicture.asset(AppIcons.filter),
             ),

@@ -18,46 +18,24 @@ class ApiEndpoint {
   /// ```
   /// flutter run --dart-define=BASE_URL=www.some_url.com
   /// ```
-  static const baseUrl = 'http://91.147.94.186:9015';
-
-  /// Returns the path for an authentication [endpoint].
-  static String auth(AuthEndpoint endpoint) {
-    switch (endpoint) {
-      case AuthEndpoint.REGISTER:
-        return '/user/api/v1/auth/registration';
-      case AuthEndpoint.LOGIN:
-        return '/user/api/v1/auth/login';
-      case AuthEndpoint.REFRESH_TOKEN:
-        return '/user/api/v1/auth/refresh';
-    }
-  }
-
-  static String livestock(LiveStockEndpoint endpoint) {
-    switch (endpoint) {
-      case LiveStockEndpoint.GET:
-        return '/farm/api/v1/livestock';
-      case LiveStockEndpoint.POST:
-        return '/farm/api/v1/livestock';
-    }
-  }
+  static const baseUrl = 'http://91.147.94.186:9010';
 }
 
-/// A collection of endpoints used for authentication purposes.
 enum AuthEndpoint {
-  /// An endpoint for registration requests.
-  REGISTER,
+  REGISTER('/user/api/v1/registration/'),
+  LOGIN('/user/api/v1/auth/login'),
+  REFRESH_TOKEN('/user/api/v1/auth/refresh');
 
-  /// An endpoint for login requests.
-  LOGIN,
+  const AuthEndpoint(this.path);
 
-  /// An endpoint for token refresh requests.
-  REFRESH_TOKEN,
+  final String path;
 }
 
-enum LiveStockEndpoint {
-  ///An endpoint for creating livestock
-  POST,
+enum Livestock {
+  GET_LIVESTOCK_LIST('/farm/api/v1/livestock'),
+  ADD_LIVESTOCK('/farm/api/v1/livestock');
 
-  ///An endpoint for displaying list of livestock
-  GET,
+  const Livestock(this.path);
+
+  final String path;
 }

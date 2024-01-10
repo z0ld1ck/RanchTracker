@@ -3,7 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import '../../../../core/const/app_colors.dart';
 import '../../../livestock_list_page/presentation/widgets/search_bar_widget.dart';
-import '../widgets/cattle_counting_button.dart';
+import '../widgets/cattle_counting_button_widget.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -50,14 +50,14 @@ class _MapPageState extends State<MapPage> {
           ),
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(19, 16, 16, 0),
-            child: CustomSearchBar(),
+            child: CustomSearchBarWidget(),
           ),
           Positioned(
             left:130,
             right:125,
             top:730,
             bottom: 12,
-            child: CattleCountingButton(
+            child: CattleCountingButtonWidget(
               onPressed: () {},
               text: 'Пересчет скота',
             ),
