@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:malshy/core/network/api_endpoints.dart';
 import 'package:malshy/core/network/custom_exceptions.dart';
@@ -9,10 +10,7 @@ import '../../domain/repositories/live_stock_repository.dart';
 import '../models/livestock_model.dart';
 
 class LiveStockRepositoryImpl implements LiveStockRepository {
-  final NetworkClient _networkClient;
-
-  LiveStockRepositoryImpl(this._networkClient);
-
+  final NetworkClient _networkClient = GetIt.I.get<NetworkClient>();
   @override
   Future<DataState<LivestockModel>> createLiveStock(
       LivestockModel livestockModel) async {
