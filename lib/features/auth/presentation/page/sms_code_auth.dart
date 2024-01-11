@@ -86,7 +86,6 @@ class _SMSCodeAuthPageState extends State<SMSCodeAuthPage> {
                 borderRadius: BorderRadius.circular(30.r),
                 color: Colors.white,
               ),
-              height: ScreenUtil().setHeight(450),
               child: Column(
                 children: [
                   Row(

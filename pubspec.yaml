@@ -35,6 +35,7 @@ dependencies:
   equatable: ^2.0.5
   fluttertoast: ^8.2.4
   expandable: ^5.0.1
+  phone_form_field: ^8.1.1
 
   # state management
   provider: ^6.1.1
