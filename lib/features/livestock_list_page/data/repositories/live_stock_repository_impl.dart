@@ -7,6 +7,7 @@ import 'package:malshy/core/network/custom_exceptions.dart';
 import 'package:malshy/core/network/network_client.dart';
 import 'package:malshy/core/utils/data_state.dart';
 import 'package:malshy/features/livestock_list_page/data/models/get_livestock_model.dart';
+import 'package:malshy/features/livestock_list_page/data/models/type_model.dart';
 import '../../domain/repositories/live_stock_repository.dart';
 import '../models/livestock_model.dart';
 
@@ -59,6 +60,21 @@ class LiveStockRepositoryImpl implements LiveStockRepository {
         queryParams: queryParams,
         parser: (Map<String, dynamic> data) {
           return getLivestockModelFromJson(jsonEncode(data['results']));
+        },
+      );
+      return DataSuccess(livestockList);
+    } on CustomException catch (e) {
+      return DataFailed(e);
+    }
+  }
+
+  @override
+  Future<DataState<List<TypeModel>>> getTypesBreeds() async {
+    try {
+      final livestockList = await _networkClient.getListData<TypeModel>(
+        endpoint: LivestockEndpoint.TYPES_BREEDS.path,
+        parser: (List<dynamic> data) {
+          return typeFromJson(jsonEncode(data));
         },
       );
       return DataSuccess(livestockList);

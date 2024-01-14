@@ -5,6 +5,7 @@ import 'package:malshy/core/network/custom_exceptions.dart';
 import 'package:malshy/core/utils/data_state.dart';
 import 'package:malshy/features/livestock_list_page/data/models/get_livestock_model.dart';
 import 'package:malshy/features/livestock_list_page/domain/usecases/get_livestock_list_usecase.dart';
+import 'package:malshy/features/livestock_list_page/presentation/bloc/filter_livestock/filter_livestock_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CattleListPaginationState {
@@ -30,13 +31,13 @@ class CattleListPaginationBloc {
         .listen(_onNewListingStateController.add)
         .addTo(_subscriptions);
 
-    // _onFilterChangedSubject.stream
-    //     .flatMap((_) => _resetSearch())
-    //     .listen(_onNewListingStateController.add)
-    //     .addTo(_subscriptions);
+    _onFilterChangedSubject.stream
+        .flatMap((_) => _resetSearch())
+        .listen(_onNewListingStateController.add)
+        .addTo(_subscriptions);
   }
 
-  static const _pageSize = 20;
+  static const _pageSize = 10;
 
   final _subscriptions = CompositeSubscription();
 
@@ -58,11 +59,11 @@ class CattleListPaginationBloc {
   String? get _searchInputValue => _onSearchInputChangedSubject.value;
 
   //filters
-  // final _onFilterChangedSubject = BehaviorSubject<FilterAggregatesStateSuccess?>.seeded(null);
+  final _onFilterChangedSubject = BehaviorSubject<FilterLivestockState?>.seeded(null);
 
-  // Sink<FilterAggregatesStateSuccess?> get onFilterChangedSink => _onFilterChangedSubject.sink;
+  Sink<FilterLivestockState?> get onFilterChangedSink => _onFilterChangedSubject.sink;
 
-  // FilterAggregatesStateSuccess? get _filterValue => _onFilterChangedSubject.value;
+  FilterLivestockState? get _filterValue => _onFilterChangedSubject.value;
 
   Stream<CattleListPaginationState> _resetSearch() async* {
     yield CattleListPaginationState();
@@ -72,11 +73,19 @@ class CattleListPaginationBloc {
   Stream<CattleListPaginationState> _fetchAggregateList(int pageKey) async* {
     final lastListingState = _onNewListingStateController.value;
     try {
-      final result = await _getLivestockListUsecase({
+      Map<String, dynamic> queryParams = {
         'farm_id': 12,
         'page': pageKey,
-        'search': _searchInputValue,
-      });
+      };
+      if (_searchInputValue != null && _searchInputValue!.isNotEmpty) queryParams['search'] = _searchInputValue;
+      if (_filterValue?.selectedType != null) queryParams['livestock_type'] = _filterValue?.selectedType;
+      if (_filterValue?.selectedBreed != null) queryParams['breed_type'] = _filterValue?.selectedBreed;
+      if (_filterValue?.minWeight != null) queryParams['min_weight'] = _filterValue?.minWeight;
+      if (_filterValue?.maxWeight != null) queryParams['max_weight'] = _filterValue?.maxWeight;
+      if (_filterValue?.minAge != null) queryParams['min_age'] = _filterValue?.minAge;
+      if (_filterValue?.maxAge != null) queryParams['max_age'] = _filterValue?.maxAge;
+      if (_filterValue?.isPregnant != null) queryParams['is_pregnant'] = _filterValue?.isPregnant;
+      final result = await _getLivestockListUsecase(queryParams);
       if (result is DataFailed) {
         throw result.error ??
             CustomException(
