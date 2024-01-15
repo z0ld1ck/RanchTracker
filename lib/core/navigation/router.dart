@@ -14,12 +14,12 @@ import 'package:malshy/features/auth/presentation/page/password_page.dart';
 import 'package:malshy/features/auth/presentation/page/registration_page.dart';
 import 'package:malshy/features/auth/presentation/page/sms_code_auth.dart';
 import 'package:malshy/features/auth/presentation/page/welcome_page.dart';
-import 'package:malshy/features/livestock_list_page/presentation/bloc/livestock_bloc.dart';
-import 'package:malshy/features/livestock_list_page/presentation/bloc/filter_livestock/filter_livestock_bloc.dart';
-import 'package:malshy/features/livestock_list_page/presentation/pages/add_cattle_page.dart';
-import 'package:malshy/features/livestock_list_page/presentation/pages/cattle_list_page.dart';
-import 'package:malshy/features/livestock_list_page/presentation/pages/filter_page.dart';
-import 'package:malshy/features/dashboard_page/presentation/pages/dashboard_page.dart';
+import 'package:malshy/features/livestock/presentation/bloc/add_livestock/add_livestock_bloc.dart';
+import 'package:malshy/features/livestock/presentation/bloc/filter_livestock/filter_livestock_bloc.dart';
+import 'package:malshy/features/livestock/presentation/pages/add_livestock_page.dart';
+import 'package:malshy/features/livestock/presentation/pages/livestock_list_page.dart';
+import 'package:malshy/features/livestock/presentation/pages/filter_page.dart';
+import 'package:malshy/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:malshy/features/events/presentation/pages/events_page.dart';
 import 'package:malshy/features/events/presentation/pages/add_internal_movements_event_page.dart';
 import 'package:malshy/features/events/presentation/pages/add_loss_event_page.dart';
@@ -100,8 +100,8 @@ final GoRouter goRouter = GoRouter(
       builder: (context, state) => LogInPage(),
     ),
     GoRoute(
-      path: RouteNames.cattleListFilter.path,
-      name: RouteNames.cattleListFilter.name,
+      path: RouteNames.livestockListFilter.path,
+      name: RouteNames.livestockListFilter.name,
       builder: (context, state) {
         return BlocProvider.value(
           value: state.extra! as FilterLivestockBloc,
@@ -126,10 +126,10 @@ final GoRouter goRouter = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: RouteNames.cattleList.path,
+              path: RouteNames.livestockList.path,
               builder: (context, state) => BlocProvider(
                 create: (context) => FilterLivestockBloc()..add(FilterLivestockEvent.fetchFilters()),
-                child: CattleListPage(),
+                child: LivestockListPage(),
               ),
               routes: [
                 GoRoute(
@@ -140,6 +140,12 @@ final GoRouter goRouter = GoRouter(
                         create: (context) => LivestockBloc(),
                         child: AddCattlePage(),
                       ),
+                  path: RouteNames.addLivestock.path,
+                  name: RouteNames.addLivestock.name,
+                  builder: (context, state) => BlocProvider(
+                    create: (context) => AddLivestockBloc(),
+                    child: AddLivestockPage(),
+                  ),
                 ),
               ],
             ),
@@ -277,7 +283,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
     if (location.startsWith(RouteNames.dashboard.path)) {
       return 0;
     }
-    if (location.startsWith(RouteNames.cattleList.path)) {
+    if (location.startsWith(RouteNames.livestockList.path)) {
       return 1;
     }
     if (location.startsWith(RouteNames.events.path)) {

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get_it/get_it.dart';
 import 'package:malshy/core/utils/service_locator.dart';
 import 'package:malshy/features/app/app.dart';
 import 'package:malshy/features/auth/presentation/bloc/auth/auth_bloc.dart';
-import 'package:malshy/features/livestock_list_page/presentation/bloc/livestock_bloc.dart';
 import 'package:malshy/injection_container.dart';
 
 Future<void> initApp() async {

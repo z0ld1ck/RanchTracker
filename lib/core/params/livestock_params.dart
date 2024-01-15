@@ -1,3 +1,0 @@
-class NoParams {}
-
-class LiveStockParams {}
