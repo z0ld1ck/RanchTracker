@@ -5,10 +5,10 @@ class LivestockState with _$LivestockState {
   const factory LivestockState.initial() = _Initial;
 
   const factory LivestockState.createLivestockLoading() =
-      CreateLivestockLoading;
+      LivestockLoading;
 
-  const factory LivestockState.createLivestockFailure(CustomException error) =
-      CreateLivestockFailure;
+  const factory LivestockState.livestockFailure(CustomException error) =
+      LivestockFailure;
 
-  const factory LivestockState.livestockCreated() = LivestockCreated;
+  const factory LivestockState.livestockLoaded() = LivestockLoaded;
 }
