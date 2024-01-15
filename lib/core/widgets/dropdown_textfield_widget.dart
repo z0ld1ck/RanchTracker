@@ -115,7 +115,7 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
                   fontSize: 0,
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF4B970F), width: 2.w),
+                  borderSide: BorderSide(color: AppColors.primary(context), width: 2.w),
                   borderRadius: expandableController.expanded && filteredOptions.isNotEmpty
                       ? BorderRadius.only(
                           topLeft: Radius.circular(6.r),
@@ -258,7 +258,10 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
                             if (!selectedOptions.contains(filteredOptions[i]))
                               InkWell(
                                 onTap: () {
-                                  widget.controller?.text = filteredOptions[i];
+                                  if (widget.controller?.text == filteredOptions[i]) {
+                                    widget.controller?.clear();
+                                  } else 
+                                    widget.controller?.text = filteredOptions[i];
                                   validationKey.currentState?.validate();
                                   expandableController.toggle();
                                   if (widget.canEdit) {
@@ -277,7 +280,7 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
                                       decoration: ShapeDecoration(
                                         shape: OvalBorder(
                                           side: widget.controller?.text == filteredOptions[i]
-                                              ? BorderSide(width: 6, color: Color(0xFF4B970F))
+                                              ? BorderSide(width: 6, color: AppColors.primary(context))
                                               : BorderSide(
                                                   width: 1.50,
                                                   // color: Provider.of<ThemeProviderNotifier>(context).isDarkMode
