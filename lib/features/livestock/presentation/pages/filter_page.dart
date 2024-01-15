@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:malshy/core/widgets/dropdown_textfield_widget.dart';
-import 'package:malshy/features/livestock_list_page/presentation/bloc/filter_livestock/filter_livestock_bloc.dart';
+import 'package:malshy/features/livestock/presentation/bloc/filter_livestock/filter_livestock_bloc.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import '../../../../core/const/app_colors.dart';
 import '../../../../core/const/app_icons.dart';

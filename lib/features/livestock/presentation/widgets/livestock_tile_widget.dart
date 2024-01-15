@@ -2,7 +2,7 @@ import 'package:awesome_extensions/awesome_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:malshy/features/livestock_list_page/data/models/get_livestock_model.dart';
+import 'package:malshy/features/livestock/data/models/get_livestock_model.dart';
 
 class LivestockTileWidget extends StatelessWidget {
   const LivestockTileWidget({

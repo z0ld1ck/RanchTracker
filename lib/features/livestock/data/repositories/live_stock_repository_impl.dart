@@ -6,10 +6,10 @@ import 'package:malshy/core/network/api_endpoints.dart';
 import 'package:malshy/core/network/custom_exceptions.dart';
 import 'package:malshy/core/network/network_client.dart';
 import 'package:malshy/core/utils/data_state.dart';
-import 'package:malshy/features/livestock_list_page/data/models/addition_type_model.dart';
+import 'package:malshy/features/livestock/data/models/addition_type_model.dart';
 
-import 'package:malshy/features/livestock_list_page/data/models/get_livestock_model.dart';
-import 'package:malshy/features/livestock_list_page/data/models/type_model.dart';
+import 'package:malshy/features/livestock/data/models/get_livestock_model.dart';
+import 'package:malshy/features/livestock/data/models/type_model.dart';
 import '../../domain/repositories/live_stock_repository.dart';
 import '../models/livestock_model.dart';
 
@@ -53,7 +53,7 @@ class LiveStockRepositoryImpl implements LiveStockRepository {
       return DataFailed(e);
     }
   }
-     
+
   @override
   Future<DataState<List<GetLivestockModel>>> getLiveStock({required Map<String, dynamic> queryParams}) async {
     try {
@@ -71,16 +71,11 @@ class LiveStockRepositoryImpl implements LiveStockRepository {
   }
 
   @override
-  Future<DataState<AdditionTypeModel>> getAdditionType(
-      AdditionTypeModel additionTypeModel) async {
+  Future<DataState<AdditionTypeModel>> getAdditionType(AdditionTypeModel additionTypeModel) async {
     try {
       final List<Map<String, dynamic>> queryParams = [
         {
-          "name": {
-            "ru": "Родился в хозяйстве",
-            "kz": "Шаруашылықта дүниеге келген",
-            "en": "Was born on the farm"
-          },
+          "name": {"ru": "Родился в хозяйстве", "kz": "Шаруашылықта дүниеге келген", "en": "Was born on the farm"},
           "type": 1
         },
         {
@@ -104,7 +99,7 @@ class LiveStockRepositoryImpl implements LiveStockRepository {
       );
     }
   }
-      
+
   @override
   Future<DataState<List<TypeModel>>> getTypesAndBreeds() async {
     try {

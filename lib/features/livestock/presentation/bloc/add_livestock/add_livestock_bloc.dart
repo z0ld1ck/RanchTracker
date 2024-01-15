@@ -2,9 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:malshy/core/network/custom_exceptions.dart';
 import 'package:malshy/core/utils/data_state.dart';
-import 'package:malshy/features/livestock_list_page/domain/usecases/create_livestock_usecase.dart';
-import 'package:malshy/features/livestock_list_page/domain/usecases/get_addition_type_usecase.dart';
-import 'package:malshy/features/livestock_list_page/domain/usecases/get_types_breeds_usecase.dart';
+import 'package:malshy/features/livestock/domain/usecases/create_livestock_usecase.dart';
+import 'package:malshy/features/livestock/domain/usecases/get_addition_type_usecase.dart';
+import 'package:malshy/features/livestock/domain/usecases/get_types_breeds_usecase.dart';
 import 'package:malshy/injection_container.dart';
 
 part 'add_livestock_event.dart';
@@ -50,8 +50,7 @@ class AddLivestockBloc extends Bloc<AddLivestockEvent, AddLivestockState> {
     }
   }
 
-  _getTypesAndBreeds(
-      GetTypeAndBreed value, Emitter<AddLivestockState> emit) async {
+  _getTypesAndBreeds(GetTypeAndBreed value, Emitter<AddLivestockState> emit) async {
     emit(LivestockLoading());
 
     final data = await _getTypeAndBreedUseCase();

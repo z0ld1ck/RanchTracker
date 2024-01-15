@@ -11,8 +11,8 @@ import 'package:malshy/core/function/age_calculator.dart';
 import 'package:malshy/core/widgets/date_picker_widget.dart';
 import 'package:malshy/core/widgets/dropdown_textfield_widget.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
-import 'package:malshy/features/livestock_list_page/presentation/bloc/add_livestock/add_livestock_bloc.dart';
-import 'package:malshy/features/livestock_list_page/presentation/widgets/gender_radio_buttons_widget.dart';
+import 'package:malshy/features/livestock/presentation/bloc/add_livestock/add_livestock_bloc.dart';
+import 'package:malshy/features/livestock/presentation/widgets/gender_radio_buttons_widget.dart';
 import '../../../../core/const/app_icons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

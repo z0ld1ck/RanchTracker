@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:malshy/features/livestock_list_page/data/models/breed_model.dart';
+import 'package:malshy/features/livestock/data/models/breed_model.dart';
 import 'dart:convert';
 
-import 'package:malshy/features/livestock_list_page/data/models/get_livestock_model.dart';
+import 'package:malshy/features/livestock/data/models/get_livestock_model.dart';
 
 part 'type_model.freezed.dart';
 part 'type_model.g.dart';

@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'dart:convert';
 
-import 'package:malshy/features/livestock_list_page/data/models/get_livestock_model.dart';
+import 'package:malshy/features/livestock/data/models/get_livestock_model.dart';
 
 part 'dashboard_by_status_model.freezed.dart';
 part 'dashboard_by_status_model.g.dart';

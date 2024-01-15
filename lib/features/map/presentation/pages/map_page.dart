@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import '../../../../core/const/app_colors.dart';
-import '../../../livestock_list_page/presentation/widgets/search_bar_widget.dart';
+import '../../../livestock/presentation/widgets/search_bar_widget.dart';
 import '../widgets/cattle_counting_button_widget.dart';
 
 class MapPage extends StatefulWidget {

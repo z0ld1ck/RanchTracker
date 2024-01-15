@@ -3,8 +3,8 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:malshy/core/utils/data_state.dart';
-import 'package:malshy/features/livestock_list_page/data/models/type_model.dart';
-import 'package:malshy/features/livestock_list_page/domain/usecases/get_types_breeds_usecase.dart';
+import 'package:malshy/features/livestock/data/models/type_model.dart';
+import 'package:malshy/features/livestock/domain/usecases/get_types_breeds_usecase.dart';
 
 part 'filter_livestock_event.dart';
 part 'filter_livestock_state.dart';

@@ -1,7 +1,7 @@
 import 'package:malshy/core/utils/data_state.dart';
 import 'package:malshy/core/utils/usecase.dart';
-import 'package:malshy/features/livestock_list_page/data/models/get_livestock_model.dart';
-import 'package:malshy/features/livestock_list_page/domain/repositories/live_stock_repository.dart';
+import 'package:malshy/features/livestock/data/models/get_livestock_model.dart';
+import 'package:malshy/features/livestock/domain/repositories/live_stock_repository.dart';
 
 class GetLivestockListUsecase implements Usecase<DataState<List<GetLivestockModel>>, Map<String, dynamic>> {
   final LiveStockRepository _liveStockRepository;
