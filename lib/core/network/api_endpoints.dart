@@ -41,6 +41,20 @@ enum LivestockEndpoint {
   final String path;
 }
 
+enum TypeBreedsEndpoint {
+  GET_TYPE_AND_BREEDS('/farm/api/v1/livestock/types-breeds');
+
+  const TypeBreedsEndpoint(this.path);
+
+  final String path;
+}
+
+enum AdditionTypeEndpoint {
+  GET_ADDITION_TYPE('/farm/api/v1/livestock/addition-types');
+
+  const AdditionTypeEndpoint(this.path);
+}
+
 enum DashboardEndpoint {
   LIVESTOCK_BY_TYPE('9020/dashboard/api/v1/livestock/type'),
   LIVESTOCK_BY_STATUS('9020/dashboard/api/v1/livestock/status'),

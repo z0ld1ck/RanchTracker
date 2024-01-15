@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,9 +7,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:malshy/core/const/app_colors.dart';
+import 'package:malshy/core/function/age_calculator.dart';
+import 'package:malshy/core/utils/key_value_storage_base.dart';
+import 'package:malshy/core/utils/key_value_storage_service.dart';
+import 'package:malshy/core/widgets/date_picker_widget.dart';
+import 'package:malshy/core/widgets/dropdown_textfield_widget.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
 import 'package:malshy/features/livestock_list_page/presentation/bloc/livestock_bloc.dart';
 import 'package:malshy/features/livestock_list_page/presentation/widgets/gender_radio_buttons_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/const/app_icons.dart';
 import '../widgets/add_cattle_dropdown_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,6 +39,8 @@ class _AddCattlePageState extends State<AddCattlePage> {
   TextEditingController way = TextEditingController();
   TextEditingController RFIDm = TextEditingController();
   TextEditingController RFIDf = TextEditingController();
+  ValueNotifier<int> gender = ValueNotifier<int>(0);
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +59,11 @@ class _AddCattlePageState extends State<AddCattlePage> {
         ),
       ),
       body: BlocConsumer<LivestockBloc, LivestockState>(
+        listenWhen: (context, state) {
+          return state is LivestockLoaded || state is LivestockLoading;
+        },
         listener: (context, state) {
-          if (state is LivestockCreated) {
+          if (state is LivestockLoaded) {
             Fluttertoast.showToast(
               msg: 'The livestock was created',
               toastLength: Toast.LENGTH_SHORT,
@@ -60,7 +73,7 @@ class _AddCattlePageState extends State<AddCattlePage> {
               fontSize: 16,
             );
           }
-          if (state is CreateLivestockFailure) {
+          if (state is LivestockFailure) {
             Fluttertoast.showToast(
               msg: 'Creation failure',
               toastLength: Toast.LENGTH_SHORT,
@@ -92,18 +105,31 @@ class _AddCattlePageState extends State<AddCattlePage> {
                   height: 16.h,
                 ),
                 Container(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
                   child: TextField(
                     controller: RFD,
                     maxLines: 1,
                     decoration: InputDecoration(
-                      labelText: 'Ушная бирка(RFD)*',
-                      labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
+                      label: RichText(
+                        text: TextSpan(
+                            text: 'Ушная бирка(RFID)',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(color: Colors.black),
+                            children: true
+                                ? [
+                                    TextSpan(
+                                        text: ' *',
+                                        style: TextStyle(color: Colors.red))
+                                  ]
+                                : null),
+                      ),
                       hintText: 'Введите ушную бирку',
-                      hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: AppColors.grayMedium,
-                            fontWeight: FontWeight.w500,
-                          ),
+                      hintStyle: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: AppColors.grayMedium),
                     ),
                   ),
                 ),
@@ -111,18 +137,22 @@ class _AddCattlePageState extends State<AddCattlePage> {
                   height: 17.h,
                 ),
                 Container(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
                   child: TextField(
                     controller: cattleName,
                     maxLines: 1,
                     decoration: InputDecoration(
                       labelText: 'Кличка',
-                      labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
+                      labelStyle: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: Colors.black),
                       hintText: 'Введите кличку',
-                      hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: AppColors.grayMedium,
-                            fontWeight: FontWeight.w500,
-                          ),
+                      hintStyle:
+                          Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: AppColors.grayMedium,
+                                fontWeight: FontWeight.w500,
+                              ),
                     ),
                   ),
                 ),
@@ -130,117 +160,51 @@ class _AddCattlePageState extends State<AddCattlePage> {
                   height: 17.h,
                 ),
                 Container(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-                  child: TextField(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
+                  child: DatePickerWidget(
+                    isRequired: false,
+                    label: 'Дата рождения',
+                    hint: 'Выберите дату ',
+                    isDatePicker: true,
                     controller: dateInput,
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        icon: SvgPicture.asset(AppIcons.date),
-                        onPressed: () async {
-                          final selectedDate = await showDatePicker(
-                            context: context,
-                            initialDate: date,
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime.now(),
-                          );
-                          if (selectedDate != null) {
-                            String formattedDate = DateFormat.yMd().format(selectedDate);
-
-                            setState(() {
-                              dateInput.text = formattedDate;
-                            });
-                          }
-                        },
-                      ),
-                      labelText: 'Дата рождения',
-                      labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
-                      hintText: 'Выберите дату',
-                      hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: AppColors.grayMedium,
-                            fontWeight: FontWeight.w500,
-                          ),
-                    ),
+                    firstDate: DateTime(1990, 1, 1),
+                    lastDate: DateTime(2100, 1, 1),
                   ),
                 ),
                 SizedBox(
                   height: 16.h,
                 ),
                 Container(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                  child: AddCattleDropDown(
-                    items: const [
-                      DropdownMenuItem(
-                        value: "КРС",
-                        child: Text("КРС"),
-                      ),
-                      DropdownMenuItem(
-                        value: "МРС",
-                        child: Text("МРС"),
-                      ),
-                      DropdownMenuItem(
-                        value: "Лошади",
-                        child: Text("Лошади"),
-                      ),
-                    ],
-                    label: 'Виды',
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
+                  child: DropdownTextFieldWidget(
+                    controller: type,
+                    isRequired: false,
+                    label: 'Вид',
                     hint: 'Выберите вид',
+                    options: const ['kjk', 'asa'],
+                    optionsString: const ['asa', 'kjk'],
                   ),
                 ),
                 SizedBox(
                   height: 16.h,
                 ),
                 Container(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                  child: AddCattleDropDown(
-                    items: [
-                      DropdownMenuItem(
-                        value: "Голштинская",
-                        child: Text("Голштинская"),
-                      ),
-                      DropdownMenuItem(
-                        value: "Швицкая",
-                        child: Text("Швицкая"),
-                      ),
-                      DropdownMenuItem(
-                        value: "породы",
-                        child: InkWell(
-                          onTap: () {},
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: 48.h,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  AppIcons.add_blue,
-                                ),
-                                SizedBox(
-                                  width: 4.w,
-                                ),
-                                Text(
-                                  'Добавить новую породу',
-                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                        color: AppColors.blueLight,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                    label: 'Породы',
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
+                  child: DropdownTextFieldWidget(
+                    canEdit: true,
+                    controller: breed,
+                    isRequired: false,
+                    label: 'Порода',
                     hint: 'Выберите породу',
+                    options: const ['kjk', 'asa'],
+                    optionsString: const ['asa', 'kjk'],
                   ),
                 ),
                 SizedBox(
                   height: 16.h,
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -257,31 +221,40 @@ class _AddCattlePageState extends State<AddCattlePage> {
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        children: const [
-                          GenderRadioButtonWidget(),
+                        children: [
+                          GenderRadioButtonWidget(controller: gender),
                         ],
                       ),
                     ],
                   ),
                 ),
                 Container(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 10, 16, 0),
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
                   child: TextField(
                     controller: weight,
                     maxLines: 1,
                     decoration: InputDecoration(
                       labelText: 'Вес',
-                      labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
+                      labelStyle: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: Colors.black),
                       hintText: 'Введите текст',
-                      suffixText: 'кг',
-                      suffixStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: AppColors.black,
-                            fontWeight: FontWeight.w400,
-                          ),
-                      hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: AppColors.grayMedium,
-                            fontWeight: FontWeight.w500,
-                          ),
+                      suffixIcon: Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(90, 0, 13, 0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Text('кг'),
+                          ],
+                        ),
+                      ),
+                      hintStyle:
+                          Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: AppColors.grayMedium,
+                                fontWeight: FontWeight.w500,
+                              ),
                     ),
                   ),
                 ),
@@ -289,24 +262,18 @@ class _AddCattlePageState extends State<AddCattlePage> {
                   height: 16.h,
                 ),
                 Container(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                  child: AddCattleDropDown(
+                  padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
+                  child: DropdownTextFieldWidget(
+                    controller: type,
+                    isRequired: true,
+                    label: 'Способ добавления к поголовью',
                     hint: 'Выберите способ',
-                    items: const [
-                      DropdownMenuItem(
-                        value: "КРС",
-                        child: Text("КРС"),
-                      ),
-                      DropdownMenuItem(
-                        value: "МРС",
-                        child: Text("МРС"),
-                      ),
-                      DropdownMenuItem(
-                        value: "Лошади",
-                        child: Text("Лошади"),
-                      ),
+                    options: const [
+                      'Приплод',
                     ],
-                    label: 'Способ добавления к поголовью*',
+                    optionsString: const [
+                      'Приплод',
+                    ],
                   ),
                 ),
                 SizedBox(
@@ -319,12 +286,16 @@ class _AddCattlePageState extends State<AddCattlePage> {
                     maxLines: 1,
                     decoration: InputDecoration(
                       labelText: 'Бирка матери(RFID)',
-                      labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
+                      labelStyle: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: Colors.black),
                       hintText: 'Введите бирку',
-                      hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: AppColors.grayMedium,
-                            fontWeight: FontWeight.w500,
-                          ),
+                      hintStyle:
+                          Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: AppColors.grayMedium,
+                                fontWeight: FontWeight.w500,
+                              ),
                     ),
                   ),
                 ),
@@ -338,12 +309,16 @@ class _AddCattlePageState extends State<AddCattlePage> {
                     maxLines: 1,
                     decoration: InputDecoration(
                       labelText: 'Бирка отца(RFID)',
-                      labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
+                      labelStyle: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: Colors.black),
                       hintText: 'Введите бирку',
-                      hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: AppColors.grayMedium,
-                            fontWeight: FontWeight.w500,
-                          ),
+                      hintStyle:
+                          Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: AppColors.grayMedium,
+                                fontWeight: FontWeight.w500,
+                              ),
                     ),
                   ),
                 ),
@@ -352,7 +327,25 @@ class _AddCattlePageState extends State<AddCattlePage> {
                 ),
                 PrimaryButton(
                   text: 'Сохранить',
-                  onPressed: () {},
+                  onPressed: () {
+                    DateTime selectedDate =
+                        DateFormat('dd.MM.yyyy').parse(dateInput.text);
+                    int age = calculateAge(selectedDate);
+
+                    final livestockData = {
+                      'RFID': RFD.text,
+                      'birthday': dateInput.text,
+                      'sex': gender.value,
+                      'age': age,
+                      'weight': weight.text,
+                      'addition_method': type.text,
+                    };
+                    print(jsonEncode(livestockData));
+
+                    context
+                        .read<LivestockBloc>()
+                        .add(LivestockEvent.createLivestock());
+                  },
                 ),
                 SizedBox(
                   height: 30.h,
@@ -364,8 +357,4 @@ class _AddCattlePageState extends State<AddCattlePage> {
       ),
     );
   }
-}
-
-void _onSavedPressed(BuildContext context) {
-  final livestockBloc = BlocProvider.of<LivestockBloc>(context);
 }

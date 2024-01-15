@@ -14,6 +14,7 @@ import 'package:malshy/features/auth/presentation/page/password_page.dart';
 import 'package:malshy/features/auth/presentation/page/registration_page.dart';
 import 'package:malshy/features/auth/presentation/page/sms_code_auth.dart';
 import 'package:malshy/features/auth/presentation/page/welcome_page.dart';
+import 'package:malshy/features/livestock_list_page/presentation/bloc/livestock_bloc.dart';
 import 'package:malshy/features/livestock_list_page/presentation/bloc/filter_livestock/filter_livestock_bloc.dart';
 import 'package:malshy/features/livestock_list_page/presentation/pages/add_cattle_page.dart';
 import 'package:malshy/features/livestock_list_page/presentation/pages/cattle_list_page.dart';
@@ -31,7 +32,8 @@ import 'package:malshy/features/events/presentation/pages/add_weight_measure_eve
 import 'package:malshy/features/map/presentation/pages/map_page.dart';
 import 'package:malshy/features/profile/presentation/pages/profile_page.dart';
 
-final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
+final GlobalKey<NavigatorState> _rootNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'root');
 
 final GoRouter goRouter = GoRouter(
   extraCodec: const MyExtraCodec(),
@@ -132,7 +134,10 @@ final GoRouter goRouter = GoRouter(
                 GoRoute(
                   path: RouteNames.addCattle.path,
                   name: RouteNames.addCattle.name,
-                  builder: (context, state) => AddCattlePage(),
+                  builder: (context, state) => BlocProvider(
+                    create: (context) => LivestockBloc(),
+                    child: AddCattlePage(),
+                  ),
                 ),
               ],
             ),
@@ -296,6 +301,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
 class MyExtraCodec extends Codec<Object?, Object?> {
   /// Create a codec.
   const MyExtraCodec();
+
   @override
   Converter<Object?, Object?> get decoder => const _MyExtraDecoder();
 
@@ -305,6 +311,7 @@ class MyExtraCodec extends Codec<Object?, Object?> {
 
 class _MyExtraDecoder extends Converter<Object?, Object?> {
   const _MyExtraDecoder();
+
   @override
   Object? convert(Object? input) {
     if (input == null) {
@@ -323,6 +330,7 @@ class _MyExtraDecoder extends Converter<Object?, Object?> {
 
 class _MyExtraEncoder extends Converter<Object?, Object?> {
   const _MyExtraEncoder();
+
   @override
   Object? convert(Object? input) {
     if (input == null) {

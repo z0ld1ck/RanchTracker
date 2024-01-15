@@ -115,6 +115,7 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
                   fontSize: 0,
                 ),
                 focusedBorder: OutlineInputBorder(
+
                   borderSide: BorderSide(color: AppColors.primary(context), width: 2.w),
                   borderRadius: expandableController.expanded && filteredOptions.isNotEmpty
                       ? BorderRadius.only(
@@ -124,7 +125,7 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
                       : BorderRadius.all(Radius.circular(6.r)),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFE0E2D8)),
+                  borderSide: BorderSide(color:AppColors.grayLight),
                   borderRadius: expandableController.expanded && filteredOptions.isNotEmpty
                       ? BorderRadius.only(
                           topLeft: Radius.circular(6.r),
@@ -133,7 +134,7 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
                       : BorderRadius.all(Radius.circular(6.r)),
                 ),
                 disabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF878882)),
+                  borderSide: BorderSide(color:AppColors.grayLight),
                   borderRadius: expandableController.expanded && filteredOptions.isNotEmpty
                       ? BorderRadius.only(
                           topLeft: Radius.circular(6.r),
