@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:malshy/core/const/app_colors.dart';
-import 'package:malshy/features/dashboard_page/presentation/bloc/dashboard_bloc.dart';
+import 'package:malshy/features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'package:malshy/core/widgets/show_date_range_time_picker_dialog.dart';
-import 'package:malshy/features/dashboard_page/presentation/widgets/dashboard_doughnut_chart_widget.dart';
+import 'package:malshy/features/dashboard/presentation/widgets/dashboard_doughnut_chart_widget.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});

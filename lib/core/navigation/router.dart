@@ -19,7 +19,7 @@ import 'package:malshy/features/livestock_list_page/presentation/bloc/filter_liv
 import 'package:malshy/features/livestock_list_page/presentation/pages/add_livestock_page.dart';
 import 'package:malshy/features/livestock_list_page/presentation/pages/livestock_list_page.dart';
 import 'package:malshy/features/livestock_list_page/presentation/pages/filter_page.dart';
-import 'package:malshy/features/dashboard_page/presentation/pages/dashboard_page.dart';
+import 'package:malshy/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:malshy/features/events/presentation/pages/events_page.dart';
 import 'package:malshy/features/events/presentation/pages/add_internal_movements_event_page.dart';
 import 'package:malshy/features/events/presentation/pages/add_loss_event_page.dart';
