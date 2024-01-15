@@ -8,11 +8,14 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/function/age_calculator.dart';
+import 'package:malshy/core/utils/key_value_storage_base.dart';
+import 'package:malshy/core/utils/key_value_storage_service.dart';
 import 'package:malshy/core/widgets/date_picker_widget.dart';
 import 'package:malshy/core/widgets/dropdown_textfield_widget.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
 import 'package:malshy/features/livestock_list_page/presentation/bloc/livestock_bloc.dart';
 import 'package:malshy/features/livestock_list_page/presentation/widgets/gender_radio_buttons_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/const/app_icons.dart';
 import '../widgets/add_cattle_dropdown_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,6 +41,7 @@ class _AddCattlePageState extends State<AddCattlePage> {
   TextEditingController RFIDf = TextEditingController();
   ValueNotifier<int> gender = ValueNotifier<int>(0);
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,8 +59,11 @@ class _AddCattlePageState extends State<AddCattlePage> {
         ),
       ),
       body: BlocConsumer<LivestockBloc, LivestockState>(
+        listenWhen: (context, state) {
+          return state is LivestockLoaded || state is LivestockLoading;
+        },
         listener: (context, state) {
-          if (state is LivestockCreated) {
+          if (state is LivestockLoaded) {
             Fluttertoast.showToast(
               msg: 'The livestock was created',
               toastLength: Toast.LENGTH_SHORT,
@@ -66,7 +73,7 @@ class _AddCattlePageState extends State<AddCattlePage> {
               fontSize: 16,
             );
           }
-          if (state is CreateLivestockFailure) {
+          if (state is LivestockFailure) {
             Fluttertoast.showToast(
               msg: 'Creation failure',
               toastLength: Toast.LENGTH_SHORT,
@@ -174,8 +181,8 @@ class _AddCattlePageState extends State<AddCattlePage> {
                     isRequired: false,
                     label: 'Вид',
                     hint: 'Выберите вид',
-                    options: const ['КРС', 'МРС', 'Лошади'],
-                    optionsString: const ['КРС', 'МРС', 'Лошади'],
+                    options: const ['kjk', 'asa'],
+                    optionsString: const ['asa', 'kjk'],
                   ),
                 ),
                 SizedBox(
@@ -184,12 +191,13 @@ class _AddCattlePageState extends State<AddCattlePage> {
                 Container(
                   padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
                   child: DropdownTextFieldWidget(
+                    canEdit: true,
                     controller: breed,
                     isRequired: false,
                     label: 'Порода',
                     hint: 'Выберите породу',
-                    options: const ['Голштинская ', 'Голштинская'],
-                    optionsString: const ['Голштинская ', 'Голштинская'],
+                    options: const ['kjk', 'asa'],
+                    optionsString: const ['asa', 'kjk'],
                   ),
                 ),
                 SizedBox(
@@ -333,6 +341,7 @@ class _AddCattlePageState extends State<AddCattlePage> {
                       'addition_method': type.text,
                     };
                     print(jsonEncode(livestockData));
+
                     context
                         .read<LivestockBloc>()
                         .add(LivestockEvent.createLivestock());

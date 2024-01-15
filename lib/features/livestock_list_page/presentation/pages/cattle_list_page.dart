@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/navigation/route_names.dart';
+import 'package:malshy/features/livestock_list_page/presentation/bloc/livestock_bloc.dart';
 import '../widgets/add_cattle_button_widget.dart';
 
 class CattleListPage extends StatefulWidget {
@@ -20,6 +22,7 @@ class _CattleListPageState extends State<CattleListPage> {
     return Scaffold(
       floatingActionButton: AddCattleButtonWidget(
         onPressed: () {
+          context.read<LivestockBloc>().add(GetTypeAndBreed());
           context.pushNamed(RouteNames.addCattle.name);
         },
         text: 'Добавить животное',
@@ -32,7 +35,7 @@ class _CattleListPageState extends State<CattleListPage> {
           actions: [
             IconButton(
               onPressed: () {
-                context.pushNamed(RouteNames.cattleListFilter.name);
+                // context.pushNamed(RouteNames.cattleListFilter.name);
               },
               icon: SvgPicture.asset(AppIcons.filter),
             ),
