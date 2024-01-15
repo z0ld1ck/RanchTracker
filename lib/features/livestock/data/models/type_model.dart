@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:malshy/features/livestock/data/models/breed_model.dart';
 import 'dart:convert';
 
 import 'package:malshy/features/livestock/data/models/get_livestock_model.dart';
@@ -21,4 +20,19 @@ class TypeModel with _$TypeModel {
   }) = _TypeModel;
 
   factory TypeModel.fromJson(Map<String, dynamic> json) => _$TypeModelFromJson(json);
+}
+
+
+@freezed
+class BreedModel with _$BreedModel {
+  @JsonSerializable(fieldRename: FieldRename.snake)
+  const factory BreedModel({
+    required DateTime? createdAt,
+    required int id,
+    required int projectId,
+    required String breed,
+    required int livestockType,
+  }) = _BreedModel;
+
+  factory BreedModel.fromJson(Map<String, dynamic> json) => _$BreedModelFromJson(json);
 }
