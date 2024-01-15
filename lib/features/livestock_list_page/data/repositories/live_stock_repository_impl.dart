@@ -7,7 +7,6 @@ import 'package:malshy/core/network/custom_exceptions.dart';
 import 'package:malshy/core/network/network_client.dart';
 import 'package:malshy/core/utils/data_state.dart';
 import 'package:malshy/features/livestock_list_page/data/models/addition_type_model.dart';
-import 'package:malshy/features/livestock_list_page/data/models/type_breeds_model.dart';
 
 import 'package:malshy/features/livestock_list_page/data/models/get_livestock_model.dart';
 import 'package:malshy/features/livestock_list_page/data/models/type_model.dart';
@@ -52,48 +51,6 @@ class LiveStockRepositoryImpl implements LiveStockRepository {
       }
     } on CustomException catch (e) {
       return DataFailed(e);
-    }
-  }
-
-  @override
-  Future<DataState<TypeBreedsModel>> getTypesAndBreeds(
-      TypeBreedsModel typeBreedsModel) async {
-    try {
-      final List<Map<String, dynamic>> queryParams = [
-        {
-          'name': {
-            'en': 'Horse',
-            'ru': 'Лошадь',
-            'kz': 'Жылкы',
-          },
-          'type': 1,
-          'breeds': [],
-        },
-        {
-          'name': {
-            'en': 'Cow',
-            'ru': 'Корова',
-            'kz': 'Сиыр',
-          },
-          'type': 2,
-          'breeds': [],
-        },
-      ];
-
-      final response = await _networkClient.getData(
-        endpoint: LivestockEndpoint.TYPES_BREEDS.path,
-        queryParams: {'animals': queryParams},
-        parser: (response) => TypeBreedsModel.fromJson(response),
-      );
-
-      return DataSuccess(response);
-    } on CustomException catch (e) {
-      return DataFailed(e);
-    } catch (e) {
-      return DataFailed(
-        CustomException(message: 'Unexpected error occurred.'),
-      );
-
     }
   }
      
@@ -149,7 +106,7 @@ class LiveStockRepositoryImpl implements LiveStockRepository {
   }
       
   @override
-   Future<DataState<List<TypeModel>>> getTypesBreeds() async {
+  Future<DataState<List<TypeModel>>> getTypesAndBreeds() async {
     try {
       final livestockList = await _networkClient.getListData<TypeModel>(
         endpoint: LivestockEndpoint.TYPES_BREEDS.path,

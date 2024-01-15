@@ -11,7 +11,7 @@ part 'filter_livestock_state.dart';
 part 'filter_livestock_bloc.freezed.dart';
 
 class FilterLivestockBloc extends Bloc<FilterLivestockEvent, FilterLivestockState> {
-  final _getTypesBreedsUsecase = GetIt.I.get<GetTypesBreedsUsecase>();
+  final _getTypesBreedsUsecase = GetIt.I.get<GetTypesAndBreedsUsecase>();
 
   FilterLivestockBloc()
       : super(FilterLivestockState(
@@ -29,7 +29,7 @@ class FilterLivestockBloc extends Bloc<FilterLivestockEvent, FilterLivestockStat
   }
 
   FutureOr<void> _fetchFilters(_FetchFilters event, emit) async {
-    final result = await _getTypesBreedsUsecase.call(null);
+    final result = await _getTypesBreedsUsecase();
     if (result is DataSuccess) {
       emit(state.copyWith(types: result.data ?? []));
     }

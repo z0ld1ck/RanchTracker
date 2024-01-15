@@ -85,7 +85,7 @@ class CattleListPaginationBloc {
       if (_filterValue?.minAge != null) queryParams['min_age'] = _filterValue?.minAge;
       if (_filterValue?.maxAge != null) queryParams['max_age'] = _filterValue?.maxAge;
       if (_filterValue?.isPregnant != null) queryParams['is_pregnant'] = _filterValue?.isPregnant;
-      final result = await _getLivestockListUsecase(queryParams);
+      final result = await _getLivestockListUsecase(params: queryParams);
       if (result is DataFailed) {
         throw result.error ??
             CustomException(

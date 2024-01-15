@@ -40,7 +40,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState>
 
   Future<void> _loadByType(LoadByType event, emit) async {
     emit(state.copyWith(status: DashboardStateStatus.loading));
-    final result = await _getDashboardByTypeUsecase(null);
+    final result = await _getDashboardByTypeUsecase();
 
     if (result is DataSuccess) {
       emit(DashboardState(
@@ -63,7 +63,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState>
 
   Future<void> _loadByStatus(LoadByStatus event, emit) async {
     emit(state.copyWith(status: DashboardStateStatus.loading));
-    final result = await _getDashboardByStatusUsecase(null);
+    final result = await _getDashboardByStatusUsecase();
 
     if (result is DataSuccess) {
       emit(DashboardState(
@@ -86,7 +86,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState>
 
   Future<void> _loadByAction(LoadByAction event, emit) async {
     emit(state.copyWith(status: DashboardStateStatus.loading));
-    final result = await _getDashboardByActionUsecase(null);
+    final result = await _getDashboardByActionUsecase();
 
     if (result is DataSuccess) {
       emit(DashboardState(

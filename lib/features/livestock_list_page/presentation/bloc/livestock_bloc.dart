@@ -3,9 +3,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:malshy/core/network/custom_exceptions.dart';
 import 'package:malshy/core/utils/data_state.dart';
 import 'package:malshy/features/livestock_list_page/domain/usecases/get_addition_type_usecase.dart';
+import 'package:malshy/features/livestock_list_page/domain/usecases/get_types_breeds_usecase.dart';
 import '../../../../injection_container.dart';
 import '../../domain/usecases/create_livestock_usecase.dart';
-import '../../domain/usecases/get_types_and_breeds_usecase.dart';
 
 part 'livestock_event.dart';
 
@@ -15,7 +15,7 @@ part 'livestock_bloc.freezed.dart';
 
 class LivestockBloc extends Bloc<LivestockEvent, LivestockState> {
   final CreateLiveStockUseCase _createLiveStockUseCase = sl();
-  final GetTypesAndBreedsUseCase _getTypeAndBreedUseCase = sl();
+  final GetTypesAndBreedsUsecase _getTypeAndBreedUseCase = sl();
   final GetAdditionTypeUseCase _getAdditionTypeUseCase = sl();
 
   LivestockBloc() : super(_Initial()) {
@@ -33,7 +33,7 @@ class LivestockBloc extends Bloc<LivestockEvent, LivestockState> {
   _createLivestock(CreateLivestock value, Emitter<LivestockState> emit) async {
     emit(LivestockLoading());
 
-    final data = await _createLiveStockUseCase.call({
+    final data = await _createLiveStockUseCase.call(params: {
       'RFID': 'RFID',
       'birthday': 'birthday',
       'sex': 'sex',
@@ -56,10 +56,7 @@ class LivestockBloc extends Bloc<LivestockEvent, LivestockState> {
       GetTypeAndBreed value, Emitter<LivestockState> emit) async {
     emit(LivestockLoading());
 
-    final data = await _getTypeAndBreedUseCase.call({
-      'name': 'name',
-      'type': 'type',
-    });
+    final data = await _getTypeAndBreedUseCase();
     if (data is DataSuccess) {
       emit(LivestockState.livestockLoaded());
     }
@@ -74,7 +71,7 @@ class LivestockBloc extends Bloc<LivestockEvent, LivestockState> {
   _getAdditionType(GetAdditionType value, Emitter<LivestockState> emit) async {
     emit(LivestockLoading());
 
-    final data = await _getAdditionTypeUseCase.call({
+    final data = await _getAdditionTypeUseCase.call(params: {
       'name': 'name',
       'type': 'type',
     });
