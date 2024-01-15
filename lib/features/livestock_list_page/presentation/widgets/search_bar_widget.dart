@@ -32,7 +32,7 @@ class CustomSearchBarWidget extends StatelessWidget {
             suffixIcon: IconButton(
               icon: SvgPicture.asset(AppIcons.filter),
               onPressed: () {
-                context.goNamed(RouteNames.cattleListFilter.name);
+                context.goNamed(RouteNames.livestockListFilter.name);
               },
             ),
           ),

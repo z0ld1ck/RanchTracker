@@ -9,12 +9,12 @@ enum RouteNames {
 
   dashboard('/dashboard', name: '/dashboard'),
 
-  // cattle list
-  cattleList('/cattle_list', name: '/cattle_list'),
-  cattleListFilter('/cattle_list_filter', name: '/cattle_list_filter'),
-  addCattle('add_cattle', name: 'add_cattle'),
+  // livestock list
+  livestockList('/livestock_list', name: '/livestock_list'),
+  livestockListFilter('/livestock_list_filter', name: '/livestock_list_filter'),
+  addLivestock('add_livestock', name: 'add_livestock'),
 
-  // events 
+  // events
   events('/events', name: '/events'),
   internalMovements('internal_movements', name: 'internal_movements'),
   prevention('prevention', name: 'prevention'),

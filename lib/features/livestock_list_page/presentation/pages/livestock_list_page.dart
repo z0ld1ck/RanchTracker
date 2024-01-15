@@ -11,21 +11,21 @@ import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/navigation/route_names.dart';
 import 'package:malshy/features/livestock_list_page/data/models/get_livestock_model.dart';
-import 'package:malshy/features/livestock_list_page/presentation/bloc/cattle_list_pagination_bloc.dart';
 import 'package:malshy/features/livestock_list_page/presentation/bloc/filter_livestock/filter_livestock_bloc.dart';
+import 'package:malshy/features/livestock_list_page/presentation/bloc/livestock_list_pagination_bloc.dart';
 import 'package:malshy/features/livestock_list_page/presentation/widgets/livestock_tile_widget.dart';
 import '../widgets/add_cattle_button_widget.dart';
 
-class CattleListPage extends StatefulWidget {
-  const CattleListPage({super.key});
+class LivestockListPage extends StatefulWidget {
+  const LivestockListPage({super.key});
 
   @override
-  State<CattleListPage> createState() => _CattleListPageState();
+  State<LivestockListPage> createState() => _LivestockListPageState();
 }
 
-class _CattleListPageState extends State<CattleListPage> {
+class _LivestockListPageState extends State<LivestockListPage> {
   // pagination
-  final CattleListPaginationBloc _paginationBloc = CattleListPaginationBloc();
+  final LivestockListPaginationBloc _paginationBloc = LivestockListPaginationBloc();
   final PagingController<int, GetLivestockModel> _pagingController = PagingController(firstPageKey: 1);
   late StreamSubscription _blocListingStateSubscription;
 
@@ -64,7 +64,7 @@ class _CattleListPageState extends State<CattleListPage> {
       child: Scaffold(
         floatingActionButton: AddCattleButtonWidget(
           onPressed: () {
-            context.pushNamed(RouteNames.addCattle.name);
+            context.pushNamed(RouteNames.addLivestock.name);
           },
           text: 'Добавить животное',
         ),
@@ -77,7 +77,7 @@ class _CattleListPageState extends State<CattleListPage> {
               IconButton(
                 onPressed: () {
                   context.pushNamed(
-                    RouteNames.cattleListFilter.name,
+                    RouteNames.livestockListFilter.name,
                     extra: context.read<FilterLivestockBloc>(),
                   );
                 },

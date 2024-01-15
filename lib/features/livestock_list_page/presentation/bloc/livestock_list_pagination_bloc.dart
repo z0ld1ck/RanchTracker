@@ -8,8 +8,8 @@ import 'package:malshy/features/livestock_list_page/domain/usecases/get_livestoc
 import 'package:malshy/features/livestock_list_page/presentation/bloc/filter_livestock/filter_livestock_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
-class CattleListPaginationState {
-  CattleListPaginationState({
+class LivestockListPaginationState {
+  LivestockListPaginationState({
     this.itemList,
     this.error,
     this.nextPageKey = 1,
@@ -20,10 +20,10 @@ class CattleListPaginationState {
   final int? nextPageKey;
 }
 
-class CattleListPaginationBloc {
+class LivestockListPaginationBloc {
   final _getLivestockListUsecase = GetIt.I.get<GetLivestockListUsecase>();
 
-  CattleListPaginationBloc() {
+  LivestockListPaginationBloc() {
     _onPageRequest.stream.flatMap(_fetchAggregateList).listen(_onNewListingStateController.add).addTo(_subscriptions);
 
     _onSearchInputChangedSubject.stream
@@ -41,11 +41,11 @@ class CattleListPaginationBloc {
 
   final _subscriptions = CompositeSubscription();
 
-  final _onNewListingStateController = BehaviorSubject<CattleListPaginationState>.seeded(
-    CattleListPaginationState(),
+  final _onNewListingStateController = BehaviorSubject<LivestockListPaginationState>.seeded(
+    LivestockListPaginationState(),
   );
 
-  Stream<CattleListPaginationState> get onNewListingState => _onNewListingStateController.stream;
+  Stream<LivestockListPaginationState> get onNewListingState => _onNewListingStateController.stream;
 
   final _onPageRequest = StreamController<int>();
 
@@ -65,12 +65,12 @@ class CattleListPaginationBloc {
 
   FilterLivestockState? get _filterValue => _onFilterChangedSubject.value;
 
-  Stream<CattleListPaginationState> _resetSearch() async* {
-    yield CattleListPaginationState();
+  Stream<LivestockListPaginationState> _resetSearch() async* {
+    yield LivestockListPaginationState();
     yield* _fetchAggregateList(1);
   }
 
-  Stream<CattleListPaginationState> _fetchAggregateList(int pageKey) async* {
+  Stream<LivestockListPaginationState> _fetchAggregateList(int pageKey) async* {
     final lastListingState = _onNewListingStateController.value;
     try {
       Map<String, dynamic> queryParams = {
@@ -97,7 +97,7 @@ class CattleListPaginationBloc {
         final newItems = result.data ?? [];
         final isLastPage = newItems.length < _pageSize;
         final nextPageKey = isLastPage ? null : pageKey + 1;
-        yield CattleListPaginationState(
+        yield LivestockListPaginationState(
           error: null,
           nextPageKey: nextPageKey,
           itemList: [
@@ -107,7 +107,7 @@ class CattleListPaginationBloc {
         );
       }
     } on CustomException catch (e) {
-      yield CattleListPaginationState(
+      yield LivestockListPaginationState(
         error: e,
         nextPageKey: lastListingState.nextPageKey,
         itemList: lastListingState.itemList,
