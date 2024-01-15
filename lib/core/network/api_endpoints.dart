@@ -40,3 +40,13 @@ enum LivestockEndpoint {
 
   final String path;
 }
+
+enum DashboardEndpoint {
+  LIVESTOCK_BY_TYPE('9020/dashboard/api/v1/livestock/type'),
+  LIVESTOCK_BY_STATUS('9020/dashboard/api/v1/livestock/status'),
+  LIVESTOCK_BY_ACTION('9020/dashboard/api/v1/livestock/actions');
+
+  const DashboardEndpoint(this.path);
+
+  final String path;
+}

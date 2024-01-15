@@ -1,0 +1,15 @@
+import 'package:malshy/core/usecase/usecase.dart';
+import 'package:malshy/core/utils/data_state.dart';
+import 'package:malshy/features/dashboard_page/data/models/dashboard_by_status_model.dart';
+import 'package:malshy/features/dashboard_page/domain/repositories/dashboard_repository.dart';
+
+class GetDashboardByStatusUsecase implements UseCase<DataState<List<DashboardByStatusModel>>, void> {
+  final DashboardRepository _dashboardRepository;
+
+  GetDashboardByStatusUsecase(this._dashboardRepository);
+
+  @override
+  Future<DataState<List<DashboardByStatusModel>>> call(void params) async {
+    return await _dashboardRepository.getDashboardByStatus();
+  }
+}
