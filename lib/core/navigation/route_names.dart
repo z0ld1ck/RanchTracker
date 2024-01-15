@@ -11,7 +11,7 @@ enum RouteNames {
 
   // cattle list
   cattleList('/cattle_list', name: '/cattle_list'),
-  cattleListFilter('cattle_list_filter', name: 'cattle_list_filter'),
+  cattleListFilter('/cattle_list_filter', name: '/cattle_list_filter'),
   addCattle('add_cattle', name: 'add_cattle'),
 
   // events 
