@@ -32,7 +32,7 @@ import 'package:malshy/features/map/presentation/pages/map_page.dart';
 import 'package:malshy/features/profile/presentation/pages/profile_page.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'root');
+GlobalKey<NavigatorState>(debugLabel: 'root');
 
 final GoRouter goRouter = GoRouter(
   extraCodec: const MyExtraCodec(),
@@ -66,11 +66,12 @@ final GoRouter goRouter = GoRouter(
     GoRoute(
       path: RouteNames.registration.path,
       name: RouteNames.registration.name,
-      builder: (context, state) => BlocProvider(
-        create: (context) => RegistrationBloc(),
-        lazy: false,
-        child: RegistrationPage(),
-      ),
+      builder: (context, state) =>
+          BlocProvider(
+            create: (context) => RegistrationBloc(),
+            lazy: false,
+            child: RegistrationPage(),
+          ),
     ),
     GoRoute(
       path: RouteNames.sms.path,
@@ -125,10 +126,11 @@ final GoRouter goRouter = GoRouter(
                 GoRoute(
                   path: RouteNames.addCattle.path,
                   name: RouteNames.addCattle.name,
-                  builder: (context, state) => BlocProvider(
-                    create: (context) => LivestockBloc(),
-                    child: AddCattlePage(),
-                  ),
+                  builder: (context, state) =>
+                      BlocProvider(
+                        create: (context) => LivestockBloc(),
+                        child: AddCattlePage(),
+                      ),
                 ),
               ],
             ),
@@ -259,7 +261,10 @@ class ScaffoldWithNavBar extends StatelessWidget {
   }
 
   static int _calculateSelectedIndex(BuildContext context) {
-    final String location = GoRouterState.of(context).uri.toString();
+    final String location = GoRouterState
+        .of(context)
+        .uri
+        .toString();
     if (location.startsWith(RouteNames.dashboard.path)) {
       return 0;
     }
