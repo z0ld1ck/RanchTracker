@@ -11,12 +11,17 @@ final ThemeData APP_THEME = ThemeData(
   scaffoldBackgroundColor: AppColors.blueSuper,
   brightness: Brightness.light,
   primaryColor: Color(0xFF2EA1D9),
+  
   primaryColorLight: Color(0xffF1F8EC),
   iconTheme: IconThemeData(color: Colors.black),
   textTheme: GoogleFonts.interTextTheme(),
   buttonTheme: ButtonThemeData(
     buttonColor: Color(0xFF2EA1D9),
     padding: EdgeInsets.symmetric(vertical: 12.h),
+  ),
+  bottomSheetTheme: BottomSheetThemeData(
+    modalElevation: 0,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.r)),
   ),
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
@@ -148,5 +153,8 @@ final ThemeData APP_THEME = ThemeData(
     dividerColor: Colors.transparent,
   ),
   scrollbarTheme: ScrollbarThemeData(thumbVisibility: MaterialStateProperty.all(true), thickness: MaterialStateProperty.all(10), thumbColor: MaterialStateProperty.all(Color(0xFF2EA1D9)), radius: const Radius.circular(10), minThumbLength: 100),
-  colorScheme: ColorScheme.light().copyWith(primary: Color(0xFF2EA1D9)).copyWith(background: Color(0xffF7F7F6)),
+  colorScheme: ColorScheme.light().copyWith(primary: Color(0xFF2EA1D9)).copyWith(
+        background: Color(0xffF7F7F6),
+        secondary: Color(0xFF2EA1D9),
+      ),
 );

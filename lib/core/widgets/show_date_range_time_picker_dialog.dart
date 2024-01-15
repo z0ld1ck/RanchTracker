@@ -735,58 +735,65 @@ Future<dynamic> showDateRangeTimePicker({
                             // style: AppTextStyles.caption(context).copyWith(color: AppColors.error),
                           ),
                         // close
-                        // SizedBox(
-                        //   width: 300,
-                        //   child: PrimaryButton(
-                        //     text: AppLocalizations.of(context)!.confirm,
-                        //     isDisabled: dates.length < 2,
-                        //     onPress: () {
-                        //       final isSameDay = dates.length == 2 &&
-                        //           dates[0].year == dates[1].year &&
-                        //           dates[0].month == dates[1].month &&
-                        //           dates[0].day == dates[1].day;
-                        //       final startTime = TimeOfDay(
-                        //         hour: int.tryParse(firstHour.text) ?? 0,
-                        //         minute: int.tryParse(firstMinute.text) ?? 0,
-                        //       );
-                        //       final endTime = TimeOfDay(
-                        //         hour: int.tryParse(secondHour.text) ?? 0,
-                        //         minute: int.tryParse(secondMinute.text) ?? 0,
-                        //       );
+                        SizedBox(
+                          width: 300,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary(context),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.r),
+                              ),
+                            ),
+                            onPressed: dates.length < 2
+                                ? null
+                                : () {
+                                    final isSameDay = dates.length == 2 &&
+                                        dates[0].year == dates[1].year &&
+                                        dates[0].month == dates[1].month &&
+                                        dates[0].day == dates[1].day;
+                                    final startTime = TimeOfDay(
+                                      hour: int.tryParse(firstHour.text) ?? 0,
+                                      minute: int.tryParse(firstMinute.text) ?? 0,
+                                    );
+                                    final endTime = TimeOfDay(
+                                      hour: int.tryParse(secondHour.text) ?? 0,
+                                      minute: int.tryParse(secondMinute.text) ?? 0,
+                                    );
 
-                        //       if (isSameDay && startTime.hour > endTime.hour) {
-                        //         timeError3 = true;
-                        //         setState(() {});
-                        //       } else if (isSameDay &&
-                        //           startTime.hour == endTime.hour &&
-                        //           startTime.minute > endTime.minute) {
-                        //         timeError4 = true;
-                        //         setState(() {});
-                        //       } else if (!timeError1 && !timeError2 && !timeError3 && !timeError4) {
-                        //         dates = [
-                        //           DateTime(
-                        //             dates.first.year,
-                        //             dates.first.month,
-                        //             dates.first.day,
-                        //             int.parse(firstHour.text),
-                        //             int.parse(firstMinute.text),
-                        //           ),
-                        //           DateTime(
-                        //             dates.last.year,
-                        //             dates.last.month,
-                        //             dates.last.day,
-                        //             int.parse(secondHour.text),
-                        //             int.parse(secondMinute.text),
-                        //           ),
-                        //         ];
+                                    if (isSameDay && startTime.hour > endTime.hour) {
+                                      timeError3 = true;
+                                      setState(() {});
+                                    } else if (isSameDay &&
+                                        startTime.hour == endTime.hour &&
+                                        startTime.minute > endTime.minute) {
+                                      timeError4 = true;
+                                      setState(() {});
+                                    } else if (!timeError1 && !timeError2 && !timeError3 && !timeError4) {
+                                      dates = [
+                                        DateTime(
+                                          dates.first.year,
+                                          dates.first.month,
+                                          dates.first.day,
+                                          int.parse(firstHour.text),
+                                          int.parse(firstMinute.text),
+                                        ),
+                                        DateTime(
+                                          dates.last.year,
+                                          dates.last.month,
+                                          dates.last.day,
+                                          int.parse(secondHour.text),
+                                          int.parse(secondMinute.text),
+                                        ),
+                                      ];
 
-                        //         setState(() {});
-                        //         onSelect(dates);
-                        //         Navigator.pop(context);
-                        //       }
-                        //     },
-                        //   ),
-                        // ),
+                                      setState(() {});
+                                      onSelect(dates);
+                                      Navigator.pop(context);
+                                    }
+                                  },
+                            child: Text('Выбрать', style: TextStyle(color: Colors.white)),
+                          ),
+                        ),
                         SizedBox(height: 8.0),
                       ],
                     ),

@@ -15,6 +15,7 @@ import 'package:malshy/features/auth/presentation/page/registration_page.dart';
 import 'package:malshy/features/auth/presentation/page/sms_code_auth.dart';
 import 'package:malshy/features/auth/presentation/page/welcome_page.dart';
 import 'package:malshy/features/livestock_list_page/presentation/bloc/livestock_bloc.dart';
+import 'package:malshy/features/livestock_list_page/presentation/bloc/filter_livestock/filter_livestock_bloc.dart';
 import 'package:malshy/features/livestock_list_page/presentation/pages/add_cattle_page.dart';
 import 'package:malshy/features/livestock_list_page/presentation/pages/cattle_list_page.dart';
 import 'package:malshy/features/livestock_list_page/presentation/pages/filter_page.dart';
@@ -97,6 +98,16 @@ final GoRouter goRouter = GoRouter(
       name: RouteNames.login.name,
       builder: (context, state) => LogInPage(),
     ),
+    GoRoute(
+      path: RouteNames.cattleListFilter.path,
+      name: RouteNames.cattleListFilter.name,
+      builder: (context, state) {
+        return BlocProvider.value(
+          value: state.extra! as FilterLivestockBloc,
+          child: FilterPage(),
+        );
+      },
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNavBar(navigationShell: navigationShell);
@@ -115,13 +126,11 @@ final GoRouter goRouter = GoRouter(
           routes: [
             GoRoute(
               path: RouteNames.cattleList.path,
-              builder: (context, state) => CattleListPage(),
+              builder: (context, state) => BlocProvider(
+                create: (context) => FilterLivestockBloc()..add(FilterLivestockEvent.fetchFilters()),
+                child: CattleListPage(),
+              ),
               routes: [
-                GoRoute(
-                  path: RouteNames.cattleListFilter.path,
-                  name: RouteNames.cattleListFilter.name,
-                  builder: (context, state) => FilterPage(),
-                ),
                 GoRoute(
                   path: RouteNames.addCattle.path,
                   name: RouteNames.addCattle.name,
@@ -312,6 +321,9 @@ class _MyExtraDecoder extends Converter<Object?, Object?> {
     if (inputAsList[0] == 'RegistrationBloc') {
       return inputAsList[1];
     }
+    if (inputAsList[0] == 'FilterLivestockBloc') {
+      return inputAsList[1];
+    }
     throw FormatException('Unable to parse input: $input');
   }
 }
@@ -327,6 +339,8 @@ class _MyExtraEncoder extends Converter<Object?, Object?> {
     switch (input) {
       case RegistrationBloc _:
         return <Object?>['RegistrationBloc', input];
+      case FilterLivestockBloc _:
+        return <Object?>['FilterLivestockBloc', input];
       default:
         throw FormatException('Cannot encode type ${input.runtimeType}');
     }
