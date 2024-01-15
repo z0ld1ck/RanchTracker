@@ -13,8 +13,6 @@ import 'package:malshy/features/dashboard_page/domain/repositories/dashboard_rep
 import 'package:malshy/features/dashboard_page/domain/usecase/get_dashboard_by_action_usecase.dart';
 import 'package:malshy/features/dashboard_page/domain/usecase/get_dashboard_by_status_usecase.dart';
 import 'package:malshy/features/dashboard_page/domain/usecase/get_dashboard_by_type_usecase.dart';
-import 'package:malshy/features/livestock_list_page/data/repositories/live_stock_repository_impl.dart';
-import 'package:malshy/features/livestock_list_page/domain/repositories/live_stock_repository.dart';
 import 'package:malshy/features/livestock_list_page/domain/usecases/get_livestock_list_usecase.dart';
 import 'package:malshy/features/livestock_list_page/domain/usecases/get_types_breeds_usecase.dart';
 

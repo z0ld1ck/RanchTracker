@@ -81,7 +81,7 @@ class LiveStockRepositoryImpl implements LiveStockRepository {
       ];
 
       final response = await _networkClient.getData(
-        endpoint: TypeBreedsEndpoint.GET_TYPE_AND_BREEDS.path,
+        endpoint: LivestockEndpoint.TYPES_BREEDS.path,
         queryParams: {'animals': queryParams},
         parser: (response) => TypeBreedsModel.fromJson(response),
       );
@@ -133,7 +133,7 @@ class LiveStockRepositoryImpl implements LiveStockRepository {
       ];
 
       final response = await _networkClient.getData(
-        endpoint: AdditionTypeEndpoint.GET_ADDITION_TYPE.path,
+        endpoint: LivestockEndpoint.GET_ADDITION_TYPE.path,
         queryParams: {'types': queryParams},
         parser: (response) => AdditionTypeModel.fromJson(response),
       );

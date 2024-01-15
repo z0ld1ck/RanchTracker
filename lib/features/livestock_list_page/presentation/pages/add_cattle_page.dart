@@ -8,16 +8,12 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/function/age_calculator.dart';
-import 'package:malshy/core/utils/key_value_storage_base.dart';
-import 'package:malshy/core/utils/key_value_storage_service.dart';
 import 'package:malshy/core/widgets/date_picker_widget.dart';
 import 'package:malshy/core/widgets/dropdown_textfield_widget.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
 import 'package:malshy/features/livestock_list_page/presentation/bloc/livestock_bloc.dart';
 import 'package:malshy/features/livestock_list_page/presentation/widgets/gender_radio_buttons_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/const/app_icons.dart';
-import '../widgets/add_cattle_dropdown_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddCattlePage extends StatefulWidget {
@@ -117,13 +113,13 @@ class _AddCattlePageState extends State<AddCattlePage> {
                                 .textTheme
                                 .bodyMedium!
                                 .copyWith(color: Colors.black),
-                            children: true
-                                ? [
+                          children: const [
                                     TextSpan(
                                         text: ' *',
-                                        style: TextStyle(color: Colors.red))
-                                  ]
-                                : null),
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ],
+                        ),
                       ),
                       hintText: 'Введите ушную бирку',
                       hintStyle: Theme.of(context)
