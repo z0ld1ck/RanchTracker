@@ -17,13 +17,8 @@ Future<void> initApp() async {
   await initializeDependencies();
 
   GetIt.I.registerSingleton<AuthBloc>(
-    AuthBloc()
-      ..add(
-        AuthEvent.checkIfLoggedIn(),
-      ),
+    AuthBloc()..add(AuthEvent.checkIfLoggedIn()),
   );
 
-  runApp(
-    App(),
-  );
+  runApp(App());
 }

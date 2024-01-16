@@ -11,6 +11,7 @@ class KeyValueStorageService {
   static const _refreshTokenKey = 'refreshToken';
   static const _authPasswordKey = 'authPasswordKey';
   static const _userModelKey = 'userModel';
+  static const _farmIdKey = 'farmId';
 
   final _keyValueStorage = KeyValueStorageBase();
 
@@ -35,6 +36,10 @@ class KeyValueStorageService {
     }
   }
 
+  int? getFarmId() {
+    return _keyValueStorage.getCommon<int>(_farmIdKey);
+  }
+
   void setAccessToken(String token) {
     _keyValueStorage.setEncrypted(_accessTokenKey, token);
   }
@@ -49,6 +54,10 @@ class KeyValueStorageService {
 
   void setUserModel(UserModel userModel) {
     _keyValueStorage.setCommon(_userModelKey, jsonEncode(userModel.toJson()));
+  }
+
+  void setFarmId(int farmId) {
+    _keyValueStorage.setCommon(_farmIdKey, farmId);
   }
 
   void resetKeys() {

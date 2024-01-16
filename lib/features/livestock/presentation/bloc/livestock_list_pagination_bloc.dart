@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:get_it/get_it.dart';
 import 'package:malshy/core/network/custom_exceptions.dart';
 import 'package:malshy/core/utils/data_state.dart';
+import 'package:malshy/core/utils/key_value_storage_service.dart';
 import 'package:malshy/features/livestock/data/models/get_livestock_model.dart';
 import 'package:malshy/features/livestock/domain/usecases/get_livestock_list_usecase.dart';
 import 'package:malshy/features/livestock/presentation/bloc/filter_livestock/filter_livestock_bloc.dart';
@@ -74,7 +75,7 @@ class LivestockListPaginationBloc {
     final lastListingState = _onNewListingStateController.value;
     try {
       Map<String, dynamic> queryParams = {
-        'farm_id': 12,
+        'farm_id': GetIt.I.get<KeyValueStorageService>().getFarmId(),
         'page': pageKey,
       };
       if (_searchInputValue != null && _searchInputValue!.isNotEmpty) queryParams['search'] = _searchInputValue;

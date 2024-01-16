@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:malshy/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:malshy/features/auth/domain/repositories/auth_repository.dart';
+import 'package:malshy/features/auth/domain/usecases/get_farm_id_usecase.dart';
 import 'package:malshy/features/auth/domain/usecases/log_in_usecase.dart';
 import 'package:malshy/features/auth/domain/usecases/register_usecase.dart';
 import 'package:malshy/features/livestock/data/repositories/live_stock_repository_impl.dart';
@@ -30,6 +31,7 @@ Future<void> initializeDependencies() async {
   //UseCases
   sl.registerSingleton<LoginUsecase>(LoginUsecase(sl()));
   sl.registerSingleton<RegisterUsecase>(RegisterUsecase(sl()));
+  sl.registerSingleton<GetFarmIdUsecase>(GetFarmIdUsecase(sl()));
 
 
   /*
