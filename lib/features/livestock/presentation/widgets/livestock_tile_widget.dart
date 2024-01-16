@@ -10,7 +10,7 @@ class LivestockTileWidget extends StatelessWidget {
     required this.livestockModel,
   });
 
-  final GetLivestockModel livestockModel;
+  final LivestockModel livestockModel;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class LivestockTileWidget extends StatelessWidget {
                         height: 24.h,
                       ),
                       Text(
-                        livestockModel.rfid ?? '',
+                        livestockModel.rfid,
                         style: TextStyle(
                           color: Color(0xFF1B1B1B),
                           fontSize: 14.sp,
@@ -99,7 +99,7 @@ class LivestockTileWidget extends StatelessWidget {
                               height: 24.h,
                             ).paddingOnly(right: 8.w),
                             Text(
-                              '${livestockModel.weight?.toStringAsFixed(0) ?? ''} кг',
+                              '${livestockModel.weight.toStringAsFixed(0)} кг',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.white,

@@ -10,4 +10,10 @@ extension DateTimeConverter on DateTime {
     String dayString = day >= 10 ? day.toString() : '0$day';
     return "$dayString.$monthString.$year";
   }
+
+  String toApiDateFormat() {
+    String monthString = month >= 10 ? month.toString() : '0$month';
+    String dayString = day >= 10 ? day.toString() : '0$day';
+    return "$year-$monthString-$dayString";
+  }
 }

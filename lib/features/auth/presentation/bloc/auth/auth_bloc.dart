@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:malshy/core/utils/data_state.dart';
 import 'package:malshy/core/utils/key_value_storage_service.dart';
 import 'package:malshy/features/auth/data/models/user_model.dart';
+import 'package:malshy/features/auth/domain/usecases/get_farm_id_usecase.dart';
 import 'package:malshy/features/auth/domain/usecases/log_in_usecase.dart';
 
 part 'auth_event.dart';
@@ -40,6 +41,7 @@ class AuthStream extends ChangeNotifier {
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final _loginUsecase = GetIt.I.get<LoginUsecase>();
+  final _getFarmIdUsecase = GetIt.I.get<GetFarmIdUsecase>();
 
   AuthBloc() : super(AuthState(globalState: AuthGlobalState.unknown, localState: AuthLocalState.unknown)) {
     on<AuthEvent>(
@@ -58,8 +60,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final DataState<UserModel> result =
         await _loginUsecase.call(params: {'phone': event.phone, 'password': event.password});
     if (result is DataSuccess && result.data != null) {
-
-      // записывает UserModel и password в KeyValueStorageService 
+      // записывает UserModel и password в KeyValueStorageService
       GetIt.I.get<KeyValueStorageService>().setUserModel(result.data!);
       GetIt.I.get<KeyValueStorageService>().setAuthPassword(event.password);
 
@@ -68,6 +69,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     if (result is DataFailed) {
       emit(AuthState(globalState: AuthGlobalState.unauthenticated, localState: AuthLocalState.failed));
+    }
+
+    final farmIdResult = await _getFarmIdUsecase();
+
+    if (farmIdResult is DataSuccess && farmIdResult.data != null) {
+      GetIt.I.get<KeyValueStorageService>().setFarmId(farmIdResult.data!);
     }
   }
 

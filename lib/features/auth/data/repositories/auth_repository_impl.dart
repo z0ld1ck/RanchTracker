@@ -40,9 +40,33 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<DataState> refreshToken() {
-    // TODO: implement refreshToken
-    throw UnimplementedError();
+  Future<DataState<int>> getFarmId() async {
+    try {
+      final userModel = await _networkClient.getListData<int?>(
+        endpoint: AuthEndpoint.GET_FARMS.path,
+        parser: (List<dynamic> data) {
+          final farm = data.firstOrNull;
+          if (farm is Map<String, dynamic>) {
+            return [farm['id']];
+          } else {
+            return [];
+          }
+        },
+      );
+
+      if (userModel.firstOrNull != null) {
+        return DataSuccess(userModel.firstOrNull ?? -1);
+      }
+
+      return DataFailed(
+        CustomException(
+          exceptionType: ExceptionType.FormatException,
+          message: 'Response data is empty/null',
+        ),
+      );
+    } on CustomException catch (e) {
+      return DataFailed(e);
+    }
   }
 
   @override

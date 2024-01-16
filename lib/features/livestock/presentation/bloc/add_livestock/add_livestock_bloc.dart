@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:malshy/core/network/custom_exceptions.dart';
 import 'package:malshy/core/utils/data_state.dart';
+import 'package:malshy/features/livestock/data/models/get_livestock_model.dart';
 import 'package:malshy/features/livestock/domain/usecases/create_livestock_usecase.dart';
 import 'package:malshy/features/livestock/domain/usecases/get_addition_type_usecase.dart';
 import 'package:malshy/features/livestock/domain/usecases/get_types_breeds_usecase.dart';
@@ -39,14 +40,26 @@ class AddLivestockBloc extends Bloc<AddLivestockEvent, AddLivestockState> {
       AddLivestockState(status: AddLivestockStateStatus.loading),
     );
 
-    final data = await _createLiveStockUseCase.call(params: {
-      'rfid': 'RFID',
-      'birthday': 'birthday',
-      'sex': 'sex',
-      'age': 'age',
-      'weight': 'weight',
-      'addition_method': 'addition_method'
-    });
+    final data = await _createLiveStockUseCase.call(
+      params: LivestockModel(
+        createdAt: null,
+        id: 0,
+        rfid: 'rfid',
+        nickname: 'nickname',
+        birthday: DateTime.now(),
+        type: 0,
+        breed: 0,
+        sex: 0,
+        age: 0,
+        weight: 0,
+        additionMethod: 0,
+        motherRfid: 'motherRfid',
+        fatherRfid: 'fatherRfid',
+        farmId: 0,
+        photo: [],
+        status: null,
+      ),
+    );
     if (data is DataSuccess) {
       emit(AddLivestockState(status:AddLivestockStateStatus.success));
     }

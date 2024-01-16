@@ -27,7 +27,7 @@ class LivestockListPage extends StatefulWidget {
 class _LivestockListPageState extends State<LivestockListPage> {
   // pagination
   final LivestockListPaginationBloc _paginationBloc = LivestockListPaginationBloc();
-  final PagingController<int, GetLivestockModel> _pagingController = PagingController(firstPageKey: 1);
+  final PagingController<int, LivestockModel> _pagingController = PagingController(firstPageKey: 1);
   late StreamSubscription _blocListingStateSubscription;
 
   // search
@@ -121,10 +121,10 @@ class _LivestockListPageState extends State<LivestockListPage> {
                   _pagingController.itemList?.clear();
                   _pagingController.refresh();
                 },
-                child: PagedListView<int, GetLivestockModel>(
+                child: PagedListView<int, LivestockModel>(
                   pagingController: _pagingController,
                   shrinkWrap: true,
-                  builderDelegate: PagedChildBuilderDelegate<GetLivestockModel>(
+                  builderDelegate: PagedChildBuilderDelegate<LivestockModel>(
                     newPageErrorIndicatorBuilder: (context) {
                       return Text(
                         'Ошибка',

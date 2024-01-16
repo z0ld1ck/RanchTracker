@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:malshy/core/network/api_endpoints.dart';
 import 'package:malshy/core/utils/key_value_storage_service.dart';
+import 'package:malshy/features/auth/presentation/bloc/auth/auth_bloc.dart';
 
 class ApiInterceptor extends Interceptor {
   ApiInterceptor() : super();
@@ -55,13 +57,15 @@ class ApiInterceptor extends Interceptor {
     ErrorInterceptorHandler handler,
   ) async {
     if (err.response?.statusCode == 401) {
-      final refreshToken =
-          await GetIt.I<KeyValueStorageService>().getRefreshToken();
+      final refreshToken = await GetIt.I<KeyValueStorageService>().getRefreshToken();
       if (refreshToken != null) {
         await _refreshToken(refreshToken: refreshToken);
         return handler.resolve(
           await retry(err.requestOptions),
         );
+      } else {
+        GetIt.I<KeyValueStorageService>().resetKeys();
+        GetIt.I<AuthBloc>().add(AuthEvent.logOut());
       }
     }
     return handler.next(err);
@@ -81,17 +85,17 @@ class ApiInterceptor extends Interceptor {
   }
 
   Future<void> _refreshToken({required String refreshToken}) async {
-    //TODO: refresh token
     final response = await Dio().post(
-      '',
-      data: {'refreshToken': refreshToken},
+      ApiEndpoint.baseUrl + AuthEndpoint.REFRESH_TOKEN.path,
+      data: {'refresh': refreshToken},
     );
-    if (response.statusCode == 201) {
-      GetIt.I<KeyValueStorageService>()
-          .setAccessToken(response.data['accessToken']);
-      //TODO: update refreshToken?
+    final statusCode = response.statusCode ?? 0;
+    if (statusCode >= 200 && statusCode < 300) {
+      GetIt.I<KeyValueStorageService>().setAccessToken(response.data['access']);
+      GetIt.I<KeyValueStorageService>().setRefreshToken(response.data['refresh']);
     } else {
       GetIt.I<KeyValueStorageService>().resetKeys();
+      GetIt.I<AuthBloc>().add(AuthEvent.logOut());
     }
   }
 }

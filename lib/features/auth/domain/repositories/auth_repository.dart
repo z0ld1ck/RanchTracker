@@ -12,5 +12,5 @@ abstract class AuthRepository {
     required String password,
   });
 
-  Future<DataState> refreshToken();
+  Future<DataState<int>> getFarmId();
 }

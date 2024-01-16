@@ -22,6 +22,7 @@ class ApiEndpoint {
 }
 
 enum AuthEndpoint {
+  GET_FARMS('9015/farm/api/v1/farms/'),
   REGISTER('9010/user/api/v1/registration/'),
   LOGIN('9010/user/api/v1/auth/login'),
   REFRESH_TOKEN('9010/user/api/v1/auth/refresh');
