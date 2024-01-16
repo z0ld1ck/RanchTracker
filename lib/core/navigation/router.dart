@@ -135,10 +135,11 @@ final GoRouter goRouter = GoRouter(
                 GoRoute(
                   path: RouteNames.addLivestock.path,
                   name: RouteNames.addLivestock.name,
-                  builder: (context, state) => BlocProvider(
-                    create: (context) => AddLivestockBloc(),
-                    child: AddLivestockPage(),
-                  ),
+                  builder: (context, state) =>
+                      BlocProvider(
+                        create: (context) => AddLivestockBloc()..add(GetAdditionType())..add(GetTypeAndBreed()),
+                        child: AddLivestockPage(),
+                      ),
                 ),
               ],
             ),

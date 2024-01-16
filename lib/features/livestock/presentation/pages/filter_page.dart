@@ -29,14 +29,18 @@ class _FilterPageState extends State<FilterPage> {
   @override
   void initState() {
     final bloc = context.read<FilterLivestockBloc>();
-    _weight = SfRangeValues(bloc.state.minWeight ?? 0, bloc.state.maxWeight ?? 1000);
+    _weight =
+        SfRangeValues(bloc.state.minWeight ?? 0, bloc.state.maxWeight ?? 1000);
     _age = SfRangeValues(bloc.state.minAge ?? 0, bloc.state.maxAge ?? 35);
-    _typeController = TextEditingController(text: bloc.state.selectedType?.toString())
-      ..addListener(() => setState(() => _breedController.clear()));
-    _breedController = TextEditingController(text: bloc.state.selectedBreed?.toString())
-      ..addListener(() => setState(() {}));
-    _pregnantController = TextEditingController(text: bloc.state.isPregnant?.toString())
-      ..addListener(() => setState(() {}));
+    _typeController =
+        TextEditingController(text: bloc.state.selectedType?.toString())
+          ..addListener(() => setState(() => _breedController.clear()));
+    _breedController =
+        TextEditingController(text: bloc.state.selectedBreed?.toString())
+          ..addListener(() => setState(() {}));
+    _pregnantController =
+        TextEditingController(text: bloc.state.isPregnant?.toString())
+          ..addListener(() => setState(() {}));
     super.initState();
   }
 
@@ -81,7 +85,8 @@ class _FilterPageState extends State<FilterPage> {
               clipBehavior: Clip.antiAlias,
               decoration: ShapeDecoration(
                 color: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,14 +105,18 @@ class _FilterPageState extends State<FilterPage> {
                     controller: _breedController,
                     hint: 'Выберите породу',
                     label: 'Породы',
-                    options: (state.types
-                            .firstWhereOrNull((element) => element.type == int.tryParse(_typeController.text))
-                            ?.breeds
-                            .map((e) => e.id.toString())
-                            .toList() ??
-                        []),
+                      options: (state.types
+                              .firstWhereOrNull((element) =>
+                                  element.type ==
+                                  int.tryParse(_typeController.text))
+                              ?.breeds
+                              .map((e) => e.id.toString())
+                              .toList() ??
+                          []),
                     optionsString: (state.types
-                            .firstWhereOrNull((element) => element.type == int.tryParse(_typeController.text))
+                            .firstWhereOrNull((element) =>
+                                element.type ==
+                                int.tryParse(_typeController.text))
                             ?.breeds
                             .map((e) => e.breed.toString())
                             .toList() ??
@@ -120,24 +129,30 @@ class _FilterPageState extends State<FilterPage> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       TextField(
-                        controller: TextEditingController(text: '${(_weight.start as num).toStringAsFixed(0)} кг'),
+                        controller: TextEditingController(
+                            text:
+                                '${(_weight.start as num).toStringAsFixed(0)} кг'),
                         decoration: InputDecoration(
                           prefixIcon: Text(
                             'ot',
                             style: TextStyle(color: AppColors.gray),
                           ).paddingSymmetric(horizontal: 8.w),
-                          prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
+                          prefixIconConstraints:
+                              BoxConstraints(minWidth: 0, minHeight: 0),
                         ),
                       ).expanded(),
                       8.w.widthBox,
                       TextField(
-                        controller: TextEditingController(text: '${(_weight.end as num).toStringAsFixed(0)} кг'),
+                        controller: TextEditingController(
+                            text:
+                                '${(_weight.end as num).toStringAsFixed(0)} кг'),
                         decoration: InputDecoration(
                           prefixIcon: Text(
                             'do',
                             style: TextStyle(color: AppColors.gray),
                           ).paddingSymmetric(horizontal: 8.w),
-                          prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
+                          prefixIconConstraints:
+                              BoxConstraints(minWidth: 0, minHeight: 0),
                         ),
                       ).expanded(),
                     ],
@@ -158,24 +173,28 @@ class _FilterPageState extends State<FilterPage> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       TextField(
-                        controller: TextEditingController(text: (_age.start as num).toStringAsFixed(0)),
+                        controller: TextEditingController(
+                            text: (_age.start as num).toStringAsFixed(0)),
                         decoration: InputDecoration(
                           prefixIcon: Text(
                             'ot',
                             style: TextStyle(color: AppColors.gray),
                           ).paddingSymmetric(horizontal: 8.w),
-                          prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
+                          prefixIconConstraints:
+                              BoxConstraints(minWidth: 0, minHeight: 0),
                         ),
                       ).expanded(),
                       8.w.widthBox,
                       TextField(
-                        controller: TextEditingController(text: (_age.end as num).toStringAsFixed(0)),
+                        controller: TextEditingController(
+                            text: (_age.end as num).toStringAsFixed(0)),
                         decoration: InputDecoration(
                           prefixIcon: Text(
                             'do',
                             style: TextStyle(color: AppColors.gray),
                           ).paddingSymmetric(horizontal: 8.w),
-                          prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
+                          prefixIconConstraints:
+                              BoxConstraints(minWidth: 0, minHeight: 0),
                         ),
                       ).expanded(),
                     ],

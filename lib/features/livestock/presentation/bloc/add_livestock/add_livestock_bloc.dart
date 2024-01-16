@@ -8,8 +8,12 @@ import 'package:malshy/features/livestock/domain/usecases/get_addition_type_usec
 import 'package:malshy/features/livestock/domain/usecases/get_types_breeds_usecase.dart';
 import 'package:malshy/injection_container.dart';
 
+import '../../../data/models/type_model.dart';
+
 part 'add_livestock_event.dart';
+
 part 'add_livestock_state.dart';
+
 part 'add_livestock_bloc.freezed.dart';
 
 class AddLivestockBloc extends Bloc<AddLivestockEvent, AddLivestockState> {
@@ -17,7 +21,8 @@ class AddLivestockBloc extends Bloc<AddLivestockEvent, AddLivestockState> {
   final GetTypesAndBreedsUsecase _getTypeAndBreedUseCase = sl();
   final GetAdditionTypeUseCase _getAdditionTypeUseCase = sl();
 
-  AddLivestockBloc() : super(_Initial()) {
+  AddLivestockBloc()
+      : super(AddLivestockState(status: AddLivestockStateStatus.loading)) {
     on<CreateLivestock>((event, emit) async {
       await _createLivestock(event, emit);
     });
@@ -29,8 +34,11 @@ class AddLivestockBloc extends Bloc<AddLivestockEvent, AddLivestockState> {
     });
   }
 
-  _createLivestock(CreateLivestock value, Emitter<AddLivestockState> emit) async {
-    emit(LivestockLoading());
+  _createLivestock(
+      CreateLivestock value, Emitter<AddLivestockState> emit) async {
+    emit(
+      AddLivestockState(status: AddLivestockStateStatus.loading),
+    );
 
     final data = await _createLiveStockUseCase.call(
       params: LivestockModel(
@@ -53,33 +61,36 @@ class AddLivestockBloc extends Bloc<AddLivestockEvent, AddLivestockState> {
       ),
     );
     if (data is DataSuccess) {
-      emit(AddLivestockState.livestockLoaded());
+      emit(AddLivestockState(status:AddLivestockStateStatus.success));
     }
 
     if (data is DataFailed) {
-      emit(
-        AddLivestockState.livestockFailure(data.error as CustomException),
-      );
+      emit(AddLivestockState(status: AddLivestockStateStatus.error));
     }
   }
 
-  _getTypesAndBreeds(GetTypeAndBreed value, Emitter<AddLivestockState> emit) async {
-    emit(LivestockLoading());
+  _getTypesAndBreeds(
+      GetTypeAndBreed value, Emitter<AddLivestockState> emit) async {
+    emit(AddLivestockState(status: AddLivestockStateStatus.loading));
 
     final data = await _getTypeAndBreedUseCase();
     if (data is DataSuccess) {
-      emit(AddLivestockState.livestockLoaded());
+      emit(
+        state.copyWith(
+            status: AddLivestockStateStatus.success, types: data.data ?? []),
+      );
     }
 
     if (data is DataFailed) {
       emit(
-        AddLivestockState.livestockFailure(data.error as CustomException),
+        AddLivestockState(status: AddLivestockStateStatus.error),
       );
     }
   }
 
-  _getAdditionType(GetAdditionType value, Emitter<AddLivestockState> emit) async {
-    emit(LivestockLoading());
+  _getAdditionType(
+      GetAdditionType value, Emitter<AddLivestockState> emit) async {
+    emit(AddLivestockState(status: AddLivestockStateStatus.loading));
 
     final data = await _getAdditionTypeUseCase.call(params: {
       'name': 'name',
@@ -88,11 +99,11 @@ class AddLivestockBloc extends Bloc<AddLivestockEvent, AddLivestockState> {
 
     if (data is DataSuccess) {
       emit(
-        AddLivestockState.livestockLoaded(),
+        AddLivestockState(status: AddLivestockStateStatus.success),
       );
     } else if (data is DataFailed) {
       emit(
-        AddLivestockState.livestockFailure(data.error as CustomException),
+        AddLivestockState(status: AddLivestockStateStatus.error),
       );
     }
   }
