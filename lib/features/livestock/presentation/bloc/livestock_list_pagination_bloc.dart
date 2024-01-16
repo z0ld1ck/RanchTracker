@@ -16,7 +16,7 @@ class LivestockListPaginationState {
     this.nextPageKey = 1,
   });
 
-  final List<GetLivestockModel>? itemList;
+  final List<LivestockModel>? itemList;
   final CustomException? error;
   final int? nextPageKey;
 }

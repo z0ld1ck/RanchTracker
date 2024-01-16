@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:malshy/core/models/localized_string_model.dart';
 import 'dart:convert';
-
-import 'package:malshy/features/livestock/data/models/get_livestock_model.dart';
 
 part 'dashboard_by_type_model.freezed.dart';
 part 'dashboard_by_type_model.g.dart';

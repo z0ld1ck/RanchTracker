@@ -11,7 +11,6 @@ import 'package:malshy/features/livestock/data/models/addition_type_model.dart';
 import 'package:malshy/features/livestock/data/models/get_livestock_model.dart';
 import 'package:malshy/features/livestock/data/models/type_model.dart';
 import '../../domain/repositories/live_stock_repository.dart';
-import '../models/livestock_model.dart';
 
 class LiveStockRepositoryImpl implements LiveStockRepository {
   final NetworkClient _networkClient = GetIt.I.get<NetworkClient>();
@@ -24,18 +23,19 @@ class LiveStockRepositoryImpl implements LiveStockRepository {
       Response response = (
         await _networkClient.postData(
           endpoint: LivestockEndpoint.ADD_LIVESTOCK.path,
-          body: {
-            'RFID': livestockModel.RFID,
-            'birthday': livestockModel.birthday,
-            'sex': livestockModel.sex,
-            'age': livestockModel.age,
-            'weight': livestockModel.weight,
-            'nickname': livestockModel.nickname,
-            'addition_method': livestockModel.addition_method,
-            'RFIDm': livestockModel.RFIDm,
-            'RFIDf': livestockModel.RFIDf,
-            'farm_id': livestockModel.farm_id,
-          },
+          body: livestockModel.toApiJson(),
+          //  {
+          //   'RFID': livestockModel.RFID,
+          //   'birthday': livestockModel.birthday,
+          //   'sex': livestockModel.sex,
+          //   'age': livestockModel.age,
+          //   'weight': livestockModel.weight,
+          //   'nickname': livestockModel.nickname,
+          //   'addition_method': livestockModel.addition_method,
+          //   'RFIDm': livestockModel.RFIDm,
+          //   'RFIDf': livestockModel.RFIDf,
+          //   'farm_id': livestockModel.farm_id,
+          // },
           parser: (response) => LivestockModel.fromJson(response),
         ),
       ) as Response;
@@ -55,13 +55,13 @@ class LiveStockRepositoryImpl implements LiveStockRepository {
   }
 
   @override
-  Future<DataState<List<GetLivestockModel>>> getLiveStock({required Map<String, dynamic> queryParams}) async {
+  Future<DataState<List<LivestockModel>>> getLiveStock({required Map<String, dynamic> queryParams}) async {
     try {
-      final livestockList = await _networkClient.getData<List<GetLivestockModel>>(
+      final livestockList = await _networkClient.getData<List<LivestockModel>>(
         endpoint: LivestockEndpoint.GET_LIVESTOCK_LIST.path,
         queryParams: queryParams,
         parser: (Map<String, dynamic> data) {
-          return getLivestockModelFromJson(jsonEncode(data['results']));
+          return livestockModelListFromJson(jsonEncode(data['results']));
         },
       );
       return DataSuccess(livestockList);
