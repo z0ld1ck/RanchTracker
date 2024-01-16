@@ -1,12 +1,15 @@
 part of 'add_livestock_bloc.dart';
 
+enum AddLivestockStateStatus {
+  loading,
+  error,
+  success,
+}
+
 @freezed
 class AddLivestockState with _$AddLivestockState {
-  const factory AddLivestockState.initial() = _Initial;
-
-  const factory AddLivestockState.createLivestockLoading() = LivestockLoading;
-
-  const factory AddLivestockState.livestockFailure(CustomException error) = LivestockFailure;
-
-  const factory AddLivestockState.livestockLoaded() = LivestockLoaded;
+  const factory AddLivestockState({
+    required AddLivestockStateStatus status,
+    final  List<TypeModel>types,
+  }) = _AddLivestockState;
 }

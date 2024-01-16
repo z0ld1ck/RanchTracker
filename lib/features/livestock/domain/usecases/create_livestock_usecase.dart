@@ -12,7 +12,7 @@ class CreateLiveStockUseCase implements Usecase<DataState<LivestockModel>, Map<S
   Future<DataState<LivestockModel>> call({Map<String, dynamic>? params}) async {
     return await _liveStockRepository.createLiveStock(
       LivestockModel(
-          RFID: params?['RFID'],
+          rfid: params?['rfid'],
           birthday: params?['birthday'],
           sex: params?['sex'],
           age: params?['age'],
