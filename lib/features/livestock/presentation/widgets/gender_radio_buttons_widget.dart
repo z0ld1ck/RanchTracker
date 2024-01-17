@@ -2,54 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:malshy/core/const/app_colors.dart';
 
-class GenderRadioButtonWidget extends StatefulWidget {
+class GenderRadioButtonWidget extends StatelessWidget {
   final ValueNotifier<int> controller;
 
   const GenderRadioButtonWidget({super.key, required this.controller});
 
   @override
-  _GenderRadioButtonWidgetState createState() =>
-      _GenderRadioButtonWidgetState();
-}
-
-class _GenderRadioButtonWidgetState extends State<GenderRadioButtonWidget> {
-  @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CustomRadioButton('Самка', 0),
-        SizedBox(
-          width: 8.w,
-        ),
-        CustomRadioButton('Самец', 1),
+        _customRadioButton(context, 'Самка', 0),
+        SizedBox(width: 8.w),
+        _customRadioButton(context, 'Самец', 1),
       ],
     );
   }
 
-  Widget CustomRadioButton(String text, int index) {
+  Widget _customRadioButton(BuildContext context, String text, int index) {
     return ElevatedButton(
       onPressed: () {
-        setState(() {
-          widget.controller.value = index;
-        });
+        controller.value = index;
       },
       style: ElevatedButton.styleFrom(
-        minimumSize: Size(69, 32),
+        visualDensity: VisualDensity.compact,
+        elevation: 0,
+        padding: EdgeInsets.symmetric(horizontal: 12.w),
         backgroundColor:
-        (widget.controller.value == index) ? AppColors.blueLight : AppColors.white,
+          (controller.value == index) ? AppColors.primary(context) : Colors.white,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(36.r),
           side: BorderSide(
-            color: (widget.controller.value == index) ? AppColors.blueLight : AppColors.blueLight,
+            color: AppColors.primary(context),
           ),
         ),
       ),
       child: Text(
         text,
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-          color: (widget.controller.value == index) ? AppColors.white : AppColors.blueLight,
-          fontWeight: FontWeight.w500,
-        ),
+              color: (controller.value == index) ? AppColors.white : AppColors.primary(context),
+              fontWeight: FontWeight.w500,
+            ),
       ),
     );
   }

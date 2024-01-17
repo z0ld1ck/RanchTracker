@@ -1,14 +1,13 @@
 import 'dart:convert';
-import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:http/http.dart';
 import 'package:malshy/core/network/api_endpoints.dart';
 import 'package:malshy/core/network/custom_exceptions.dart';
 import 'package:malshy/core/network/network_client.dart';
 import 'package:malshy/core/utils/data_state.dart';
 import 'package:malshy/features/livestock/data/models/addition_type_model.dart';
 
-import 'package:malshy/features/livestock/data/models/get_livestock_model.dart';
+import 'package:malshy/features/livestock/data/models/livestock_model.dart';
 import 'package:malshy/features/livestock/data/models/type_model.dart';
 import '../../domain/repositories/live_stock_repository.dart';
 
@@ -20,35 +19,15 @@ class LiveStockRepositoryImpl implements LiveStockRepository {
   @override
   Future<DataState<LivestockModel>> createLiveStock(LivestockModel livestockModel) async {
     try {
-      Response response = (
-        await _networkClient.postData(
-          endpoint: LivestockEndpoint.ADD_LIVESTOCK.path,
-          body: livestockModel.toApiJson(),
-          //  {
-          //   'RFID': livestockModel.RFID,
-          //   'birthday': livestockModel.birthday,
-          //   'sex': livestockModel.sex,
-          //   'age': livestockModel.age,
-          //   'weight': livestockModel.weight,
-          //   'nickname': livestockModel.nickname,
-          //   'addition_method': livestockModel.addition_method,
-          //   'RFIDm': livestockModel.RFIDm,
-          //   'RFIDf': livestockModel.RFIDf,
-          //   'farm_id': livestockModel.farm_id,
-          // },
-          parser: (response) => LivestockModel.fromJson(response),
-        ),
-      ) as Response;
-
-      if (response.statusCode == HttpStatus.created) {
-        LivestockModel livestockModel = LivestockModel.fromJson(
-          jsonDecode(response.body),
-        );
-        print(response.body);
+      final newLivestockModel = await _networkClient.postData<LivestockModel>(
+        endpoint: LivestockEndpoint.ADD_LIVESTOCK.path,
+        body: FormData.fromMap(await livestockModel.toApiJson()),
+        parser: (response) => LivestockModel.fromJson(response),
+      );
+      if (newLivestockModel != null)
         return DataSuccess(livestockModel);
-      } else {
+      else
         return DataFailed(CustomException(message: 'bad response'));
-      }
     } on CustomException catch (e) {
       return DataFailed(e);
     }
@@ -72,7 +51,7 @@ class LiveStockRepositoryImpl implements LiveStockRepository {
 
   @override
   Future<DataState<List<AdditionTypeModel>>> getAdditionType() async {
-    try {     
+    try {
       final additionTypesList = await _networkClient.getListData(
         endpoint: LivestockEndpoint.GET_ADDITION_TYPE.path,
         parser: (List<dynamic> data) {

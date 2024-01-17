@@ -1,16 +1,23 @@
+import 'dart:io';
+
 import 'package:awesome_extensions/awesome_extensions.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:malshy/core/const/app_colors.dart';
+import 'package:malshy/core/function/age_calculator.dart';
+import 'package:malshy/core/function/validation_functions.dart';
 import 'package:malshy/core/widgets/date_picker_widget.dart';
 import 'package:malshy/core/widgets/dropdown_textfield_widget.dart';
+import 'package:malshy/core/widgets/lable_with_asterisk.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
 import 'package:malshy/features/livestock/data/models/addition_type_model.dart';
 import 'package:malshy/features/livestock/data/models/type_model.dart';
 import 'package:malshy/features/livestock/presentation/bloc/add_livestock/add_livestock_bloc.dart';
+import 'package:malshy/features/livestock/presentation/widgets/add_livestock_images_widget.dart';
 import 'package:malshy/features/livestock/presentation/widgets/gender_radio_buttons_widget.dart';
 import '../../../../core/const/app_icons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,83 +33,138 @@ class AddLivestockPage extends StatefulWidget {
 }
 
 class _AddLivestockPageState extends State<AddLivestockPage> {
-  DateTime date = DateTime.now();
-  String? selectedValue;
-  TextEditingController rfid = TextEditingController();
-  TextEditingController nickname = TextEditingController();
-  TextEditingController dateInput = TextEditingController();
-  TextEditingController type = TextEditingController();
-  TextEditingController breed = TextEditingController();
-  TextEditingController weight = TextEditingController();
-  TextEditingController way = TextEditingController();
-  TextEditingController mother_rfid = TextEditingController();
-  TextEditingController father_rfid = TextEditingController();
-  ValueNotifier<int> gender = ValueNotifier<int>(0);
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _rfidController = TextEditingController();
+  final TextEditingController _nicknameController = TextEditingController();
+  final ValueNotifier<DateTime?> _birthdayNotifier = ValueNotifier<DateTime?>(null);
+  final TextEditingController _typeController = TextEditingController();
+  final TextEditingController _breedController = TextEditingController();
+  final ValueNotifier<int> _sexController = ValueNotifier<int>(0);
+  final TextEditingController _weightController = TextEditingController();
+  final TextEditingController _additionTypeController = TextEditingController();
+  final TextEditingController _motherRfidController = TextEditingController();
+  final TextEditingController _fatherRfidController = TextEditingController();
+
+  List<File> images = [];
+
+  @override
+  void initState() {
+    _birthdayNotifier.addListener(() => setState(() {}));
+    _typeController.addListener(() => setState(() {}));
+    _breedController.addListener(() => setState(() {}));
+    _sexController.addListener(() => setState(() {}));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 50.h),
-        child: AppBar(
-          title: Text('Добавить животное'),
-          centerTitle: true,
-          leading: IconButton(
-            onPressed: () {
-              context.pop();
-            },
-            icon: SvgPicture.asset(AppIcons.back),
+    return BlocListener<AddLivestockBloc, AddLivestockState>(
+      listenWhen: (previous, current) => previous.status != current.status,
+      listener: (context, state) async {
+        EasyLoading.removeAllCallbacks();
+        EasyLoading.instance
+          ..loadingStyle = EasyLoadingStyle.custom
+          ..indicatorSize = 75.w
+          ..indicatorType = EasyLoadingIndicatorType.circle
+          ..indicatorColor = Color(0xFF2EA1D9)
+          ..backgroundColor = Colors.white
+          ..maskColor = Colors.black38
+          ..animationDuration = Duration.zero
+          ..animationStyle = EasyLoadingAnimationStyle.offset
+          ..textColor = AppColors.primary(context)
+          ..animationStyle = EasyLoadingAnimationStyle.scale
+          ..userInteractions = false
+          ..successWidget = SvgPicture.asset('assets/icons/success.svg')
+          ..boxShadow = const []
+          ..dismissOnTap = false;
+
+        if (state.status == AddLivestockStateStatus.success) {
+          await EasyLoading.showSuccess(
+            'Успешно добавлено',
+            duration: 1.seconds,
+            maskType: EasyLoadingMaskType.custom,
+            dismissOnTap: true,
+          );
+          if (context.mounted) context.pop();
+        } else if (state.status == AddLivestockStateStatus.error) {
+          await EasyLoading.showError(
+            'Ошибка при добавлении',
+            duration: 1.seconds,
+            maskType: EasyLoadingMaskType.custom,
+            dismissOnTap: true,
+          );
+        } else if (state.status == AddLivestockStateStatus.loading) {
+          await EasyLoading.show(
+            maskType: EasyLoadingMaskType.custom,
+            dismissOnTap: false,
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size(double.infinity, 50.h),
+          child: AppBar(
+            title: Text('Добавить животное'),
+            centerTitle: true,
+            leading: IconButton(
+              onPressed: () {
+                context.pop();
+              },
+              icon: SvgPicture.asset(AppIcons.back),
+            ),
           ),
         ),
-      ),
-      body: BlocBuilder<AddLivestockBloc, AddLivestockState>(
-        builder: (context, state) {
-
-          return SingleChildScrollView(
-            child: Container(
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
+        bottomNavigationBar: PrimaryButton(
+          text: 'Сохранить',
+          onPressed: () async {
+            if (_formKey.currentState!.validate()) {
+              context.read<AddLivestockBloc>().add(
+                    AddLivestockEvent.createLivestock(
+                      rfid: _rfidController.text,
+                      nickname: _nicknameController.text.isEmpty ? null : _nicknameController.text,
+                      birthday: _birthdayNotifier.value ?? DateTime.now(),
+                      type: int.tryParse(_typeController.text) ?? 0,
+                      breed: int.tryParse(_breedController.text) ?? 0,
+                      sex: _sexController.value,
+                      age: calculateAge(_birthdayNotifier.value ?? DateTime.now()),
+                      weight: double.tryParse(_weightController.text) ?? 0,
+                      additionMethod: int.tryParse(_additionTypeController.text) ?? 0,
+                      motherRfid: _motherRfidController.text.isEmpty ? null : _motherRfidController.text,
+                      fatherRfid: _fatherRfidController.text.isEmpty ? null : _fatherRfidController.text,
+                      images: images,
+                    ),
+                  );
+            }
+          },
+        ).paddingSymmetric(horizontal: 28.w, vertical: 12.h),
+        body: SingleChildScrollView(
+          child: Container(
+            decoration: ShapeDecoration(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
+            child: Form(
+              key: _formKey,
               child: Column(
                 children: [
                   // image widget
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: SvgPicture.asset(AppIcons.avatar),
-                        onPressed: () {},
-                      ),
-                    ],
-                  ).paddingOnly(bottom: 16.h),
+                  AddLivestockImageWidget(images: images).paddingOnly(bottom: 36.h),
                   // rfid
                   TextFormField(
-                    controller: rfid,
-                    maxLines: 1,
+                    controller: _rfidController,
+                    validator: ValidationFunctions().isEmpty(context),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
-                      label: RichText(
-                        text: TextSpan(
-                          text: 'Ушная бирка(RFID)',
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
-                          children: const [
-                            TextSpan(
-                              text: ' *',
-                              style: TextStyle(color: Colors.red),
-                            ),
-                          ],
-                        ),
-                      ),
+                      label: LabelWithAsterisk(label: 'Ушная бирка(RFID)'),
                       hintText: 'Введите ушную бирку',
                       hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColors.grayMedium),
                     ),
                   ).paddingOnly(bottom: 16.h),
                   // nickname
                   TextFormField(
-                    controller: nickname,
-                    maxLines: 1,
+                    controller: _nicknameController,
                     decoration: InputDecoration(
                       labelText: 'Кличка',
                       labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
@@ -113,74 +175,90 @@ class _AddLivestockPageState extends State<AddLivestockPage> {
                           ),
                     ),
                   ).paddingOnly(bottom: 16.h),
+                  // birthday
                   DatePickerWidget(
-                    isRequired: false,
+                    dateValue: _birthdayNotifier,
+                    isRequired: true,
                     label: 'Дата рождения',
                     hint: 'Выберите дату ',
-                    isDatePicker: true,
-                    controller: dateInput,
                     firstDate: DateTime(1990, 1, 1),
-                    lastDate: DateTime(2100, 1, 1),
+                    lastDate: DateTime.now(),
                   ).paddingOnly(bottom: 16.h),
                   // type
                   DropdownTextFieldWidget(
-                    controller: type,
-                    isRequired: false,
+                    controller: _typeController,
+                    isRequired: true,
                     label: 'Вид',
                     hint: 'Выберите вид',
+                    onChanged: (_) => _breedController.clear(),
                     options: widget.types.map((e) => e.type.toString()).toList(),
                     optionsString: widget.types.map((e) => e.name.ru).toList(),
                   ).paddingOnly(bottom: 16.h),
                   // breed
-                  DropdownTextFieldWidget(
-                    canEdit: true,
-                    controller: breed,
-                    isRequired: false,
-                    label: 'Порода',
-                    hint: 'Выберите породу',
-                    options: (widget.types
-                            .firstWhereOrNull((element) => element.type == int.tryParse(type.text))
-                            ?.breeds
-                            .map((e) => e.id.toString())
-                            .toList() ??
-                        []),
-                    optionsString: (widget.types
-                            .firstWhereOrNull((element) => element.type == int.tryParse(type.text))
-                            ?.breeds
-                            .map((e) => e.breed.toString())
-                            .toList() ??
-                        []),
-                  ).paddingOnly(bottom: 16.h),
+                  Builder(
+                    builder: (context) {
+                      final isTypeSelected =
+                          _typeController.text.isNotEmpty && int.tryParse(_typeController.text) != null;
+                      List<BreedModel> breeds = [];
+                      // если был выбран вид скота, мы будем показывать только соответствующие породы
+                      // в другом случае мы покажем все породы и автоматически выберем вид скота при выборе породы
+                      if (isTypeSelected) {
+                        breeds.addAll(
+                          widget.types.firstWhereOrNull((e) => e.type == int.tryParse(_typeController.text))?.breeds ??
+                              [],
+                        );
+                      } else {
+                        for (TypeModel type in widget.types) breeds.addAll(type.breeds);
+                      }
+
+                      return DropdownTextFieldWidget(
+                        canEdit: true,
+                        controller: _breedController,
+                        isRequired: true,
+                        label: 'Порода',
+                        hint: 'Выберите породу',
+                        onChanged: (value) {
+                          // автоматический выбор вида домашнего скота в соответствии с породой
+                          final typeToSelect =
+                              breeds.firstWhereOrNull((e) => e.id == int.tryParse(value))?.livestockType;
+                          if (typeToSelect != null) _typeController.text = typeToSelect.toString();
+                        },
+                        options: breeds.map((e) => e.id.toString()).toList(),
+                        optionsString: breeds.map((e) => e.breed.toString()).toList(),
+                      ).paddingOnly(bottom: 10.h);
+                    },
+                  ),
                   // sex
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        'Укажите пол:',
-                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                              color: AppColors.black,
-                              fontWeight: FontWeight.w500,
-                            ),
-                      ),
-                      SizedBox(
-                        width: 12.w,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          GenderRadioButtonWidget(controller: gender),
-                        ],
-                      ),
+                      RichText(
+                        text: TextSpan(
+                          text: 'Укажите пол ',
+                          style: TextStyle(
+                            color: Color(0xFF1C1C11),
+                            fontSize: 14.sp,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w500,
+                          ),
+                          children: const [
+                            TextSpan(text: '*', style: TextStyle(color: AppColors.error)),
+                            TextSpan(text: ' :'),
+                          ],
+                        ),
+                      ).paddingOnly(right: 12.w),
+                      GenderRadioButtonWidget(controller: _sexController),
                     ],
                   ).paddingOnly(bottom: 16.h),
                   // weight
                   TextFormField(
-                    controller: weight,
-                    maxLines: 1,
+                    controller: _weightController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: ValidationFunctions().isEmptyOrInvalidNumber(context),
+                    keyboardType: TextInputType.numberWithOptions(decimal: true),
                     decoration: InputDecoration(
-                      labelText: 'Вес',
-                      labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
+                      label: LabelWithAsterisk(label: 'Вес'),
                       hintText: 'Введите текст',
                       suffixIcon: Padding(
                         padding: const EdgeInsetsDirectional.fromSTEB(90, 0, 13, 0),
@@ -199,21 +277,16 @@ class _AddLivestockPageState extends State<AddLivestockPage> {
                   ).paddingOnly(bottom: 16.h),
                   // addition type
                   DropdownTextFieldWidget(
-                    controller: type,
+                    controller: _additionTypeController,
                     isRequired: true,
                     label: 'Способ добавления к поголовью',
                     hint: 'Выберите способ',
-                    options: const [
-                      'Приплод',
-                    ],
-                    optionsString: const [
-                      'Приплод',
-                    ],
+                    options: widget.additionTypes.map((e) => e.type.toString()).toList(),
+                    optionsString: widget.additionTypes.map((e) => e.name.ru).toList(),
                   ).paddingOnly(bottom: 16.h),
                   // mother rfid
                   TextFormField(
-                    controller: mother_rfid,
-                    maxLines: 1,
+                    controller: _motherRfidController,
                     decoration: InputDecoration(
                       labelText: 'Бирка матери(RFID)',
                       labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
@@ -226,8 +299,7 @@ class _AddLivestockPageState extends State<AddLivestockPage> {
                   ).paddingOnly(bottom: 16.h),
                   // father rfid
                   TextFormField(
-                    controller: father_rfid,
-                    maxLines: 1,
+                    controller: _fatherRfidController,
                     decoration: InputDecoration(
                       labelText: 'Бирка отца(RFID)',
                       labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),
@@ -237,23 +309,12 @@ class _AddLivestockPageState extends State<AddLivestockPage> {
                             fontWeight: FontWeight.w500,
                           ),
                     ),
-                  ).paddingOnly(bottom: 16.h),
-                  // save button
-                  PrimaryButton(
-                    text: 'Сохранить',
-                    onPressed: () {
-                      context.read<AddLivestockBloc>().add(AddLivestockEvent.createLivestock());
-
-                      // DateTime selectedDate =
-                      //     DateFormat('dd.MM.yyyy').parse(dateInput.text);
-                      // int age = calculateAge(selectedDate);
-                    },
                   ),
                 ],
               ),
-            ).paddingAll(16.w),
-          );
-        },
+            ),
+          ).paddingAll(16.w),
+        ),
       ),
     );
   }

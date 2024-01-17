@@ -22,7 +22,7 @@ class LivestockEntity extends Equatable {
   final String? motherRfid;
   final String? fatherRfid;
   final int? farmId;
-  final String photo;
+  final String photos;
 
   // LocalizedSting
   final String? status;
@@ -42,7 +42,7 @@ class LivestockEntity extends Equatable {
     required this.motherRfid,
     required this.fatherRfid,
     required this.farmId,
-    required this.photo,
+    required this.photos,
     required this.status,
   });
 
@@ -62,7 +62,7 @@ class LivestockEntity extends Equatable {
         motherRfid,
         fatherRfid,
         farmId,
-        photo,
+        photos,
         status,
       ];
 }

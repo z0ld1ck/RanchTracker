@@ -10,7 +10,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/navigation/route_names.dart';
-import 'package:malshy/features/livestock/data/models/get_livestock_model.dart';
+import 'package:malshy/features/livestock/data/models/livestock_model.dart';
 import 'package:malshy/features/livestock/presentation/bloc/filter_livestock/filter_livestock_bloc.dart';
 import 'package:malshy/features/livestock/presentation/bloc/livestock_list_pagination_bloc.dart';
 import 'package:malshy/features/livestock/presentation/widgets/livestock_tile_widget.dart';

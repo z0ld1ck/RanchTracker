@@ -228,7 +228,7 @@ class NetworkClient implements NetworkClientInterface {
   @override
   Future<T?> postData<T>({
     required String endpoint,
-    required Map<String, dynamic> body,
+    required dynamic body,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
     required T Function(Map<String, dynamic> response)? parser,

@@ -1,3 +1,4 @@
+import 'package:awesome_extensions/awesome_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,140 +7,78 @@ import 'package:malshy/core/function/date_formatter.dart';
 
 import 'lable_with_asterisk.dart';
 
-class DatePickerWidget extends StatelessWidget {
+class DatePickerWidget extends StatefulWidget {
   const DatePickerWidget({
     super.key,
+    required this.dateValue,
     required this.isRequired,
     required this.label,
     required this.hint,
-    required this.isDatePicker,
-    this.isTimePicker,
-    required this.controller,
-    this.prefixIcon,
-    this.prefixIconColor,
     required this.firstDate,
     required this.lastDate,
-    this.onTap,
-    this.value,
-    this.validationKey,
   });
 
-  final TextEditingController? controller;
-  final String? value;
   final bool isRequired;
-  final GlobalKey<FormFieldState>? validationKey;
   final String label;
   final String hint;
-  final bool isDatePicker;
   final DateTime firstDate;
   final DateTime lastDate;
-  final bool? isTimePicker;
-  final String? prefixIcon;
-  final Color? prefixIconColor;
-  final Function()? onTap;
+  final ValueNotifier<DateTime?> dateValue;
+
+  @override
+  State<DatePickerWidget> createState() => _DatePickerWidgetState();
+}
+
+class _DatePickerWidgetState extends State<DatePickerWidget> {
+  final GlobalKey<FormFieldState> _validationKey = GlobalKey<FormFieldState>();
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller ??
-          ((value != null && value!.isNotEmpty)
-              ? TextEditingController(text: value)
-              : null),
-      readOnly: isDatePicker,
+      controller:
+          widget.dateValue.value != null ? TextEditingController(text: widget.dateValue.value!.toDateWithDots()) : null,
+      readOnly: true,
       enabled: true,
-      key: validationKey,
-      autovalidateMode: value != null
-          ? AutovalidateMode.always
-          : AutovalidateMode.onUserInteraction,
-      validator: isRequired
-          ? controller != null
-              ? (value) {
-        return '';
-                  // return (value == null || (value != null && value.isEmpty))
-                  //     // ? `AppLocalizations.of(context)!
-                  //     //     .fieldCannotBeEmpty
-                  //     //     .capitalize()`
-                  //     : null;
-                }
-              : (_) {
-                  return '';
-                    // (value == null || (value != null && value!.isEmpty))
-                    //   ? AppLocalizations.of(context)!
-                    //       .fieldCannotBeEmpty
-                    //       .capitalize()
-                    //   : null;
-                }
-          : null,
-      onTap: onTap ??
-          () async {
-            if (isDatePicker) {
-              final date = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: firstDate,
-                lastDate: lastDate,
-                builder: (context, child) {
-                  return Theme(
-                    data: Theme.of(context).copyWith(
-                      useMaterial3: false,
-                      applyElevationOverlayColor: false,
-                    ),
-                    child: child!,
-                  );
-                },
-              );
-
-              if (date != null) controller?.text = date.toDateTimeWithDots();
-
-              if (date != null &&
-                  isTimePicker != null &&
-                  isTimePicker! &&
-                  context.mounted) {
-                final time = await showTimePicker(
-                  context: context,
-                  initialTime: TimeOfDay.now(),
-                  builder: (context, child) {
-                    return Theme(
-                      data: Theme.of(context).copyWith(
-                        useMaterial3: false,
-                        applyElevationOverlayColor: false,
-                      ),
-                      child: child!,
-                    );
-                  },
-                );
-
-                if (time != null && context.mounted)
-                  controller?.text +=
-                      ' ${time.format(context).padLeft(5, '0')}';
-              }
+      key: _validationKey,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: widget.isRequired
+          ? (_) {
+              return widget.dateValue.value == null ? 'fieldCannotBeEmpty' : null;
             }
+          : null,
+      onTap: () async {
+        final date = await showDatePicker(
+          context: context,
+          initialDate: widget.dateValue.value,
+          firstDate: widget.firstDate,
+          lastDate: widget.lastDate,
+          builder: (context, child) {
+            return Theme(
+              data: Theme.of(context).copyWith(
+                useMaterial3: false,
+                applyElevationOverlayColor: false,
+              ),
+              child: child!,
+            );
           },
+        );
+
+        if (date != null) widget.dateValue.value = date;
+        _validationKey.currentState?.validate();
+      },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        prefixIcon: prefixIcon != null
-            ? Padding(
-                padding: EdgeInsets.all(8.w),
-                child: Image.asset(
-                  prefixIcon!,
-                  width: 20,
-                  height: 20,
-                  color: prefixIconColor,
-                ),
-              )
-            : null,
-        suffixIcon:SvgPicture.asset(AppIcons.date),
+        suffixIcon: SvgPicture.asset(
+          AppIcons.date,
+          color: widget.dateValue.value != null ? Colors.black : null,
+          height: 24.h,
+          width: 24.h,
+        ).paddingOnly(right: 12.w),
         suffixIconConstraints: BoxConstraints(
-          minHeight: 24,
-          minWidth: 52
+          minHeight: 24.h, minWidth: 24.h
         ),
-        label: isRequired ? LabelWithAsterisk(label: label) : Text(label),
-        hintText: value != null && value!.isNotEmpty ? value : hint,
-        hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
-              color: value != null && value!.isNotEmpty
-                  ? Theme.of(context).textTheme.labelLarge!.color
-                  : null,
-            ),
+        label: widget.isRequired ? LabelWithAsterisk(label: widget.label) : Text(widget.label),
+        hintText: widget.hint,
       ),
     );
   }

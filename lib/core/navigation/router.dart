@@ -109,6 +109,26 @@ final GoRouter goRouter = GoRouter(
         );
       },
     ),
+    GoRoute(
+      path: RouteNames.addLivestock.path,
+      name: RouteNames.addLivestock.name,
+      builder: (context, state) {
+        final isExtra = state.extra != null && state.extra is Map<String, dynamic>;
+
+        final types = isExtra ? (state.extra! as Map<String, dynamic>)['types'] as List<TypeModel> : <TypeModel>[];
+        final additionTypes = isExtra
+            ? (state.extra! as Map<String, dynamic>)['additionTypes'] as List<AdditionTypeModel>
+            : <AdditionTypeModel>[];
+
+        return BlocProvider(
+          create: (context) => AddLivestockBloc(),
+          child: AddLivestockPage(
+            types: types,
+            additionTypes: additionTypes,
+          ),
+        );
+      },
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNavBar(navigationShell: navigationShell);
@@ -131,29 +151,6 @@ final GoRouter goRouter = GoRouter(
                 create: (context) => FilterLivestockBloc()..add(FilterLivestockEvent.fetchFilters()),
                 child: LivestockListPage(),
               ),
-              routes: [
-                GoRoute(
-                  path: RouteNames.addLivestock.path,
-                  name: RouteNames.addLivestock.name,
-                  builder: (context, state) {
-                    final isExtra = state.extra != null && state.extra is Map<String, dynamic>;
-
-                    final types =
-                        isExtra ? (state.extra! as Map<String, dynamic>)['types'] as List<TypeModel> : <TypeModel>[];
-                    final additionTypes = isExtra
-                        ? (state.extra! as Map<String, dynamic>)['additionTypes'] as List<AdditionTypeModel>
-                        : <AdditionTypeModel>[];
-
-                    return BlocProvider(
-                      create: (context) => AddLivestockBloc(),
-                      child: AddLivestockPage(
-                        types: types,
-                        additionTypes: additionTypes,
-                      ),
-                    );
-                  },
-                ),
-              ],
             ),
           ],
         ),
@@ -309,9 +306,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
   }
 }
 
-// write codec for RegistrationBloc
 
-/// A codec that can serialize both [RegistrationBloc].
 class MyExtraCodec extends Codec<Object?, Object?> {
   /// Create a codec.
   const MyExtraCodec();
