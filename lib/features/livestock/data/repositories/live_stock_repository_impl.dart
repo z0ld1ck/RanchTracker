@@ -71,45 +71,31 @@ class LiveStockRepositoryImpl implements LiveStockRepository {
   }
 
   @override
-  Future<DataState<AdditionTypeModel>> getAdditionType(AdditionTypeModel additionTypeModel) async {
-    try {
-      final List<Map<String, dynamic>> queryParams = [
-        {
-          "name": {"ru": "Родился в хозяйстве", "kz": "Шаруашылықта дүниеге келген", "en": "Was born on the farm"},
-          "type": 1
-        },
-        {
-          "name": {"ru": "Купленный", "kz": "Сатып алынған", "en": "Bought"},
-          "type": 2
-        },
-      ];
-
-      final response = await _networkClient.getData(
+  Future<DataState<List<AdditionTypeModel>>> getAdditionType() async {
+    try {     
+      final additionTypesList = await _networkClient.getListData(
         endpoint: LivestockEndpoint.GET_ADDITION_TYPE.path,
-        queryParams: {'types': queryParams},
-        parser: (response) => AdditionTypeModel.fromJson(response),
+        parser: (List<dynamic> data) {
+          return additionTypeModelFromJson(jsonEncode(data));
+        },
       );
 
-      return DataSuccess(response);
+      return DataSuccess(additionTypesList);
     } on CustomException catch (e) {
       return DataFailed(e);
-    } catch (e) {
-      return DataFailed(
-        CustomException(message: 'Unexpected error occurred.'),
-      );
     }
   }
 
   @override
   Future<DataState<List<TypeModel>>> getTypesAndBreeds() async {
     try {
-      final livestockList = await _networkClient.getListData<TypeModel>(
+      final typesList = await _networkClient.getListData<TypeModel>(
         endpoint: LivestockEndpoint.TYPES_BREEDS.path,
         parser: (List<dynamic> data) {
           return typeFromJson(jsonEncode(data));
         },
       );
-      return DataSuccess(livestockList);
+      return DataSuccess(typesList);
     } on CustomException catch (e) {
       return DataFailed(e);
     }

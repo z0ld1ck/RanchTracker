@@ -11,7 +11,6 @@ import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/navigation/route_names.dart';
 import 'package:malshy/features/livestock/data/models/get_livestock_model.dart';
-import 'package:malshy/features/livestock/presentation/bloc/add_livestock/add_livestock_bloc.dart';
 import 'package:malshy/features/livestock/presentation/bloc/filter_livestock/filter_livestock_bloc.dart';
 import 'package:malshy/features/livestock/presentation/bloc/livestock_list_pagination_bloc.dart';
 import 'package:malshy/features/livestock/presentation/widgets/livestock_tile_widget.dart';
@@ -59,13 +58,25 @@ class _LivestockListPageState extends State<LivestockListPage> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<FilterLivestockBloc, FilterLivestockState>(
+      listenWhen: (previous, current) => previous.status == current.status,
       listener: (context, state) {
         _paginationBloc.onFilterChangedSink.add(state);
       },
       child: Scaffold(
         floatingActionButton: AddCattleButtonWidget(
           onPressed: () {
-            context.pushNamed(RouteNames.addLivestock.name);
+            final filterBloc = context.read<FilterLivestockBloc>();
+            if (filterBloc.state.status == FilterLivestockStatus.success) {
+              context.pushNamed(
+                RouteNames.addLivestock.name,
+                extra: {
+                  'types': filterBloc.state.types,
+                  'additionTypes': filterBloc.state.additionTypes,
+                },
+              ).then(
+                (_) => context.read<FilterLivestockBloc>().add(FilterLivestockEvent.fetchFilters()),
+              );
+            }
           },
           text: 'Добавить животное',
         ),

@@ -13,8 +13,9 @@ List<LivestockModel> livestockModelListFromJson(String str) =>
 
 @unfreezed
 class LivestockModel with _$LivestockModel {
+  LivestockModel._();
   @JsonSerializable(fieldRename: FieldRename.snake)
-  const factory LivestockModel({
+  factory LivestockModel({
     required DateTime? createdAt,
     required int id,
     required String rfid,
@@ -29,7 +30,7 @@ class LivestockModel with _$LivestockModel {
     required String? motherRfid,
     required String? fatherRfid,
     required int farmId,
-    required List<Photo> photo,
+    required List<Photo> photos,
     required LocalizedString? status,
   }) = _LivestockModel;
 
@@ -52,7 +53,7 @@ class LivestockModel with _$LivestockModel {
       fatherRfid: fatherRfid,
       farmId: farmId,
       // TODO: посмотреть что с фотками в Entity
-      photo: jsonEncode(photo),
+      photo: jsonEncode(photos),
       status: jsonEncode(status),
     );
   }

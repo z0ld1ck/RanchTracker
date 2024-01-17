@@ -14,6 +14,8 @@ import 'package:malshy/features/auth/presentation/page/password_page.dart';
 import 'package:malshy/features/auth/presentation/page/registration_page.dart';
 import 'package:malshy/features/auth/presentation/page/sms_code_auth.dart';
 import 'package:malshy/features/auth/presentation/page/welcome_page.dart';
+import 'package:malshy/features/livestock/data/models/addition_type_model.dart';
+import 'package:malshy/features/livestock/data/models/type_model.dart';
 import 'package:malshy/features/livestock/presentation/bloc/add_livestock/add_livestock_bloc.dart';
 import 'package:malshy/features/livestock/presentation/bloc/filter_livestock/filter_livestock_bloc.dart';
 import 'package:malshy/features/livestock/presentation/pages/add_livestock_page.dart';
@@ -32,8 +34,7 @@ import 'package:malshy/features/events/presentation/pages/add_weight_measure_eve
 import 'package:malshy/features/map/presentation/pages/map_page.dart';
 import 'package:malshy/features/profile/presentation/pages/profile_page.dart';
 
-final GlobalKey<NavigatorState> _rootNavigatorKey =
-GlobalKey<NavigatorState>(debugLabel: 'root');
+final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
 final GoRouter goRouter = GoRouter(
   extraCodec: const MyExtraCodec(),
@@ -67,12 +68,11 @@ final GoRouter goRouter = GoRouter(
     GoRoute(
       path: RouteNames.registration.path,
       name: RouteNames.registration.name,
-      builder: (context, state) =>
-          BlocProvider(
-            create: (context) => RegistrationBloc(),
-            lazy: false,
-            child: RegistrationPage(),
-          ),
+      builder: (context, state) => BlocProvider(
+        create: (context) => RegistrationBloc(),
+        lazy: false,
+        child: RegistrationPage(),
+      ),
     ),
     GoRoute(
       path: RouteNames.sms.path,
@@ -135,11 +135,23 @@ final GoRouter goRouter = GoRouter(
                 GoRoute(
                   path: RouteNames.addLivestock.path,
                   name: RouteNames.addLivestock.name,
-                  builder: (context, state) =>
-                      BlocProvider(
-                        create: (context) => AddLivestockBloc()..add(GetAdditionType())..add(GetTypeAndBreed()),
-                        child: AddLivestockPage(),
+                  builder: (context, state) {
+                    final isExtra = state.extra != null && state.extra is Map<String, dynamic>;
+
+                    final types =
+                        isExtra ? (state.extra! as Map<String, dynamic>)['types'] as List<TypeModel> : <TypeModel>[];
+                    final additionTypes = isExtra
+                        ? (state.extra! as Map<String, dynamic>)['additionTypes'] as List<AdditionTypeModel>
+                        : <AdditionTypeModel>[];
+
+                    return BlocProvider(
+                      create: (context) => AddLivestockBloc(),
+                      child: AddLivestockPage(
+                        types: types,
+                        additionTypes: additionTypes,
                       ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -270,10 +282,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
   }
 
   static int _calculateSelectedIndex(BuildContext context) {
-    final String location = GoRouterState
-        .of(context)
-        .uri
-        .toString();
+    final String location = GoRouterState.of(context).uri.toString();
     if (location.startsWith(RouteNames.dashboard.path)) {
       return 0;
     }
@@ -329,6 +338,15 @@ class _MyExtraDecoder extends Converter<Object?, Object?> {
     if (inputAsList[0] == 'FilterLivestockBloc') {
       return inputAsList[1];
     }
+    if (inputAsList[0] == 'TypeModel') {
+      return inputAsList[1];
+    }
+    if (inputAsList[0] == 'AdditionTypeModel') {
+      return inputAsList[1];
+    }
+    if (inputAsList[0] == 'Map<String, List<Object>>') {
+      return inputAsList[1];
+    }
     throw FormatException('Unable to parse input: $input');
   }
 }
@@ -346,6 +364,12 @@ class _MyExtraEncoder extends Converter<Object?, Object?> {
         return <Object?>['RegistrationBloc', input];
       case FilterLivestockBloc _:
         return <Object?>['FilterLivestockBloc', input];
+      case TypeModel _:
+        return <Object?>['TypeModel', input];
+      case AdditionTypeModel _:
+        return <Object?>['AdditionTypeModel', input];
+      case Map<String, List<Object>> _:
+        return <Object?>['Map<String, List<Object>>', input];
       default:
         throw FormatException('Cannot encode type ${input.runtimeType}');
     }
