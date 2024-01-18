@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:malshy/core/network/custom_exceptions.dart';
 import 'package:malshy/core/utils/data_state.dart';
 import 'package:malshy/core/utils/key_value_storage_service.dart';
-import 'package:malshy/features/livestock/data/models/get_livestock_model.dart';
+import 'package:malshy/features/livestock/data/models/livestock_model.dart';
 import 'package:malshy/features/livestock/domain/usecases/get_livestock_list_usecase.dart';
 import 'package:malshy/features/livestock/presentation/bloc/filter_livestock/filter_livestock_bloc.dart';
 import 'package:rxdart/rxdart.dart';

@@ -1,5 +1,9 @@
-int calculateAge(DateTime birthday) {
-  final currentDate = DateTime.now();
-  final age = currentDate.year - birthday.year - (currentDate.month > birthday.month || (currentDate.month == birthday.month && currentDate.day >= birthday.day) ? 0 : 1);
+int calculateAge(DateTime birthDate) {
+  DateTime currentDate = DateTime.now();
+  int age = currentDate.year - birthDate.year;
+  if (currentDate.month < birthDate.month ||
+      (currentDate.month == birthDate.month && currentDate.day < birthDate.day)) {
+    age--;
+  }
   return age;
 }

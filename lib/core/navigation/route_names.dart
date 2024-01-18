@@ -12,7 +12,7 @@ enum RouteNames {
   // livestock list
   livestockList('/livestock_list', name: '/livestock_list'),
   livestockListFilter('/livestock_list_filter', name: '/livestock_list_filter'),
-  addLivestock('add_livestock', name: 'add_livestock'),
+  addLivestock('/add_livestock', name: '/add_livestock'),
 
   // events
   events('/events', name: '/events'),

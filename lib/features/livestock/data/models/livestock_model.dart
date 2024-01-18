@@ -1,20 +1,22 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:malshy/core/function/date_formatter.dart';
 import 'package:malshy/core/models/localized_string_model.dart';
 import 'package:malshy/features/livestock/domain/entities/livestock_entity.dart';
 
-part 'get_livestock_model.freezed.dart';
-part 'get_livestock_model.g.dart';
+part 'livestock_model.freezed.dart';
+part 'livestock_model.g.dart';
 
 List<LivestockModel> livestockModelListFromJson(String str) =>
     List<LivestockModel>.from(json.decode(str).map((x) => LivestockModel.fromJson(x)));
 
 @unfreezed
 class LivestockModel with _$LivestockModel {
+  LivestockModel._();
   @JsonSerializable(fieldRename: FieldRename.snake)
-  const factory LivestockModel({
+  factory LivestockModel({
     required DateTime? createdAt,
     required int id,
     required String rfid,
@@ -29,7 +31,7 @@ class LivestockModel with _$LivestockModel {
     required String? motherRfid,
     required String? fatherRfid,
     required int farmId,
-    required List<Photo> photo,
+    required List<Photo> photos,
     required LocalizedString? status,
   }) = _LivestockModel;
 
@@ -52,12 +54,12 @@ class LivestockModel with _$LivestockModel {
       fatherRfid: fatherRfid,
       farmId: farmId,
       // TODO: посмотреть что с фотками в Entity
-      photo: jsonEncode(photo),
+      photos: jsonEncode(photos),
       status: jsonEncode(status),
     );
   }
 
-  Map<String, dynamic> toApiJson() {
+  Future<Map<String, dynamic>> toApiJson() async {
     Map<String, dynamic> body = {
       'rfid': rfid,
       'birthday': birthday.toApiDateFormat(),
@@ -68,6 +70,9 @@ class LivestockModel with _$LivestockModel {
       'sex': sex,
       'age': age,
       'farm_id': farmId,
+      'photos': [
+        for (final i in photos) await MultipartFile.fromFile(i.photo),
+      ],
     };
 
     if (nickname != null) body['nickname'] = nickname;

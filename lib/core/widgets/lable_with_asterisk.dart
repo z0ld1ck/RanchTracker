@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:malshy/core/const/app_colors.dart';
 
 class LabelWithAsterisk extends StatelessWidget {
   const LabelWithAsterisk({super.key, required this.label});
@@ -16,6 +17,7 @@ class LabelWithAsterisk extends StatelessWidget {
         ),
         Text(
           ' *',
+          style: TextStyle(color: AppColors.error),
           // style: AppTextStyles.caption(context).copyWith(fontSize: 18.sp, color: AppColors.error),
         ),
       ],
