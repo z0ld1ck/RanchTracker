@@ -14,6 +14,7 @@ enum RouteNames {
   livestockListFilter('/livestock_list_filter', name: '/livestock_list_filter'),
   addLivestock('/add_livestock', name: '/add_livestock'),
   livestockDetails('/livestock_details', name: '/livestock_details'),
+  editLivestock('/edit_livestock', name: '/edit_livestock'),
 
   // events
   events('/events', name: '/events'),

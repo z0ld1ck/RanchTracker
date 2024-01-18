@@ -4,7 +4,9 @@ import 'package:malshy/features/livestock/data/models/type_model.dart';
 import 'package:malshy/features/livestock/data/models/livestock_model.dart';
 
 abstract class LiveStockRepository {
-  Future<DataState<LivestockModel>> createLiveStock(LivestockModel livestockModel);
+  Future<DataState<LivestockModel>> createLivestock(LivestockModel livestockModel);
+
+  Future<DataState<LivestockModel>> editLivestock(LivestockModel livestockModel, List<int> deletedImages);
 
   Future<DataState<List<AdditionTypeModel>>> getAdditionType();
 

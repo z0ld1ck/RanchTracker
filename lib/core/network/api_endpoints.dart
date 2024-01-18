@@ -33,10 +33,11 @@ enum AuthEndpoint {
 }
 
 enum LivestockEndpoint {
-  GET_LIVESTOCK_LIST('9015/farm/api/v1/livestock'),
   TYPES_BREEDS('9015/farm/api/v1/livestock/types-breeds'),
-  ADD_LIVESTOCK('9015/farm/api/v1/livestock/'),
-  GET_ADDITION_TYPE('9015/farm/api/v1/livestock/addition-types');
+  GET_ADDITION_TYPE('9015/farm/api/v1/livestock/addition-types'),
+  GET_LIVESTOCK_LIST('9015/farm/api/v1/livestock'),
+  EDIT_LIVESTOCK('9015/farm/api/v1/livestock/'),
+  CREATE_LIVESTOCK('9015/farm/api/v1/livestock/');
 
   const LivestockEndpoint(this.path);
 

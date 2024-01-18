@@ -1,12 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:malshy/core/const/app_colors.dart';
-import 'package:malshy/core/const/app_icons.dart';
+import 'package:malshy/core/navigation/extra_codec.dart';
 import 'package:malshy/core/navigation/route_names.dart';
+import 'package:malshy/core/navigation/scaffold_with_nav_bar.dart';
 import 'package:malshy/features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:malshy/features/auth/presentation/bloc/registration/registration_bloc.dart';
 import 'package:malshy/features/auth/presentation/page/log_in_page.dart';
@@ -20,6 +17,7 @@ import 'package:malshy/features/livestock/data/models/type_model.dart';
 import 'package:malshy/features/livestock/presentation/bloc/add_livestock/add_livestock_bloc.dart';
 import 'package:malshy/features/livestock/presentation/bloc/filter_livestock/filter_livestock_bloc.dart';
 import 'package:malshy/features/livestock/presentation/pages/add_livestock_page.dart';
+import 'package:malshy/features/livestock/presentation/pages/edit_livestock_page.dart';
 import 'package:malshy/features/livestock/presentation/pages/livestock_details_page.dart';
 import 'package:malshy/features/livestock/presentation/pages/livestock_list_page.dart';
 import 'package:malshy/features/livestock/presentation/pages/filter_page.dart';
@@ -39,7 +37,7 @@ import 'package:malshy/features/profile/presentation/pages/profile_page.dart';
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
 final GoRouter goRouter = GoRouter(
-  extraCodec: const MyExtraCodec(),
+  extraCodec: const ExtraCodec(),
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/',
   redirect: (context, state) {
@@ -62,11 +60,13 @@ final GoRouter goRouter = GoRouter(
       path: '/',
       redirect: (context, state) => RouteNames.dashboard.path,
     ),
+    // welcome page
     GoRoute(
       path: RouteNames.welcome.path,
       name: RouteNames.welcome.name,
       builder: (context, state) => WelcomePage(),
     ),
+    // registration
     GoRoute(
       path: RouteNames.registration.path,
       name: RouteNames.registration.name,
@@ -76,6 +76,7 @@ final GoRouter goRouter = GoRouter(
         child: RegistrationPage(),
       ),
     ),
+    // sms
     GoRoute(
       path: RouteNames.sms.path,
       name: RouteNames.sms.name,
@@ -86,6 +87,7 @@ final GoRouter goRouter = GoRouter(
         );
       },
     ),
+    // password
     GoRoute(
       path: RouteNames.password.path,
       name: RouteNames.password.name,
@@ -96,11 +98,13 @@ final GoRouter goRouter = GoRouter(
         );
       },
     ),
+    // login
     GoRoute(
       path: RouteNames.login.path,
       name: RouteNames.login.name,
       builder: (context, state) => LogInPage(),
     ),
+    // livestockListFilter
     GoRoute(
       path: RouteNames.livestockListFilter.path,
       name: RouteNames.livestockListFilter.name,
@@ -111,6 +115,7 @@ final GoRouter goRouter = GoRouter(
         );
       },
     ),
+    // add livestock
     GoRoute(
       path: RouteNames.addLivestock.path,
       name: RouteNames.addLivestock.name,
@@ -122,8 +127,8 @@ final GoRouter goRouter = GoRouter(
             ? (state.extra! as Map<String, dynamic>)['additionTypes'] as List<AdditionTypeModel>
             : <AdditionTypeModel>[];
 
-        return BlocProvider(
-          create: (context) => AddLivestockBloc(),
+        return BlocProvider<AddLivestockBloc>(
+          create: (context) => LivestockBloc(),
           child: AddLivestockPage(
             types: types,
             additionTypes: additionTypes,
@@ -131,6 +136,7 @@ final GoRouter goRouter = GoRouter(
         );
       },
     ),
+    // livestock details
     GoRoute(
       path: RouteNames.livestockDetails.path,
       name: RouteNames.livestockDetails.name,
@@ -149,6 +155,31 @@ final GoRouter goRouter = GoRouter(
           livestockModel: livestockModel!,
           types: types,
           additionTypes: additionTypes,
+        );
+      },
+    ),
+    // edit livestock
+    GoRoute(
+      path: RouteNames.editLivestock.path,
+      name: RouteNames.editLivestock.name,
+      builder: (context, state) {
+        // TODO: fix extra
+        final isExtra = state.extra != null && state.extra is Map<String, dynamic>;
+
+        final types = isExtra ? (state.extra! as Map<String, dynamic>)['types'] as List<TypeModel> : <TypeModel>[];
+        final additionTypes = isExtra
+            ? (state.extra! as Map<String, dynamic>)['additionTypes'] as List<AdditionTypeModel>
+            : <AdditionTypeModel>[];
+        final livestockModel =
+            isExtra ? (state.extra! as Map<String, dynamic>)['livestockModel'] as LivestockModel : null;
+
+        return BlocProvider<EditLivestockBloc>(
+          create: (context) => LivestockBloc(),
+          child: EditLivestockPage(
+            livestockModel: livestockModel!,
+            types: types,
+            additionTypes: additionTypes,
+          ),
         );
       },
     ),
@@ -250,156 +281,3 @@ final GoRouter goRouter = GoRouter(
     ),
   ],
 );
-
-class ScaffoldWithNavBar extends StatelessWidget {
-  const ScaffoldWithNavBar({
-    super.key,
-    required this.navigationShell,
-  });
-
-  final StatefulNavigationShell navigationShell;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _calculateSelectedIndex(context),
-        onTap: (int index) => _onItemTapped(index, context),
-        type: BottomNavigationBarType.fixed,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        backgroundColor: AppColors.white,
-        items: [
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(AppIcons.home),
-            label: '',
-            activeIcon: SvgPicture.asset(AppIcons.dash),
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(AppIcons.cow_not_selected),
-            label: '',
-            activeIcon: SvgPicture.asset(AppIcons.cow_svet),
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(AppIcons.notes),
-            label: '',
-            activeIcon: SvgPicture.asset(AppIcons.notes2),
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(AppIcons.mark),
-            label: '',
-            activeIcon: SvgPicture.asset(AppIcons.map),
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(AppIcons.profile),
-            label: '',
-            activeIcon: SvgPicture.asset(AppIcons.account),
-          ),
-        ],
-      ),
-    );
-  }
-
-  static int _calculateSelectedIndex(BuildContext context) {
-    final String location = GoRouterState.of(context).uri.toString();
-    if (location.startsWith(RouteNames.dashboard.path)) {
-      return 0;
-    }
-    if (location.startsWith(RouteNames.livestockList.path)) {
-      return 1;
-    }
-    if (location.startsWith(RouteNames.events.path)) {
-      return 2;
-    }
-    if (location.startsWith(RouteNames.map.path)) {
-      return 3;
-    }
-    if (location.startsWith(RouteNames.profile.path)) {
-      return 4;
-    }
-    return 0;
-  }
-
-  void _onItemTapped(int index, BuildContext context) {
-    navigationShell.goBranch(
-      index,
-      initialLocation: index == navigationShell.currentIndex,
-    );
-  }
-}
-
-
-class MyExtraCodec extends Codec<Object?, Object?> {
-  /// Create a codec.
-  const MyExtraCodec();
-
-  @override
-  Converter<Object?, Object?> get decoder => const _MyExtraDecoder();
-
-  @override
-  Converter<Object?, Object?> get encoder => const _MyExtraEncoder();
-}
-
-class _MyExtraDecoder extends Converter<Object?, Object?> {
-  const _MyExtraDecoder();
-
-  @override
-  Object? convert(Object? input) {
-    if (input == null) {
-      return null;
-    }
-    final List<Object?> inputAsList = input as List<Object?>;
-    if (inputAsList[0] == 'RegistrationBloc') {
-      return inputAsList[1];
-    }
-    if (inputAsList[0] == 'FilterLivestockBloc') {
-      return inputAsList[1];
-    }
-    if (inputAsList[0] == 'TypeModel') {
-      return inputAsList[1];
-    }
-    if (inputAsList[0] == 'AdditionTypeModel') {
-      return inputAsList[1];
-    }
-    if (inputAsList[0] == 'LivestockModel') {
-      return inputAsList[1];
-    }
-    if (inputAsList[0] == 'Map<String, List<Object>>') {
-      return inputAsList[1];
-    }
-    if (inputAsList[0] == 'Map<String, Object>') {
-      return inputAsList[1];
-    }
-    throw FormatException('Unable to parse input: $input');
-  }
-}
-
-class _MyExtraEncoder extends Converter<Object?, Object?> {
-  const _MyExtraEncoder();
-
-  @override
-  Object? convert(Object? input) {
-    if (input == null) {
-      return null;
-    }
-    switch (input) {
-      case RegistrationBloc _:
-        return <Object?>['RegistrationBloc', input];
-      case FilterLivestockBloc _:
-        return <Object?>['FilterLivestockBloc', input];
-      case TypeModel _:
-        return <Object?>['TypeModel', input];
-      case AdditionTypeModel _:
-        return <Object?>['AdditionTypeModel', input];
-      case Map<String, List<Object>> _:
-        return <Object?>['Map<String, List<Object>>', input];
-      case LivestockModel _:
-        return <Object?>['LivestockModel', input];
-      case Map<String, Object> _:
-        return <Object?>['Map<String, Object>', input];
-      default:
-        throw FormatException('Cannot encode type ${input.runtimeType}');
-    }
-  }
-}
