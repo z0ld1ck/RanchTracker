@@ -12,7 +12,7 @@ part 'livestock_model.g.dart';
 List<LivestockModel> livestockModelListFromJson(String str) =>
     List<LivestockModel>.from(json.decode(str).map((x) => LivestockModel.fromJson(x)));
 
-@unfreezed
+@freezed
 class LivestockModel with _$LivestockModel {
   LivestockModel._();
   @JsonSerializable(fieldRename: FieldRename.snake)
@@ -59,7 +59,7 @@ class LivestockModel with _$LivestockModel {
     );
   }
 
-  Future<Map<String, dynamic>> toApiJson() async {
+  Future<Map<String, dynamic>> toApiJson({List<int>? deletePhotosIds}) async {
     Map<String, dynamic> body = {
       'rfid': rfid,
       'birthday': birthday.toApiDateFormat(),
@@ -78,6 +78,7 @@ class LivestockModel with _$LivestockModel {
     if (nickname != null) body['nickname'] = nickname;
     if (motherRfid != null) body['mother_rfid'] = motherRfid;
     if (fatherRfid != null) body['father_rfid'] = fatherRfid;
+    if (deletePhotosIds != null) body['delete_photos_ids'] = deletePhotosIds;
     return body;
   }
 }

@@ -1,6 +1,6 @@
 part of 'add_livestock_bloc.dart';
 
-enum AddLivestockStateStatus {
+enum LivestockStateStatus {
   initial,
   loading,
   error,
@@ -8,8 +8,6 @@ enum AddLivestockStateStatus {
 }
 
 @freezed
-class AddLivestockState with _$AddLivestockState {
-  const factory AddLivestockState({
-    required AddLivestockStateStatus status
-  }) = _AddLivestockState;
+class LivestockState with _$LivestockState {
+  const factory LivestockState({required LivestockStateStatus status}) = _LivestockState;
 }

@@ -7,6 +7,7 @@ import 'package:malshy/features/auth/domain/usecases/register_usecase.dart';
 import 'package:malshy/features/livestock/data/repositories/live_stock_repository_impl.dart';
 import 'package:malshy/features/livestock/domain/repositories/live_stock_repository.dart';
 import 'package:malshy/features/livestock/domain/usecases/create_livestock_usecase.dart';
+import 'package:malshy/features/livestock/domain/usecases/edit_livestock_usecase.dart';
 import 'package:malshy/features/livestock/domain/usecases/get_addition_type_usecase.dart';
 import 'package:malshy/features/dashboard/data/repositories/dashboard_repository_impl.dart';
 import 'package:malshy/features/dashboard/domain/repositories/dashboard_repository.dart';
@@ -42,8 +43,9 @@ Future<void> initializeDependencies() async {
   // usecases
   sl.registerSingleton<GetTypesAndBreedsUsecase>(GetTypesAndBreedsUsecase(sl()));
   sl.registerSingleton<GetLivestockListUsecase>(GetLivestockListUsecase(sl()));
-  sl.registerSingleton<CreateLiveStockUseCase>(CreateLiveStockUseCase(sl()));
+  sl.registerSingleton<CreateLivestockUsecase>(CreateLivestockUsecase(sl()));
   sl.registerSingleton<GetAdditionTypeUseCase>(GetAdditionTypeUseCase(sl()));
+  sl.registerSingleton<EditLivestockUsecase>(EditLivestockUsecase(sl()));
   
   /*
    * * DASHBOARD

@@ -47,9 +47,9 @@ class LivestockTileWidget extends StatelessWidget {
                         ),
                       ).paddingSymmetric(horizontal: 8.w),
                       Text(
-                        livestockModel.sex == 0 ? '• Самец' : '• Самка',
+                        livestockModel.sex == 0 ? '• Самка' : '• Самец',
                         style: TextStyle(
-                          color: livestockModel.sex == 0 ? Color(0xFF2EA1D9) : Color(0xFFD52ED9),
+                          color: livestockModel.sex == 0 ? Color(0xFFD52ED9) : Color(0xFF2EA1D9),
                           fontSize: 14.sp,
                           fontFamily: 'Inter',
                           fontWeight: FontWeight.w600,
