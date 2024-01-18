@@ -67,7 +67,7 @@ class DioService {
 
   Future<Response<Map<String, dynamic>>> post({
     required String endpoint,
-    Map<String, dynamic>? data,
+    dynamic data,
     Options? options,
     CancelToken? cancelToken,
   }) async {

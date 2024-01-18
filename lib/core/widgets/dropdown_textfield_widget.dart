@@ -99,10 +99,9 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
               },
               validator: widget.isRequired
                   ? (_) {
-                      return 'asdf';
-                      // return (widget.controller == null || widget.controller!.text.isEmpty)
-                      //     ? AppLocalizations.of(context)!.fieldCannotBeEmpty.capitalize()
-                      //     : null;
+                      return (widget.controller == null || widget.controller!.text.isEmpty)
+                          ? 'fieldCannotBeEmpty'
+                          : null;
                     }
                   : null,
               // style: AppTextStyles.paragraphSmall(context).copyWith(
@@ -115,7 +114,6 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
                   fontSize: 0,
                 ),
                 focusedBorder: OutlineInputBorder(
-
                   borderSide: BorderSide(color: AppColors.primary(context), width: 2.w),
                   borderRadius: expandableController.expanded && filteredOptions.isNotEmpty
                       ? BorderRadius.only(
@@ -125,7 +123,7 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
                       : BorderRadius.all(Radius.circular(6.r)),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color:AppColors.grayLight),
+                  borderSide: BorderSide(color: AppColors.grayLight),
                   borderRadius: expandableController.expanded && filteredOptions.isNotEmpty
                       ? BorderRadius.only(
                           topLeft: Radius.circular(6.r),
@@ -134,7 +132,7 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
                       : BorderRadius.all(Radius.circular(6.r)),
                 ),
                 disabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color:AppColors.grayLight),
+                  borderSide: BorderSide(color: AppColors.grayLight),
                   borderRadius: expandableController.expanded && filteredOptions.isNotEmpty
                       ? BorderRadius.only(
                           topLeft: Radius.circular(6.r),
@@ -261,15 +259,17 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
                                 onTap: () {
                                   if (widget.controller?.text == filteredOptions[i]) {
                                     widget.controller?.clear();
-                                  } else 
+                                    widget.onChanged?.call('');
+                                  } else {
                                     widget.controller?.text = filteredOptions[i];
+                                    widget.onChanged?.call(filteredOptions[i]);
+                                  }
                                   validationKey.currentState?.validate();
                                   expandableController.toggle();
                                   if (widget.canEdit) {
                                     widget.controller?.selection =
                                         TextSelection.collapsed(offset: widget.controller?.text.length ?? 0);
                                   }
-                                  widget.onChanged?.call(filteredOptions[i]);
                                   focusNode.unfocus();
                                   setState(() {});
                                 },
