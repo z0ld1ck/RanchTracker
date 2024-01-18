@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:malshy/core/navigation/route_names.dart';
 import 'package:malshy/features/livestock/data/models/addition_type_model.dart';
 import 'package:malshy/features/livestock/data/models/livestock_model.dart';
 import 'package:malshy/features/livestock/data/models/type_model.dart';
@@ -28,7 +30,16 @@ class _LivestockDetailsPageState extends State<LivestockDetailsPage> {
         title: Text(widget.livestockModel.rfid),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              context.pushNamed(
+                RouteNames.editLivestock.name,
+                extra: {
+                  'types': widget.types,
+                  'additionTypes': widget.additionTypes,
+                  'livestockModel': widget.livestockModel,
+                },
+              );
+            },
             icon: SvgPicture.asset('assets/icons/edit.svg'),
           ),
         ],

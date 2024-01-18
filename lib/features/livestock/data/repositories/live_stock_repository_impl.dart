@@ -17,11 +17,29 @@ class LiveStockRepositoryImpl implements LiveStockRepository {
   LiveStockRepositoryImpl();
 
   @override
-  Future<DataState<LivestockModel>> createLiveStock(LivestockModel livestockModel) async {
+  Future<DataState<LivestockModel>> createLivestock(LivestockModel livestockModel) async {
     try {
       final newLivestockModel = await _networkClient.postData<LivestockModel>(
-        endpoint: LivestockEndpoint.ADD_LIVESTOCK.path,
+        endpoint: LivestockEndpoint.CREATE_LIVESTOCK.path,
         body: FormData.fromMap(await livestockModel.toApiJson()),
+        parser: (response) => LivestockModel.fromJson(response),
+      );
+      if (newLivestockModel != null)
+        return DataSuccess(livestockModel);
+      else
+        return DataFailed(CustomException(message: 'bad response'));
+    } on CustomException catch (e) {
+      return DataFailed(e);
+    }
+  }
+
+  @override
+  Future<DataState<LivestockModel>> editLivestock(LivestockModel livestockModel, List<int> deletePhotosIds) async {
+    try {
+      final newLivestockModel = await _networkClient.updateData<LivestockModel>(
+        endpoint: LivestockEndpoint.EDIT_LIVESTOCK.path + livestockModel.id.toString(),
+        body: FormData.fromMap(
+            await livestockModel.toApiJson(deletePhotosIds: deletePhotosIds.isEmpty ? null : deletePhotosIds)),
         parser: (response) => LivestockModel.fromJson(response),
       );
       if (newLivestockModel != null)
