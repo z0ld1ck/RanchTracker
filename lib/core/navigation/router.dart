@@ -15,10 +15,12 @@ import 'package:malshy/features/auth/presentation/page/registration_page.dart';
 import 'package:malshy/features/auth/presentation/page/sms_code_auth.dart';
 import 'package:malshy/features/auth/presentation/page/welcome_page.dart';
 import 'package:malshy/features/livestock/data/models/addition_type_model.dart';
+import 'package:malshy/features/livestock/data/models/livestock_model.dart';
 import 'package:malshy/features/livestock/data/models/type_model.dart';
 import 'package:malshy/features/livestock/presentation/bloc/add_livestock/add_livestock_bloc.dart';
 import 'package:malshy/features/livestock/presentation/bloc/filter_livestock/filter_livestock_bloc.dart';
 import 'package:malshy/features/livestock/presentation/pages/add_livestock_page.dart';
+import 'package:malshy/features/livestock/presentation/pages/livestock_details_page.dart';
 import 'package:malshy/features/livestock/presentation/pages/livestock_list_page.dart';
 import 'package:malshy/features/livestock/presentation/pages/filter_page.dart';
 import 'package:malshy/features/dashboard/presentation/pages/dashboard_page.dart';
@@ -126,6 +128,27 @@ final GoRouter goRouter = GoRouter(
             types: types,
             additionTypes: additionTypes,
           ),
+        );
+      },
+    ),
+    GoRoute(
+      path: RouteNames.livestockDetails.path,
+      name: RouteNames.livestockDetails.name,
+      builder: (context, state) {
+        // TODO: fix extra
+        final isExtra = state.extra != null && state.extra is Map<String, dynamic>;
+
+        final types = isExtra ? (state.extra! as Map<String, dynamic>)['types'] as List<TypeModel> : <TypeModel>[];
+        final additionTypes = isExtra
+            ? (state.extra! as Map<String, dynamic>)['additionTypes'] as List<AdditionTypeModel>
+            : <AdditionTypeModel>[];
+        final livestockModel =
+            isExtra ? (state.extra! as Map<String, dynamic>)['livestockModel'] as LivestockModel : null;
+
+        return LivestockDetailsPage(
+          livestockModel: livestockModel!,
+          types: types,
+          additionTypes: additionTypes,
         );
       },
     ),
@@ -339,7 +362,13 @@ class _MyExtraDecoder extends Converter<Object?, Object?> {
     if (inputAsList[0] == 'AdditionTypeModel') {
       return inputAsList[1];
     }
+    if (inputAsList[0] == 'LivestockModel') {
+      return inputAsList[1];
+    }
     if (inputAsList[0] == 'Map<String, List<Object>>') {
+      return inputAsList[1];
+    }
+    if (inputAsList[0] == 'Map<String, Object>') {
       return inputAsList[1];
     }
     throw FormatException('Unable to parse input: $input');
@@ -365,6 +394,10 @@ class _MyExtraEncoder extends Converter<Object?, Object?> {
         return <Object?>['AdditionTypeModel', input];
       case Map<String, List<Object>> _:
         return <Object?>['Map<String, List<Object>>', input];
+      case LivestockModel _:
+        return <Object?>['LivestockModel', input];
+      case Map<String, Object> _:
+        return <Object?>['Map<String, Object>', input];
       default:
         throw FormatException('Cannot encode type ${input.runtimeType}');
     }
