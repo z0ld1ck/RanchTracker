@@ -181,7 +181,21 @@ class _LivestockListPageState extends State<LivestockListPage> {
                       );
                     },
                     itemBuilder: (context, item, index) {
-                      return LivestockTileWidget(livestockModel: item).paddingOnly(
+                      return InkWell(
+                        onTap: () {
+                          final filterBloc = context.read<FilterLivestockBloc>();
+
+                          context.push(
+                            RouteNames.livestockDetails.name,
+                            extra: {
+                              'types': filterBloc.state.types,
+                              'additionTypes': filterBloc.state.additionTypes,
+                              'livestockModel': item,
+                            },
+                          );
+                        },
+                        child: LivestockTileWidget(livestockModel: item),
+                      ).paddingOnly(
                         bottom: 8.h,
                         left: 16.w,
                         right: 16.w,
