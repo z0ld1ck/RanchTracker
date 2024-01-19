@@ -1,41 +1,38 @@
 import 'package:awesome_extensions/awesome_extensions.dart';
+import 'package:collection/collection.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/widgets/lable_with_asterisk.dart';
 
-class DropdownTextFieldWidget extends StatefulWidget {
+class DropdownTextFieldWidget<T> extends StatefulWidget {
   const DropdownTextFieldWidget({
     super.key,
-    this.controller,
     required this.isRequired,
     required this.label,
     required this.hint,
-    required this.options,
-    required this.optionsString,
-    this.canEdit = false,
     this.onChanged,
-    this.selectedOptions,
+    required this.optionsMap,
+    required this.selectedOption,
+    this.addOption,
   });
 
-  final TextEditingController? controller;
   final bool isRequired;
   final String label;
   final String hint;
-  final List<dynamic> options;
-  final List<dynamic>? selectedOptions;
-  final List<String> optionsString;
-  final bool canEdit;
-  final Function(String value)? onChanged;
+  final Map<String, T> optionsMap;
+  final ValueNotifier<T?> selectedOption;
+  final Function(T value)? onChanged;
+  final Function(String option)? addOption;
 
   @override
-  State<DropdownTextFieldWidget> createState() => _DropdownTextFieldWidgetState();
+  State<DropdownTextFieldWidget<T>> createState() => _DropdownTextFieldWidgetState<T>();
 }
 
-class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
+class _DropdownTextFieldWidgetState<T> extends State<DropdownTextFieldWidget<T>> {
   final ScrollController scrollController = ScrollController();
-  List<dynamic> get selectedOptions => widget.selectedOptions ?? [];
   late final FocusNode focusNode;
   late final GlobalKey<FormFieldState> validationKey;
   late final ExpandableController expandableController;
@@ -59,16 +56,6 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> filteredOptionsString = [...widget.optionsString];
-    List<dynamic> filteredOptions = [...widget.options];
-    if (widget.canEdit) {
-      for (int i = 0; i < widget.optionsString.length; i++) {
-        if (!widget.optionsString[i].toLowerCase().contains(widget.controller?.text.toLowerCase() ?? '')) {
-          filteredOptionsString.remove(widget.optionsString[i]);
-          filteredOptions.remove(widget.options[i]);
-        }
-      }
-    }
     return ExpandableNotifier(
       controller: expandableController,
       child: ScrollOnExpand(
@@ -78,30 +65,15 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
             theme: ExpandableThemeData(useInkWell: false),
             child: TextFormField(
               key: validationKey,
-              readOnly: !widget.canEdit,
-              controller: widget.canEdit ? widget.controller : null,
+              readOnly: true,
+              controller: null,
               focusNode: focusNode,
-              onTap: () {
-                if (widget.canEdit) {
-                  if (!expandableController.expanded) {
-                    expandableController.toggle();
-                  }
-                } else {
-                  expandableController.toggle();
-                }
-              },
+              onTap: () => expandableController.toggle(),
               autovalidateMode: AutovalidateMode.onUserInteraction,
               textInputAction: TextInputAction.done,
-              onChanged: (value) {
-                if (widget.onChanged != null) widget.onChanged!(value);
-                validationKey.currentState?.validate();
-                setState(() {});
-              },
               validator: widget.isRequired
                   ? (_) {
-                      return (widget.controller == null || widget.controller!.text.isEmpty)
-                          ? 'fieldCannotBeEmpty'
-                          : null;
+                      return widget.selectedOption.value == null ? 'fieldCannotBeEmpty' : null;
                     }
                   : null,
               // style: AppTextStyles.paragraphSmall(context).copyWith(
@@ -115,7 +87,8 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: AppColors.primary(context), width: 2.w),
-                  borderRadius: expandableController.expanded && filteredOptions.isNotEmpty
+                  borderRadius:
+                      expandableController.expanded && (widget.optionsMap.isNotEmpty || widget.addOption != null)
                       ? BorderRadius.only(
                           topLeft: Radius.circular(6.r),
                           topRight: Radius.circular(6.r),
@@ -124,7 +97,8 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: AppColors.grayLight),
-                  borderRadius: expandableController.expanded && filteredOptions.isNotEmpty
+                  borderRadius:
+                      expandableController.expanded && (widget.optionsMap.isNotEmpty || widget.addOption != null)
                       ? BorderRadius.only(
                           topLeft: Radius.circular(6.r),
                           topRight: Radius.circular(6.r),
@@ -133,7 +107,8 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
                 ),
                 disabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: AppColors.grayLight),
-                  borderRadius: expandableController.expanded && filteredOptions.isNotEmpty
+                  borderRadius:
+                      expandableController.expanded && (widget.optionsMap.isNotEmpty || widget.addOption != null)
                       ? BorderRadius.only(
                           topLeft: Radius.circular(6.r),
                           topRight: Radius.circular(6.r),
@@ -142,7 +117,8 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
                 ),
                 focusedErrorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: AppColors.error, width: 2.w),
-                  borderRadius: expandableController.expanded && filteredOptions.isNotEmpty
+                  borderRadius:
+                      expandableController.expanded && (widget.optionsMap.isNotEmpty || widget.addOption != null)
                       ? BorderRadius.only(
                           topLeft: Radius.circular(6.r),
                           topRight: Radius.circular(6.r),
@@ -151,7 +127,8 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
                 ),
                 errorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: AppColors.error, width: 2.w),
-                  borderRadius: expandableController.expanded && filteredOptions.isNotEmpty
+                  borderRadius:
+                      expandableController.expanded && (widget.optionsMap.isNotEmpty || widget.addOption != null)
                       ? BorderRadius.only(
                           topLeft: Radius.circular(6.r),
                           topRight: Radius.circular(6.r),
@@ -189,17 +166,13 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
                           ),
                   ),
                 ),
-                hintText: (widget.canEdit && (widget.controller?.text.isNotEmpty ?? false))
-                    ? widget.controller?.text
-                    : (widget.controller?.text.isEmpty ?? true)
-                        ? widget.hint
-                        : filteredOptions.indexOf(widget.controller?.text).isNegative
-                            ? widget.hint
-                            : filteredOptionsString.elementAt(
-                                filteredOptions.indexOf(widget.controller?.text),
-                              ),
+                hintText: (widget.selectedOption.value == null)
+                    ? widget.hint
+                    : widget.optionsMap.entries
+                        .firstWhereOrNull((entry) => entry.value == widget.selectedOption.value)
+                        ?.key,
                 hintStyle: Theme.of(context).inputDecorationTheme.hintStyle?.copyWith(
-                      color: (widget.controller?.text.isEmpty ?? true)
+                      color: (widget.selectedOption.value == null)
                           ? null
                           : Theme.of(context).inputDecorationTheme.labelStyle?.color,
                     ),
@@ -207,7 +180,7 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
             ),
           ),
           collapsed: const SizedBox.shrink(),
-          expanded: filteredOptions.isEmpty
+          expanded: widget.optionsMap.isEmpty && widget.addOption == null
               ? const SizedBox.shrink()
               : Container(
                   decoration: BoxDecoration(
@@ -243,7 +216,7 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
                       top: BorderSide.none,
                     ),
                   ),
-                  height: filteredOptions.length > 6 ? 240.h : null,
+                  height: widget.optionsMap.length > 6 ? 240.h : null,
                   child: RawScrollbar(
                     controller: scrollController,
                     thickness: 5,
@@ -253,53 +226,175 @@ class _DropdownTextFieldWidgetState extends State<DropdownTextFieldWidget> {
                       controller: scrollController,
                       child: Wrap(
                         children: [
-                          for (int i = 0; i < filteredOptionsString.length; i++)
-                            if (!selectedOptions.contains(filteredOptions[i]))
-                              InkWell(
-                                onTap: () {
-                                  if (widget.controller?.text == filteredOptions[i]) {
-                                    widget.controller?.clear();
-                                    widget.onChanged?.call('');
-                                  } else {
-                                    widget.controller?.text = filteredOptions[i];
-                                    widget.onChanged?.call(filteredOptions[i]);
-                                  }
+                          for (final entry in widget.optionsMap.entries)
+                            InkWell(
+                              onTap: () {
+                                if (widget.selectedOption.value == entry.value) {
+                                  widget.selectedOption.value = null;
+                                } else {
+                                  widget.selectedOption.value = entry.value;
+                                }
+                                if (widget.onChanged != null) widget.onChanged!(entry.value);
+                                validationKey.currentState?.validate();
+                                expandableController.toggle();
+                                focusNode.unfocus();
+                                setState(() {});
+                              },
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 20,
+                                    height: 20,
+                                    decoration: ShapeDecoration(
+                                      shape: OvalBorder(
+                                        side: widget.selectedOption.value == entry.value
+                                            ? BorderSide(width: 6, color: AppColors.primary(context))
+                                            : BorderSide(width: 1.50, color: Color(0xFFA8A8A8)),
+                                      ),
+                                    ),
+                                  ).paddingOnly(right: 8.w),
+                                  Text(entry.key),
+                                ],
+                              ).paddingSymmetric(horizontal: 16.w, vertical: 8.h),
+                            ),
+                          // добавление своего поля
+                          if (widget.addOption != null)
+                            InkWell(
+                              onTap: () async {
+                                final isAdded = await showDialog(
+                                  context: context,
+                                  builder: (dialogContext) {
+                                    return _NewOptionInputDialog(
+                                      text: 'Добавить свой',
+                                      buttonText: 'Добавить',
+                                      onSave: (newOption) async {
+                                        widget.addOption!(newOption);
+                                      },
+                                    );
+                                  },
+                                );
+                                if (isAdded != null && isAdded is String) {
+                                  widget.selectedOption.value = widget.optionsMap[isAdded];
+
                                   validationKey.currentState?.validate();
                                   expandableController.toggle();
-                                  if (widget.canEdit) {
-                                    widget.controller?.selection =
-                                        TextSelection.collapsed(offset: widget.controller?.text.length ?? 0);
-                                  }
                                   focusNode.unfocus();
                                   setState(() {});
-                                },
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: 20,
-                                      height: 20,
-                                      decoration: ShapeDecoration(
-                                        shape: OvalBorder(
-                                          side: widget.controller?.text == filteredOptions[i]
-                                              ? BorderSide(width: 6, color: AppColors.primary(context))
-                                              : BorderSide(
-                                                  width: 1.50,
-                                                  // color: Provider.of<ThemeProviderNotifier>(context).isDarkMode
-                                                  //     ? Colors.grey
-                                                  //     : Color(0x1E283146)
-                                                ),
-                                        ),
-                                      ),
-                                    ).paddingSymmetric(horizontal: 12.w, vertical: 8.h),
-                                    Text(filteredOptionsString[i]),
-                                  ],
-                                ),
-                              ),
+                                }
+                              },
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset('assets/icons/add_blue.svg').paddingOnly(right: 8.w),
+                                  Text(
+                                    'Добавить',
+                                    style: TextStyle(
+                                      color: Color(0xFF2EA1D9),
+                                      fontSize: 14.sp,
+                                      fontFamily: 'Inter',
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ).paddingSymmetric(horizontal: 14.w, vertical: 6.h),
+                            )
                         ],
                       ),
                     ),
                   ),
                 ),
+        ),
+      ),
+    );
+  }
+}
+
+class _NewOptionInputDialog extends StatefulWidget {
+  const _NewOptionInputDialog({
+    required this.onSave,
+    required this.text,
+    required this.buttonText,
+  });
+
+  final String text;
+  final String buttonText;
+  final Function(String name) onSave;
+
+  @override
+  State<_NewOptionInputDialog> createState() => _NewOptionInputDialogState();
+}
+
+class _NewOptionInputDialogState extends State<_NewOptionInputDialog> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: AlertDialog(
+        contentPadding: EdgeInsets.all(16.w),
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        insetPadding: EdgeInsets.symmetric(horizontal: 16.w),
+        content: SizedBox(
+          width: context.width,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    widget.text,
+                  ).expanded(),
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: SvgPicture.asset('assets/icons/close.svg'),
+                  ),
+                ],
+              ).paddingOnly(bottom: 12.h),
+              TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'fieldCannotBeEmpty';
+                  }
+                },
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  label: LabelWithAsterisk(label: widget.text),
+                  hintText: 'Введите название',
+                ),
+                controller: _controller,
+              ).paddingOnly(bottom: 12.h),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState?.validate() ?? false) {
+                    Navigator.of(context).pop(_controller.text);
+                    widget.onSave(_controller.text);
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary(context),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6.r),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.buttonText,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

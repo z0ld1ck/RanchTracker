@@ -45,17 +45,20 @@ class _EditLivestockPageState extends State<EditLivestockPage> {
   final TextEditingController _rfidController = TextEditingController();
   final TextEditingController _nicknameController = TextEditingController();
   final ValueNotifier<DateTime?> _birthdayNotifier = ValueNotifier<DateTime?>(null);
-  final TextEditingController _typeController = TextEditingController();
-  final TextEditingController _breedController = TextEditingController();
+  final ValueNotifier<int?> _selectedType = ValueNotifier<int?>(null);
+  final ValueNotifier<int?> _selectedBreed = ValueNotifier<int?>(null);
   final ValueNotifier<int> _sexController = ValueNotifier<int>(0);
   final TextEditingController _weightController = TextEditingController();
-  final TextEditingController _additionTypeController = TextEditingController();
+  final ValueNotifier<int?> _selectedAdditionType = ValueNotifier<int?>(null);
   final TextEditingController _motherRfidController = TextEditingController();
   final TextEditingController _fatherRfidController = TextEditingController();
 
   List<File> newImages = [];
   List<Photo> existingImages = [];
   List<int> deletedImages = [];
+
+  // dropdown options
+  Map<String, int> _breedOptions = {};
 
   @override
   void initState() {
@@ -64,17 +67,22 @@ class _EditLivestockPageState extends State<EditLivestockPage> {
     _rfidController.text = widget.livestockModel.rfid;
     _nicknameController.text = widget.livestockModel.nickname ?? '';
     _birthdayNotifier.value = widget.livestockModel.birthday;
-    _typeController.text = widget.livestockModel.type.toString();
-    _breedController.text = widget.livestockModel.breed.toString();
+    _selectedType.value = widget.livestockModel.type;
+    _selectedBreed.value = widget.livestockModel.breed;
     _sexController.value = widget.livestockModel.sex;
     _weightController.text = widget.livestockModel.weight.toString();
-    _additionTypeController.text = widget.livestockModel.additionMethod.toString();
+    _selectedAdditionType.value = widget.livestockModel.additionMethod;
     _motherRfidController.text = widget.livestockModel.motherRfid ?? '';
     _fatherRfidController.text = widget.livestockModel.fatherRfid ?? '';
 
+    for (final type in widget.types) {
+      _breedOptions.addEntries(
+        type.breeds.map((e) => MapEntry(e.breed, e.id)),
+      );
+    }
+    _selectedType.addListener(() => setState(() {}));
+    _selectedBreed.addListener(() => setState(() {}));
     _birthdayNotifier.addListener(() => setState(() {}));
-    _typeController.addListener(() => setState(() {}));
-    _breedController.addListener(() => setState(() {}));
     _sexController.addListener(() => setState(() {}));
     super.initState();
   }
@@ -147,12 +155,13 @@ class _EditLivestockPageState extends State<EditLivestockPage> {
                       rfid: _rfidController.text,
                       nickname: _nicknameController.text.isEmpty ? null : _nicknameController.text,
                       birthday: _birthdayNotifier.value ?? DateTime.now(),
-                      type: int.tryParse(_typeController.text) ?? 0,
-                      breed: int.tryParse(_breedController.text) ?? 0,
+                      type: _selectedType.value ?? 0,
+                      breed: _selectedBreed.value ?? 0,
                       sex: _sexController.value,
                       age: calculateAge(_birthdayNotifier.value ?? DateTime.now()),
                       weight: double.tryParse(_weightController.text) ?? 0,
-                      additionMethod: int.tryParse(_additionTypeController.text) ?? 0,
+                      additionMethod:
+                          _selectedAdditionType.value ?? 0,
                       motherRfid: _motherRfidController.text.isEmpty ? null : _motherRfidController.text,
                       fatherRfid: _fatherRfidController.text.isEmpty ? null : _fatherRfidController.text,
                       newImages: newImages,
@@ -220,46 +229,58 @@ class _EditLivestockPageState extends State<EditLivestockPage> {
                     lastDate: DateTime.now(),
                   ).paddingOnly(bottom: 16.h),
                   // type
-                  DropdownTextFieldWidget(
-                    controller: _typeController,
+                  DropdownTextFieldWidget<int>(
                     isRequired: true,
                     label: 'Вид',
                     hint: 'Выберите вид',
-                    onChanged: (_) => _breedController.clear(),
-                    options: widget.types.map((e) => e.type.toString()).toList(),
-                    optionsString: widget.types.map((e) => e.name.ru).toList(),
+                    optionsMap: {
+                      for (final e in widget.types) e.name.ru: e.type,
+                    },
+                    selectedOption: _selectedType,
+                    onChanged: (_) {
+                      if ((_selectedBreed.value ?? -1) > 0) _selectedBreed.value = null;
+                      _breedOptions.removeWhere((key, value) => value >= 0);
+                      for (final type in widget.types) {
+                        _breedOptions.addEntries(
+                          type.breeds.map((e) => MapEntry(e.breed, e.id)),
+                        );
+                      }
+                    },
                   ).paddingOnly(bottom: 16.h),
                   // breed
                   Builder(
                     builder: (context) {
-                      final isTypeSelected =
-                          _typeController.text.isNotEmpty && int.tryParse(_typeController.text) != null;
-                      List<BreedModel> breeds = [];
+                      // если null значит ничего не выбрано, поэтому мы покажем все породы
+                      final selectedType = widget.types.firstWhereOrNull((e) => e.type == _selectedType.value)?.breeds;
+
                       // если был выбран вид скота, мы будем показывать только соответствующие породы
                       // в другом случае мы покажем все породы и автоматически выберем вид скота при выборе породы
-                      if (isTypeSelected) {
-                        breeds.addAll(
-                          widget.types.firstWhereOrNull((e) => e.type == int.tryParse(_typeController.text))?.breeds ??
-                              [],
-                        );
-                      } else {
-                        for (TypeModel type in widget.types) breeds.addAll(type.breeds);
+                      if (selectedType != null) {
+                        _breedOptions.removeWhere((key, value) => value >= 0);
+                        for (final t in selectedType) _breedOptions[t.breed] = t.id;
                       }
 
                       return DropdownTextFieldWidget(
-                        // canEdit: true,
-                        controller: _breedController,
+                        addOption: (option) {
+                          final minValue = _breedOptions.values.minOrNull;
+                          _breedOptions[option] = minValue != null && minValue < 0 ? minValue - 1 : -1;
+                        },
                         isRequired: true,
                         label: 'Порода',
                         hint: 'Выберите породу',
-                        onChanged: (value) {
-                          // автоматический выбор вида домашнего скота в соответствии с породой
-                          final typeToSelect =
-                              breeds.firstWhereOrNull((e) => e.id == int.tryParse(value))?.livestockType;
-                          if (typeToSelect != null) _typeController.text = typeToSelect.toString();
+                        optionsMap: {
+                          for (final sorted in _breedOptions.entries.sorted((a, b) => a.key.compareTo(b.key)))
+                            sorted.key: sorted.value,
                         },
-                        options: breeds.map((e) => e.id.toString()).toList(),
-                        optionsString: breeds.map((e) => e.breed.toString()).toList(),
+                        onChanged: (int selectedId) {
+                          // автоматический выбор вида домашнего скота в соответствии с породой
+                          final typeToSelect = widget.types
+                              .firstWhereOrNull((e) => e.breeds.any((element) => element.id == selectedId))
+                              ?.type;
+
+                          if (typeToSelect != null) _selectedType.value = typeToSelect;
+                        },
+                        selectedOption: _selectedBreed,
                       ).paddingOnly(bottom: 10.h);
                     },
                   ),
@@ -311,13 +332,14 @@ class _EditLivestockPageState extends State<EditLivestockPage> {
                     ),
                   ).paddingOnly(bottom: 16.h),
                   // addition type
-                  DropdownTextFieldWidget(
-                    controller: _additionTypeController,
+                  DropdownTextFieldWidget<int>(
                     isRequired: true,
                     label: 'Способ добавления к поголовью',
                     hint: 'Выберите способ',
-                    options: widget.additionTypes.map((e) => e.type.toString()).toList(),
-                    optionsString: widget.additionTypes.map((e) => e.name.ru).toList(),
+                    optionsMap: {
+                      for (final additionType in widget.additionTypes) additionType.name.ru: additionType.type,
+                    },
+                    selectedOption: _selectedAdditionType,
                   ).paddingOnly(bottom: 16.h),
                   // mother rfid
                   TextFormField(

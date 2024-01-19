@@ -22,25 +22,18 @@ class FilterPage extends StatefulWidget {
 class _FilterPageState extends State<FilterPage> {
   SfRangeValues _weight = SfRangeValues(0, 1000);
   SfRangeValues _age = SfRangeValues(4.0, 6.0);
-  late TextEditingController _typeController;
-  late TextEditingController _breedController;
-  late TextEditingController _pregnantController;
+  late ValueNotifier<int?> _selectedType;
+  late ValueNotifier<int?> _selectedBreed;
+  late final ValueNotifier<bool?> _isPregnant;
 
   @override
   void initState() {
     final bloc = context.read<FilterLivestockBloc>();
-    _weight =
-        SfRangeValues(bloc.state.minWeight ?? 0, bloc.state.maxWeight ?? 1000);
+    _weight = SfRangeValues(bloc.state.minWeight ?? 0, bloc.state.maxWeight ?? 1000);
     _age = SfRangeValues(bloc.state.minAge ?? 0, bloc.state.maxAge ?? 35);
-    _typeController =
-        TextEditingController(text: bloc.state.selectedType?.toString())
-          ..addListener(() => setState(() => _breedController.clear()));
-    _breedController =
-        TextEditingController(text: bloc.state.selectedBreed?.toString())
-          ..addListener(() => setState(() {}));
-    _pregnantController =
-        TextEditingController(text: bloc.state.isPregnant?.toString())
-          ..addListener(() => setState(() {}));
+    _selectedType = ValueNotifier<int?>(bloc.state.selectedType)..addListener(() {});
+    _selectedBreed = ValueNotifier<int?>(bloc.state.selectedBreed)..addListener(() => setState(() {}));
+    _isPregnant = ValueNotifier<bool?>(bloc.state.isPregnant)..addListener(() => setState(() {}));
     super.initState();
   }
 
@@ -65,13 +58,13 @@ class _FilterPageState extends State<FilterPage> {
         onPressed: () {
           context.read<FilterLivestockBloc>().add(
                 FilterLivestockEvent.changeFilter(
-                  selectedType: int.tryParse(_typeController.text),
-                  selectedBreed: int.tryParse(_breedController.text),
+                  selectedType: _selectedType.value,
+                  selectedBreed: _selectedBreed.value,
                   minWeight: (_weight.start as num).roundToDouble(),
                   maxWeight: (_weight.end as num).roundToDouble(),
                   minAge: int.tryParse((_age.start as num).toStringAsFixed(0)),
                   maxAge: int.tryParse((_age.end as num).toStringAsFixed(0)),
-                  isPregnant: bool.tryParse(_pregnantController.text),
+                  isPregnant: _isPregnant.value,
                 ),
               );
           context.pop();
@@ -85,74 +78,89 @@ class _FilterPageState extends State<FilterPage> {
               clipBehavior: Clip.antiAlias,
               decoration: ShapeDecoration(
                 color: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // виды
-                  DropdownTextFieldWidget(
-                    controller: _typeController,
-                    hint: 'Выберите вид',
-                    label: 'Виды',
-                    options: state.types.map((e) => e.type.toString()).toList(),
-                    optionsString: state.types.map((e) => e.name.ru).toList(),
+                  DropdownTextFieldWidget<int>(
                     isRequired: false,
+                    label: 'Вид',
+                    hint: 'Выберите вид',
+                    optionsMap: {
+                      for (final e in state.types) e.name.ru: e.type,
+                    },
+                    selectedOption: _selectedType,
+                    onChanged: (_) {
+                      _selectedBreed.value = null;
+                    },
                   ).paddingOnly(bottom: 16.h),
                   // породы
-                  DropdownTextFieldWidget(
-                    controller: _breedController,
-                    hint: 'Выберите породу',
-                    label: 'Породы',
-                      options: (state.types
-                              .firstWhereOrNull((element) =>
-                                  element.type ==
-                                  int.tryParse(_typeController.text))
-                              ?.breeds
-                              .map((e) => e.id.toString())
-                              .toList() ??
-                          []),
-                    optionsString: (state.types
-                            .firstWhereOrNull((element) =>
-                                element.type ==
-                                int.tryParse(_typeController.text))
-                            ?.breeds
-                            .map((e) => e.breed.toString())
-                            .toList() ??
-                        []),
-                    isRequired: false,
-                  ).paddingOnly(bottom: 16.h),
+                  Builder(
+                    builder: (context) {
+                      Map<String, int> breedOptions = {};
+
+                      // если null значит ничего не выбрано, поэтому мы покажем все породы
+                      final selectedTypeBreeds =
+                          state.types.firstWhereOrNull((e) => e.type == _selectedType.value)?.breeds;
+
+                      // если был выбран вид скота, мы будем показывать только соответствующие породы
+                      // в другом случае мы покажем все породы и автоматически выберем вид скота при выборе породы
+                      if (selectedTypeBreeds != null) {
+                        for (final b in selectedTypeBreeds) breedOptions[b.breed] = b.id;
+                      } else {
+                        for (final t in state.types) {
+                          breedOptions.addEntries(
+                            t.breeds.map((e) => MapEntry(e.breed, e.id)),
+                          );
+                        }
+                      }
+
+                      return DropdownTextFieldWidget(
+                        isRequired: false,
+                        label: 'Порода',
+                        hint: 'Выберите породу',
+                        optionsMap: {
+                          for (final sorted in breedOptions.entries.sorted((a, b) => a.key.compareTo(b.key)))
+                            sorted.key: sorted.value,
+                        },
+                        onChanged: (int selectedId) {
+                          // автоматический выбор вида домашнего скота в соответствии с породой
+                          final typeToSelect = state.types
+                              .firstWhereOrNull((e) => e.breeds.any((element) => element.id == selectedId))
+                              ?.type;
+
+                          if (typeToSelect != null) _selectedType.value = typeToSelect;
+                        },
+                        selectedOption: _selectedBreed,
+                      ).paddingOnly(bottom: 10.h);
+                    },
+                  ),
                   // масса
                   Text('Масса').paddingOnly(bottom: 8.h),
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       TextField(
-                        controller: TextEditingController(
-                            text:
-                                '${(_weight.start as num).toStringAsFixed(0)} кг'),
+                        controller: TextEditingController(text: '${(_weight.start as num).toStringAsFixed(0)} кг'),
                         decoration: InputDecoration(
                           prefixIcon: Text(
                             'ot',
                             style: TextStyle(color: AppColors.gray),
                           ).paddingSymmetric(horizontal: 8.w),
-                          prefixIconConstraints:
-                              BoxConstraints(minWidth: 0, minHeight: 0),
+                          prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
                         ),
                       ).expanded(),
                       8.w.widthBox,
                       TextField(
-                        controller: TextEditingController(
-                            text:
-                                '${(_weight.end as num).toStringAsFixed(0)} кг'),
+                        controller: TextEditingController(text: '${(_weight.end as num).toStringAsFixed(0)} кг'),
                         decoration: InputDecoration(
                           prefixIcon: Text(
                             'do',
                             style: TextStyle(color: AppColors.gray),
                           ).paddingSymmetric(horizontal: 8.w),
-                          prefixIconConstraints:
-                              BoxConstraints(minWidth: 0, minHeight: 0),
+                          prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
                         ),
                       ).expanded(),
                     ],
@@ -173,28 +181,24 @@ class _FilterPageState extends State<FilterPage> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       TextField(
-                        controller: TextEditingController(
-                            text: (_age.start as num).toStringAsFixed(0)),
+                        controller: TextEditingController(text: (_age.start as num).toStringAsFixed(0)),
                         decoration: InputDecoration(
                           prefixIcon: Text(
                             'ot',
                             style: TextStyle(color: AppColors.gray),
                           ).paddingSymmetric(horizontal: 8.w),
-                          prefixIconConstraints:
-                              BoxConstraints(minWidth: 0, minHeight: 0),
+                          prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
                         ),
                       ).expanded(),
                       8.w.widthBox,
                       TextField(
-                        controller: TextEditingController(
-                            text: (_age.end as num).toStringAsFixed(0)),
+                        controller: TextEditingController(text: (_age.end as num).toStringAsFixed(0)),
                         decoration: InputDecoration(
                           prefixIcon: Text(
                             'do',
                             style: TextStyle(color: AppColors.gray),
                           ).paddingSymmetric(horizontal: 8.w),
-                          prefixIconConstraints:
-                              BoxConstraints(minWidth: 0, minHeight: 0),
+                          prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
                         ),
                       ).expanded(),
                     ],
@@ -210,12 +214,14 @@ class _FilterPageState extends State<FilterPage> {
                     },
                   ),
                   // стельность
-                  DropdownTextFieldWidget(
-                    controller: _pregnantController,
-                    hint: 'стельность',
-                    label: 'стельность',
-                    options: const ['true', 'false'],
-                    optionsString: const ['Да', 'Нет'],
+                  DropdownTextFieldWidget<bool>(
+                    selectedOption: _isPregnant,
+                    hint: 'Стельность',
+                    label: 'Стельность',
+                    optionsMap: const {
+                      'Да': true,
+                      'Нет': false,
+                    },
                     isRequired: false,
                   ).paddingOnly(bottom: 16.h),
                 ],
