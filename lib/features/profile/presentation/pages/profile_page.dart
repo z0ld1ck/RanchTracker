@@ -48,21 +48,21 @@ class _ProfilePageState extends State<ProfilePage> {
           SizedBox(
             height: 16.h,
           ),
-          // FutureBuilder<String?>(
-          //   future: keyValueStorageService.getAccessToken(),
-          //   builder: (context, snapshot) {
-          //     if (snapshot.connectionState == ConnectionState.done) {
-          //       final accessToken = snapshot.data;
-          //       print(accessToken);
-          //       return Text(
-          //         'Access Token: $accessToken',
-          //         style: TextStyle(fontSize: 16),
-          //       );
-          //     } else {
-          //       return CircularProgressIndicator();
-          //     }
-          //   },
-          // ),
+          FutureBuilder<String?>(
+            future: keyValueStorageService.getAccessToken(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                final accessToken = snapshot.data;
+                print(accessToken);
+                return Text(
+                  'Access Token: $accessToken',
+                  style: TextStyle(fontSize: 16),
+                );
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,

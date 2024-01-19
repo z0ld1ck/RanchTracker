@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:malshy/core/const/app_colors.dart';
 import 'package:malshy/core/function/date_formatter.dart';
+import 'package:malshy/features/livestock/data/models/livestock_model.dart';
 import 'package:swipe_image_gallery/swipe_image_gallery.dart';
 
 class AddLivestockImageWidget extends StatefulWidget {
@@ -19,11 +20,13 @@ class AddLivestockImageWidget extends StatefulWidget {
   final List<File> images;
 
   @override
-  State<AddLivestockImageWidget> createState() => _AddLivestockImageWidgetState();
+  State<AddLivestockImageWidget> createState() =>
+      _AddLivestockImageWidgetState();
 }
 
 class _AddLivestockImageWidgetState extends State<AddLivestockImageWidget> {
-  StreamController<Widget> overlayController = StreamController<Widget>.broadcast();
+  StreamController<Widget> overlayController =
+      StreamController<Widget>.broadcast();
 
   @override
   void dispose() {
@@ -48,7 +51,9 @@ class _AddLivestockImageWidgetState extends State<AddLivestockImageWidget> {
                 overlayController.add(
                   _OverlayWidget(
                     title: '${index + 1}/${widget.images.length}',
-                    lastModified: widget.images.first.lastModifiedSync().toDatetimeWithDots(),
+                    lastModified: widget.images.first
+                        .lastModifiedSync()
+                        .toDatetimeWithDots(),
                     deleteImage: () {
                       widget.images.removeAt(index);
                       setState(() {});
@@ -58,7 +63,8 @@ class _AddLivestockImageWidgetState extends State<AddLivestockImageWidget> {
               },
               initialOverlay: _OverlayWidget(
                 title: '1/${widget.images.length}',
-                lastModified: widget.images.first.lastModifiedSync().toDatetimeWithDots(),
+                lastModified:
+                    widget.images.first.lastModifiedSync().toDatetimeWithDots(),
                 deleteImage: () {
                   widget.images.removeAt(0);
                   setState(() {});
@@ -94,7 +100,8 @@ class _AddLivestockImageWidgetState extends State<AddLivestockImageWidget> {
                       ? SvgPicture.asset('assets/icons/cow_logo.svg')
                       : CircleAvatar(
                           radius: 42.w,
-                          backgroundImage: Image.file(widget.images.first).image,
+                          backgroundImage:
+                              Image.file(widget.images.first).image,
                         ),
                 ),
               ),
@@ -128,8 +135,9 @@ class _AddLivestockImageWidgetState extends State<AddLivestockImageWidget> {
                               InkWell(
                                 onTap: () async {
                                   final ImagePicker picker = ImagePicker();
-                                  final XFile? photo =
-                                      await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
+                                  final XFile? photo = await picker.pickImage(
+                                      source: ImageSource.camera,
+                                      imageQuality: 50);
                                   if (photo != null) {
                                     File file = File(photo.path);
                                     widget.images.add(file);
@@ -156,12 +164,14 @@ class _AddLivestockImageWidgetState extends State<AddLivestockImageWidget> {
                                       ),
                                     )
                                   ],
-                                ).paddingSymmetric(horizontal: 12.w, vertical: 16.h),
+                                ).paddingSymmetric(
+                                    horizontal: 12.w, vertical: 16.h),
                               ),
                               InkWell(
                                 onTap: () async {
                                   final ImagePicker picker = ImagePicker();
-                                  final photos = await picker.pickMultiImage(imageQuality: 50);
+                                  final photos = await picker.pickMultiImage(
+                                      imageQuality: 50);
                                   for (int i = 0; i < photos.length; i++) {
                                     File file = File(photos[i].path);
                                     widget.images.add(file);
@@ -188,7 +198,8 @@ class _AddLivestockImageWidgetState extends State<AddLivestockImageWidget> {
                                       ),
                                     ),
                                   ],
-                                ).paddingSymmetric(horizontal: 12.w, vertical: 16.h),
+                                ).paddingSymmetric(
+                                    horizontal: 12.w, vertical: 16.h),
                               ),
                             ],
                           ),
@@ -197,7 +208,8 @@ class _AddLivestockImageWidgetState extends State<AddLivestockImageWidget> {
                           style: ElevatedButton.styleFrom(
                             elevation: 0,
                             minimumSize: Size(double.infinity, 48.h),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.r)),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6.r)),
                             backgroundColor: Colors.white,
                           ),
                           onPressed: () {

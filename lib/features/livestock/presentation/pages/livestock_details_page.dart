@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:awesome_extensions/awesome_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:malshy/core/const/app_colors.dart';
+import 'package:malshy/core/function/date_formatter.dart';
 import 'package:malshy/features/app/app.dart';
 import 'package:go_router/go_router.dart';
 import 'package:malshy/core/navigation/route_names.dart';
@@ -31,9 +34,10 @@ class LivestockDetailsPage extends StatefulWidget {
 }
 
 class _LivestockDetailsPageState extends State<LivestockDetailsPage> {
+  StreamController<Widget> overlayController =
+      StreamController<Widget>.broadcast();
   late List<Map<String, dynamic>> typesData;
   late String typeName;
-  late final List<File> images;
 
   final assets = const [
     Image(image: AssetImage('Screenshot_1.png')),
@@ -46,6 +50,9 @@ class _LivestockDetailsPageState extends State<LivestockDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> imageUrls =
+        widget.livestockModel.photos.map((photo) => photo.photo).toList();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.livestockModel.rfid),
@@ -68,26 +75,65 @@ class _LivestockDetailsPageState extends State<LivestockDetailsPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Stack(
-            alignment: AlignmentDirectional.center,
-            children: [
-              ClipPath(
-                clipper: MyClipper(),
-                child: Container(
-                  height: 200,
-                  color: AppColors.blueLight,
+          Stack(alignment: AlignmentDirectional.center, children: [
+            ClipPath(
+              clipper: MyClipper(),
+              child: Container(
+                height: 200,
+                color: AppColors.blueLight,
+              ),
+            ),
+            Container(
+              width: 263,
+              height: 175,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: InkWell(
+                onTap: () async {
+                  if (imageUrls.isEmpty) {
+                    return;
+                  }
+                  await SwipeImageGallery(
+                    context: context,
+                    itemCount: imageUrls.length,
+                    initialIndex: 0,
+                    hideStatusBar: false,
+                    onSwipe: (index) {
+                      overlayController.add(
+                        _OverlayWidget(
+                          title: '${index + 1}/${imageUrls.length}',
+                        ),
+                      );
+                    },
+                    initialOverlay: _OverlayWidget(
+                      title: '1/${imageUrls.length}',
+                    ),
+                    overlayController: overlayController,
+                    itemBuilder: (context, index) {
+                      if (imageUrls.isEmpty) {
+                        return Image.asset('assets/images/Screenshot_1.png');
+                      }
+                      return Image.network(
+                        Uri.encodeFull(imageUrls.elementAt(index)),
+                        errorBuilder: (context, _, __) {
+                          return Center(
+                            child: Text(
+                              'error', //AppLocalizations.of(context)!.error.capitalize(),
+                              // style: AppTextStyles.h1px18(context).copyWith(color: Colors.white),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ).show();
+                },
+                child: Image.network(
+                  imageUrls.isNotEmpty ? Uri.encodeFull(imageUrls.first) : '',
                 ),
               ),
-              Container(
-                color: Colors.grey,
-                width: 263.w,
-                height: 175.h,
-                child: InkWell(
-                  onTap: () {},
-                ),
-              ).paddingOnly(top: 50),
-            ],
-          ),
+            ).paddingOnly(top:30.h),
+          ]),
           Text(
             widget.livestockModel.nickname.toString(),
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -317,16 +363,9 @@ class _LivestockDetailsPageState extends State<LivestockDetailsPage> {
 }
 
 class _OverlayWidget extends StatelessWidget {
-  const _OverlayWidget({
-    super.key,
-    required this.title,
-    required this.lastModified,
-    this.deleteImage,
-  });
+  const _OverlayWidget({required this.title});
 
   final String title;
-  final String lastModified;
-  final Function()? deleteImage;
 
   @override
   Widget build(BuildContext context) {
@@ -338,16 +377,6 @@ class _OverlayWidget extends StatelessWidget {
             children: [
               SizedBox(
                 width: double.infinity,
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
               ),
               Positioned(
                 left: 0,
@@ -370,41 +399,6 @@ class _OverlayWidget extends StatelessWidget {
               ),
             ],
           ).paddingAll(16.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              InkWell(
-                onTap: () async {},
-                child: SvgPicture.asset(
-                  'assets/icons/share.svg',
-                  height: 24.h,
-                  width: 24.h,
-                ),
-              ),
-              Text(
-                lastModified,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w600,
-                ),
-              ).expanded(),
-              if (deleteImage != null)
-                InkWell(
-                  onTap: () async {
-                    deleteImage!();
-                    if (context.mounted) Navigator.pop(context);
-                  },
-                  child: SvgPicture.asset(
-                    'assets/icons/delete.svg',
-                    height: 24.h,
-                    width: 24.h,
-                  ),
-                ),
-            ],
-          ).paddingSymmetric(vertical: 12.h, horizontal: 16.w)
         ],
       ),
     );

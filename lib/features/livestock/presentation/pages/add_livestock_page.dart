@@ -48,7 +48,7 @@ class _AddLivestockPageState extends State<AddLivestockPage> {
   List<File> images = [];
 
   // dropdown options
-  Map<String, int> _breedOptions = {};
+  final Map<String, int> _breedOptions = {};
 
   @override
   void initState() {
