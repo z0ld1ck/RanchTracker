@@ -1,3 +1,4 @@
+import 'package:awesome_extensions/awesome_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,7 +11,6 @@ class PersonalDataWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:EdgeInsetsDirectional.fromSTEB(16, 24, 16, 0),
       decoration: BoxDecoration(
         color: AppColors.white,
       ),
@@ -31,27 +31,28 @@ class PersonalDataWidget extends StatelessWidget {
                     color: AppColors.gray, fontWeight: FontWeight.w500),
               ),
             ],
-          ),
+          ).paddingOnly(left: 16,right: 16),
           Divider(
             color: AppColors.grayLight,
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'Пароль',
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     color: AppColors.black, fontWeight: FontWeight.w600),
               ),
-              SizedBox(width:255.w,),
+              SizedBox(width:220.w,),
               IconButton(
                 onPressed: () {},
                 icon: SvgPicture.asset(AppIcons.next),
               ),
             ],
-          )
+          ).paddingOnly(left: 16,right: 16),
         ],
       ),
-    );
+    ).paddingOnly(left: 16,right: 16);
   }
 }

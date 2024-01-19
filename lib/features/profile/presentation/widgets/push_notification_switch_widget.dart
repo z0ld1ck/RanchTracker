@@ -1,3 +1,4 @@
+import 'package:awesome_extensions/awesome_extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:malshy/core/const/app_colors.dart';
@@ -15,7 +16,6 @@ class _PushNotificationsSwitchWidgetState extends State<PushNotificationsSwitchW
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsetsDirectional.fromSTEB(16, 24, 16, 0),
       decoration: BoxDecoration(
         color: AppColors.white,
       ),
@@ -39,7 +39,7 @@ class _PushNotificationsSwitchWidgetState extends State<PushNotificationsSwitchW
             thumbColor: AppColors.white,
           ),
         ],
-      ),
-    );
+      ).paddingOnly(left: 16,right: 16),
+    ).paddingOnly(left: 16,right: 16);
   }
 }
