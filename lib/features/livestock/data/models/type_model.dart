@@ -3,11 +3,14 @@ import 'package:malshy/core/models/localized_string_model.dart';
 import 'dart:convert';
 
 part 'type_model.freezed.dart';
+
 part 'type_model.g.dart';
 
-List<TypeModel> typeFromJson(String str) => List<TypeModel>.from(json.decode(str).map((x) => TypeModel.fromJson(x)));
+List<TypeModel> typeFromJson(String str) =>
+    List<TypeModel>.from(json.decode(str).map((x) => TypeModel.fromJson(x)));
 
-String typeToJson(List<TypeModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String typeToJson(List<TypeModel> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 @freezed
 class TypeModel with _$TypeModel {
@@ -18,9 +21,9 @@ class TypeModel with _$TypeModel {
     required List<BreedModel> breeds,
   }) = _TypeModel;
 
-  factory TypeModel.fromJson(Map<String, dynamic> json) => _$TypeModelFromJson(json);
+  factory TypeModel.fromJson(Map<String, dynamic> json) =>
+      _$TypeModelFromJson(json);
 }
-
 
 @freezed
 class BreedModel with _$BreedModel {
@@ -33,5 +36,6 @@ class BreedModel with _$BreedModel {
     required int livestockType,
   }) = _BreedModel;
 
-  factory BreedModel.fromJson(Map<String, dynamic> json) => _$BreedModelFromJson(json);
+  factory BreedModel.fromJson(Map<String, dynamic> json) =>
+      _$BreedModelFromJson(json);
 }
