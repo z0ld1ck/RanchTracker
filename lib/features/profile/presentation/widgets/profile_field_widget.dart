@@ -21,8 +21,8 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
     return Column(
       children: [
         Container(
-          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
           decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.r),
             color: AppColors.white,
           ),
           child: Row(
