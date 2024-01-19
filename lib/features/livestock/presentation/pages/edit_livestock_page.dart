@@ -1,12 +1,15 @@
 import 'dart:io';
+
 import 'package:awesome_extensions/awesome_extensions.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:malshy/core/const/app_colors.dart';
+import 'package:malshy/core/const/app_icons.dart';
 import 'package:malshy/core/function/age_calculator.dart';
 import 'package:malshy/core/function/validation_functions.dart';
 import 'package:malshy/core/widgets/date_picker_widget.dart';
@@ -14,24 +17,29 @@ import 'package:malshy/core/widgets/dropdown_textfield_widget.dart';
 import 'package:malshy/core/widgets/lable_with_asterisk.dart';
 import 'package:malshy/core/widgets/primary_button.dart';
 import 'package:malshy/features/livestock/data/models/addition_type_model.dart';
+import 'package:malshy/features/livestock/data/models/livestock_model.dart';
 import 'package:malshy/features/livestock/data/models/type_model.dart';
 import 'package:malshy/features/livestock/presentation/bloc/add_livestock/add_livestock_bloc.dart';
-import 'package:malshy/features/livestock/presentation/widgets/add_livestock_images_widget.dart';
+import 'package:malshy/features/livestock/presentation/widgets/edit_livestock_images_widget.dart';
 import 'package:malshy/features/livestock/presentation/widgets/gender_radio_buttons_widget.dart';
-import '../../../../core/const/app_icons.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddLivestockPage extends StatefulWidget {
-  const AddLivestockPage({super.key, required this.types, required this.additionTypes});
+class EditLivestockPage extends StatefulWidget {
+  const EditLivestockPage({
+    super.key,
+    required this.types,
+    required this.additionTypes,
+    required this.livestockModel,
+  });
 
   final List<TypeModel> types;
   final List<AdditionTypeModel> additionTypes;
+  final LivestockModel livestockModel;
 
   @override
-  State<AddLivestockPage> createState() => _AddLivestockPageState();
+  State<EditLivestockPage> createState() => _EditLivestockPageState();
 }
 
-class _AddLivestockPageState extends State<AddLivestockPage> {
+class _EditLivestockPageState extends State<EditLivestockPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _rfidController = TextEditingController();
@@ -45,13 +53,28 @@ class _AddLivestockPageState extends State<AddLivestockPage> {
   final TextEditingController _motherRfidController = TextEditingController();
   final TextEditingController _fatherRfidController = TextEditingController();
 
-  List<File> images = [];
+  List<File> newImages = [];
+  List<Photo> existingImages = [];
+  List<int> deletedImages = [];
 
   // dropdown options
   Map<String, int> _breedOptions = {};
 
   @override
   void initState() {
+    existingImages = [...widget.livestockModel.photos];
+
+    _rfidController.text = widget.livestockModel.rfid;
+    _nicknameController.text = widget.livestockModel.nickname ?? '';
+    _birthdayNotifier.value = widget.livestockModel.birthday;
+    _selectedType.value = widget.livestockModel.type;
+    _selectedBreed.value = widget.livestockModel.breed;
+    _sexController.value = widget.livestockModel.sex;
+    _weightController.text = widget.livestockModel.weight.toString();
+    _selectedAdditionType.value = widget.livestockModel.additionMethod;
+    _motherRfidController.text = widget.livestockModel.motherRfid ?? '';
+    _fatherRfidController.text = widget.livestockModel.fatherRfid ?? '';
+
     for (final type in widget.types) {
       _breedOptions.addEntries(
         type.breeds.map((e) => MapEntry(e.breed, e.id)),
@@ -66,7 +89,7 @@ class _AddLivestockPageState extends State<AddLivestockPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AddLivestockBloc, LivestockState>(
+    return BlocListener<EditLivestockBloc, LivestockState>(
       listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) async {
         EasyLoading.removeAllCallbacks();
@@ -88,7 +111,7 @@ class _AddLivestockPageState extends State<AddLivestockPage> {
 
         if (state.status == LivestockStateStatus.success) {
           await EasyLoading.showSuccess(
-            'Успешно добавлено',
+            'Успешно отредактировано',
             duration: 1.seconds,
             maskType: EasyLoadingMaskType.custom,
             dismissOnTap: true,
@@ -96,7 +119,7 @@ class _AddLivestockPageState extends State<AddLivestockPage> {
           if (context.mounted) context.pop();
         } else if (state.status == LivestockStateStatus.error) {
           await EasyLoading.showError(
-            'Ошибка при добавлении',
+            'Ошибка при редактировании',
             duration: 1.seconds,
             maskType: EasyLoadingMaskType.custom,
             dismissOnTap: true,
@@ -112,7 +135,7 @@ class _AddLivestockPageState extends State<AddLivestockPage> {
         appBar: PreferredSize(
           preferredSize: Size(double.infinity, 50.h),
           child: AppBar(
-            title: Text('Добавить животное'),
+            title: Text('Edit животное'),
             centerTitle: true,
             leading: IconButton(
               onPressed: () {
@@ -126,8 +149,9 @@ class _AddLivestockPageState extends State<AddLivestockPage> {
           text: 'Сохранить',
           onPressed: () async {
             if (_formKey.currentState!.validate()) {
-              context.read<AddLivestockBloc>().add(
-                    LivestockEvent.createLivestock(
+              context.read<EditLivestockBloc>().add(
+                    LivestockEvent.editLivestock(
+                      livestockId: widget.livestockModel.id,
                       rfid: _rfidController.text,
                       nickname: _nicknameController.text.isEmpty ? null : _nicknameController.text,
                       birthday: _birthdayNotifier.value ?? DateTime.now(),
@@ -136,10 +160,12 @@ class _AddLivestockPageState extends State<AddLivestockPage> {
                       sex: _sexController.value,
                       age: calculateAge(_birthdayNotifier.value ?? DateTime.now()),
                       weight: double.tryParse(_weightController.text) ?? 0,
-                      additionMethod: _selectedBreed.value ?? 0,
+                      additionMethod:
+                          _selectedAdditionType.value ?? 0,
                       motherRfid: _motherRfidController.text.isEmpty ? null : _motherRfidController.text,
                       fatherRfid: _fatherRfidController.text.isEmpty ? null : _fatherRfidController.text,
-                      images: images,
+                      newImages: newImages,
+                      deletedImages: deletedImages,
                     ),
                   );
             }
@@ -157,7 +183,18 @@ class _AddLivestockPageState extends State<AddLivestockPage> {
               child: Column(
                 children: [
                   // image widget
-                  AddLivestockImageWidget(images: images).paddingOnly(bottom: 36.h),
+                  // Text(existingImages.toString()),
+                  // Text(newImages.length.toString()),
+                  // Text(deletedImages.toString()),
+                  EditLivestockImageWidget(
+                    newImages: newImages,
+                    existingImages: existingImages,
+                    deleteExistingImage: (id) {
+                      deletedImages.add(id);
+                      existingImages.removeWhere((element) => element.id == id);
+                      setState(() {});
+                    },
+                  ).paddingOnly(bottom: 36.h),
                   // rfid
                   TextFormField(
                     controller: _rfidController,

@@ -95,12 +95,12 @@ abstract class NetworkClientInterface {
   ///
   /// [requiresAuthToken] is used to decide if a token will be inserted
   /// in the **headers** of the request using an [ApiInterceptor]
-  Future<T> updateData<T>({
+  Future<T?> updateData<T>({
     required String endpoint,
-    required Map<String, dynamic> data,
+    required Map<String, dynamic> body,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(ResponseModel<Map<String, dynamic>> response) parser,
+    required T Function(Map<String, dynamic> response) parser,
   });
 
   /// Base method for deleting [data] at the [endpoint].
@@ -267,20 +267,19 @@ class NetworkClient implements NetworkClientInterface {
   }
 
   @override
-  Future<T> updateData<T>({
+  Future<T?> updateData<T>({
     required String endpoint,
-    required Map<String, dynamic> data,
+    required dynamic body,
     CancelToken? cancelToken,
     bool requiresAuthToken = true,
-    required T Function(ResponseModel<Map<String, dynamic>> response) parser,
+    required T Function(Map<String, dynamic> response) parser,
   }) async {
-    ResponseModel<Map<String, dynamic>> response;
+    Map<String, dynamic> data;
 
     try {
-      // Entire map of response
-      response = await _dioService.patch<Map<String, dynamic>>(
+      final response = await _dioService.put(
         endpoint: endpoint,
-        data: data,
+        data: body,
         options: Options(
           extra: <String, Object?>{
             'requiresAuthToken': requiresAuthToken,
@@ -288,13 +287,21 @@ class NetworkClient implements NetworkClientInterface {
         ),
         cancelToken: cancelToken,
       );
+      if (response.data == null && parser == null) {
+        return null;
+      } else if (response.data == null && parser != null) {
+        throw CustomException.fromDioException(
+          Exception('Response data is null'),
+        );
+      } else {
+        data = response.data!;
+      }
     } on Exception catch (ex) {
       throw CustomException.fromDioException(ex);
     }
 
     try {
-      // Returning the serialized object
-      return parser(response);
+      return parser != null ? parser(data) : null;
     } on Exception catch (ex) {
       throw CustomException.fromParsingException(ex);
     }

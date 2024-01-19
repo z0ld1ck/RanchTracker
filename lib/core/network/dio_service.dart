@@ -84,6 +84,25 @@ class DioService {
     }
   }
 
+  Future<Response<Map<String, dynamic>>> put({
+    required String endpoint,
+    dynamic data,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      final response = await _dio.put<Map<String, dynamic>>(
+        endpoint,
+        data: data,
+        options: options,
+        cancelToken: cancelToken ?? _cancelToken,
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   //TODO: fix
   Future<ResponseModel<R>> patch<R>({
     required String endpoint,
